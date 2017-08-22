@@ -1,4 +1,4 @@
-package ru.technoserv.Controller;
+package ru.technoserv.controllers;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
