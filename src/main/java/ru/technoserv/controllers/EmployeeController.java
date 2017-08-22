@@ -18,8 +18,9 @@ public class EmployeeController {
 
     @RequestMapping(value="/employee", method=RequestMethod.GET)
     public String getEmployeeInfo(
-            @RequestParam("name") String text, ModelMap model) {
-        model.addAttribute("name", text);
+            @RequestParam("name") String text) {
+        //model.addAttribute("name", text);
+        //TODO вставить сюда сложную логику создания сотрудника
         this.name = text;
             return text;
 
