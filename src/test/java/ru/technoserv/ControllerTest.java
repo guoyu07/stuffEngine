@@ -7,30 +7,27 @@ import static
 import static
         org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.technoserv.controllers.EmployeeController;
+import org.springframework.web.servlet.view.InternalResourceView;
+import ru.technoserv.Controller.EmployeeController;
 
 
 public class ControllerTest {
 
+
     @Test
-    public void testGetiingPage()throws Exception{
+    public void getDefaultPageTest() throws Exception{
         EmployeeController controller = new EmployeeController();
         MockMvc mockMvc = standaloneSetup(controller).build();
-
         mockMvc.perform(get("/")).andExpect(view().name("employee"));
-
     }
-
     @Test
-    public  void getEmployeeInput() throws Exception{
+    public void creatingEmployeeTest()throws Exception{
         EmployeeController controller = new EmployeeController();
-        MockMvc mockMvc = standaloneSetup(controller).build();
+        MockMvc mockMvc = standaloneSetup(controller).setSingleView(new InternalResourceView("/WEB-INF/views/employee.jsp")).build();
 
-        mockMvc.perform(get("/employee?name=Halozy"));//.andExpect(model().attribute("name", "Halozy"));
-        Assert.assertEquals("Halozy", controller.name);
+        System.out.println();
 
     }
 
