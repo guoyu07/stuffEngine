@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 @RestController
 public class EmployeeController {
 
+    private Employee employee;
+
     private static Logger log = Logger.getLogger(EmployeeController.class.getName());
        /**
      * Запрос предназначен для создания работника
@@ -36,12 +38,13 @@ public class EmployeeController {
             @RequestParam(value="fatherName") String fatherName,
             @RequestParam(value="gender") String gender,
             @RequestParam(value="birthDate") String birthDate,
-            @RequestParam(value="Salary") String salary,
+            @RequestParam(value="salary") String salary,
             @RequestParam(value="jobTitle") String jobTitle,
             HttpServletRequest request
     ){
+        employee = new Employee(firstName, lastName);
         log.info("User"+request.getRemoteAddr()+" are send "+request.getRemoteUser());
-        return new Employee(firstName, lastName);
+        return employee;
     }
 
     @RequestMapping("/employee/{employeeLastName}")
@@ -51,7 +54,7 @@ public class EmployeeController {
             HttpServletRequest request){
                 log.info("User "+request.getRemoteAddr()+" try found "+lastName);
                 //TODO выдавать нужного сотрудника вместо заглушки
-                return new Employee("Nanami", "Halozy");
+                return employee;
 
     }
 
