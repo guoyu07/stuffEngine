@@ -26,8 +26,9 @@ public class ControllerTest {
     public void creatingEmployeeTest()throws Exception{
         EmployeeController controller = new EmployeeController();
         MockMvc mockMvc = standaloneSetup(controller).setSingleView(new InternalResourceView("/WEB-INF/views/employee.jsp")).build();
-
-        System.out.println();
+        mockMvc.perform(get("/"));
+        mockMvc.perform(get("/"));
+        mockMvc.perform(get("/"));
 
     }
 
