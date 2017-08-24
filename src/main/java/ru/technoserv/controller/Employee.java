@@ -1,8 +1,9 @@
-package ru.technoserv.Controller;
+package ru.technoserv.controller;
 
 public class Employee {
 
     private String firstName;
+
     private String lastName;
 
     public Employee(String firstName, String lastName){
