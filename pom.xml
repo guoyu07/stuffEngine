@@ -16,6 +16,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
+
   <dependencies>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -39,11 +40,13 @@
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>
     </dependency>
+
   </dependencies>
 
   <build>
     <finalName>HelloMVC</finalName>
   </build>
+
 
 
   </project>

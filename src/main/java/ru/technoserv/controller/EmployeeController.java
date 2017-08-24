@@ -48,26 +48,26 @@ public class EmployeeController {
     ){
         //employeeService.addEmployee(firstName, lastName);
         //log.info("User"+request.getRemoteAddr()+" are send "+request.getRemoteUser());
-        ModelAndView model = new ModelAndView("employee");
-        model.addObject("name", lastName);
+        employee = new Employee(firstName, lastName);
         return new Employee(firstName, lastName);
     }
 
     @RequestMapping("/employee/{id}")
-    public Employee getEmployeeByName(
+    public ModelAndView getEmployeeByName(
             @PathVariable("id") int id,
             Model model){
-       // log.info("User "+request.getRemoteAddr()+" try found "+id);
-        return new Employee("test","test");
+       ModelAndView model1 = new ModelAndView("Halozy");
+       model1.addObject("name", employee.getLastName());
+        return model1;
     }
 
     @RequestMapping("/")
-    public ModelAndView welcomeMessage(
+    public String welcomeMessage(
             @RequestParam(value = "name", required = false) String name) {
         // Name of your jsp file as parameter
         ModelAndView view = new ModelAndView("employee");
        // view.addObject("name", name);
-        return view;
+        return "employee";
     }
 
 }

@@ -11,7 +11,7 @@
     <title>Employee</title>
 </head>
 <body>
-<h1>This is Tami<h1><p>
+<h1>This is Tami</h1><p>
     <form action="/createEmployee" method="GET">
         <label>Фамилия</label><p>
     <input type="text" name="lastName"><p></p>
