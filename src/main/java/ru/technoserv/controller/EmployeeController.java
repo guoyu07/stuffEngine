@@ -1,14 +1,11 @@
 package ru.technoserv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 import ru.technoserv.services.EmployeeService;
 
 
-import java.util.logging.Logger;
 
 /**
  * Данный контроллер предназначен для обработки запросов на работу с
@@ -17,7 +14,7 @@ import java.util.logging.Logger;
  */
 
 @RestController
-public class EmployeeController {
+public class EmployeeController implements MyController {
 
 
     @Autowired
@@ -41,7 +38,7 @@ public class EmployeeController {
     @RequestMapping("/employee/{id}")
     public Employee getEmployeeByName(
             @PathVariable("id") int id){
-        return employeeService.getEmployeeById(id);
+        return employeeService.getEmployee(id);
     }
 
     @RequestMapping("/")
