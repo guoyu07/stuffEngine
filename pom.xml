@@ -12,6 +12,7 @@
 
   <properties>
     <spring.version>4.3.10.RELEASE</spring.version>
+    <jackson.library>2.7.5</jackson.library>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
@@ -40,6 +41,13 @@
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.library}</version>
+    </dependency>
+
 
   </dependencies>
 

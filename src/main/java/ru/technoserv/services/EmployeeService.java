@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@ComponentScan
+@ComponentScan("ru")
 public class EmployeeService {
 
     private List<Employee> stuffList = new ArrayList<>();

@@ -3,9 +3,7 @@ package ru.technoserv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.technoserv.services.EmployeeService;
 
@@ -18,55 +16,36 @@ import java.util.logging.Logger;
  * @author Kondratyev Dmitry
  */
 
-@Controller
+@RestController
 public class EmployeeController {
 
-    private Employee employee;
-   // @Autowired
-   // private EmployeeService employeeService;
-    private static Logger log = Logger.getLogger(EmployeeController.class.getName());
+
+    @Autowired
+    private EmployeeService employeeService;
+
        /**
      * Запрос предназначен для создания работника
      * @param firstName имя
      * @param lastName фамилия
-     * @param fatherName отчество
-     * @param gender пол
-     * @param birthDate дата рождения
-     * @param salary зарплата
-     * @param jobTitle должность
      * @return Сотрудника, который посылается клиенту в виде JSON объекта
      */
-    @RequestMapping("/createEmployee")
-    public Employee createEmployee(
+    @RequestMapping(value="/employee", method= RequestMethod.POST)
+    public String createEmployee(
             @RequestParam(value="firstName") String firstName,
-            @RequestParam(value="lastName") String lastName,
-            @RequestParam(value="fatherName") String fatherName,
-            @RequestParam(value="gender") String gender,
-            @RequestParam(value="birthDate") String birthDate,
-            @RequestParam(value="salary") String salary,
-            @RequestParam(value="jobTitle") String jobTitle
+            @RequestParam(value="lastName") String lastName
     ){
-        //employeeService.addEmployee(firstName, lastName);
-        //log.info("User"+request.getRemoteAddr()+" are send "+request.getRemoteUser());
-        employee = new Employee(firstName, lastName);
-        return new Employee(firstName, lastName);
+        employeeService.addEmployee(firstName, lastName);
+        return "newUser";
     }
 
     @RequestMapping("/employee/{id}")
-    public ModelAndView getEmployeeByName(
-            @PathVariable("id") int id,
-            Model model){
-       ModelAndView model1 = new ModelAndView("Halozy");
-       model1.addObject("name", employee.getLastName());
-        return model1;
+    public Employee getEmployeeByName(
+            @PathVariable("id") int id){
+        return employeeService.getEmployeeById(id);
     }
 
     @RequestMapping("/")
-    public String welcomeMessage(
-            @RequestParam(value = "name", required = false) String name) {
-        // Name of your jsp file as parameter
-        ModelAndView view = new ModelAndView("employee");
-       // view.addObject("name", name);
+    public String welcomeMessage() {
         return "employee";
     }
 
