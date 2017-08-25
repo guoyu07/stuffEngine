@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.technoserv.services.CurrentTime;
 import ru.technoserv.services.DataTimeService;
 
-import javax.xml.crypto.Data;
-import java.time.ZonedDateTime;
 
 @Aspect
 public class Visitor {

@@ -3,6 +3,7 @@ package ru.technoserv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.Controller;
+import ru.technoserv.Repository.EmployeeRepository;
 import ru.technoserv.services.EmployeeService;
 
 
@@ -16,6 +17,9 @@ import ru.technoserv.services.EmployeeService;
 @RestController
 public class EmployeeController implements MyController {
 
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private EmployeeService employeeService;
@@ -38,7 +42,7 @@ public class EmployeeController implements MyController {
     @RequestMapping("/employee/{id}")
     public Employee getEmployeeByName(
             @PathVariable("id") int id){
-        return employeeService.getEmployee(id);
+        return employeeRepository.getEmployeeById(id);
     }
 
     @RequestMapping("/")
