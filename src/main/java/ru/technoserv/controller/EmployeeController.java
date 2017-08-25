@@ -14,7 +14,7 @@ import ru.technoserv.services.EmployeeService;
  */
 
 @RestController
-public class EmployeeController implements MyController {
+public class EmployeeController {
 
 
     @Autowired

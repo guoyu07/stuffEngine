@@ -13,6 +13,5 @@ public class VisitorConfig {
     @Bean
     public Visitor visitor(){
         return new Visitor();
-
     }
 }
