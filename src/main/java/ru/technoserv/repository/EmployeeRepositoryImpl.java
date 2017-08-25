@@ -1,4 +1,4 @@
-package ru.technoserv.Repository;
+package ru.technoserv.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,4 +1,4 @@
-package ru.technoserv.Audit;
+package ru.technoserv.audit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

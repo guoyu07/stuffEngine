@@ -1,4 +1,4 @@
-package ru.technoserv.Audit;
+package ru.technoserv.audit;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
