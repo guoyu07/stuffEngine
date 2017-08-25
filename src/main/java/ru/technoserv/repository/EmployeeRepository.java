@@ -1,6 +1,6 @@
 package ru.technoserv.repository;
 
-import ru.technoserv.controller.Employee;
+import ru.technoserv.dao.Employee;
 
 public interface EmployeeRepository {
 

@@ -1,6 +1,6 @@
 package ru.technoserv.services;
 
-import ru.technoserv.controller.Employee;
+import ru.technoserv.dao.Employee;
 
 public interface EmployeeService {
 

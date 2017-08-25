@@ -1,30 +1,35 @@
 package ru.technoserv.services;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import ru.technoserv.controller.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import ru.technoserv.dao.Employee;
+import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.dao.OracleEmployeeDao;
+
 
 @Component
 @ComponentScan("ru")
 public class EmployeeServiceImpl implements EmployeeService {
-
-    private List<Employee> stuffList = new ArrayList<>();
+    @Autowired
+    private EmployeeDao employeeDao;
 
     public EmployeeServiceImpl(){
-        stuffList.add(new Employee("Nanami", "Aoyma"));
-        stuffList.add(new Employee("Suszuka", "Halozy"));
-        stuffList.add(new Employee("Kanda","Masiro"));
+
     }
 
     public Employee getEmployee(int id){
-        return stuffList.get(id);
+        return employeeDao.read(id);
     }
 
+    static int id=10;
+
     public void addEmployee(String firstName, String lastName){
-        stuffList.add(new Employee(firstName, lastName));
+        System.out.println(firstName + " "+lastName);
+        employeeDao.create(new Employee(id++, firstName, lastName ));
     }
 }
 

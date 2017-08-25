@@ -2,6 +2,7 @@ package ru.technoserv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.technoserv.dao.Employee;
 import ru.technoserv.repository.EmployeeRepository;
 import ru.technoserv.services.EmployeeService;
 
