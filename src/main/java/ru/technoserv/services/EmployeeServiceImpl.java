@@ -26,8 +26,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.read(firstName, lastName);
     }
 
-    static int id=10;
-
     /**
      * Добавление сотрудника в базу
      * @param firstName имя сотрудника

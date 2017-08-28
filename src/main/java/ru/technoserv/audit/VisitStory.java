@@ -1,19 +1,15 @@
 package ru.technoserv.audit;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-
-
+/**
+ * Сохраняет дейсвтия запроса клиента
+ */
 public class VisitStory {
 
     private String visitor;
     private String requestToServer;
     private String serverActions;
     private String dataReturn;
-
-    public void VisitStory(){
-
-    }
+    
 
     public void setVisitor(String visitor) {
         this.visitor = visitor;

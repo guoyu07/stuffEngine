@@ -5,6 +5,6 @@ import ru.technoserv.dao.Employee;
 public interface EmployeeService {
 
     void addEmployee(String firstName, String lastName);
-    Employee getEmployee(int id);
+    Employee getEmployee(String firstName, String lastName);
 
 }
