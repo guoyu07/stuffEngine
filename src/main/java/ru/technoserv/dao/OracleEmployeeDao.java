@@ -1,15 +1,28 @@
 package ru.technoserv.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Repository;
 
-public class OracleEmployeeDao extends JdbcDaoSupport implements EmployeeDao {
+import javax.sql.DataSource;
+
+@Repository
+public class OracleEmployeeDao implements EmployeeDao {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+
+
 
     public void create(Employee employee) {
 
         String sql = "INSERT INTO EMPLOYEE" +
                 "(ID, FIRST_NAME, LAST_NAME) VALUES (?,?,?)";
 
-        getJdbcTemplate().update(sql, employee.getId(),
+        jdbcTemplate.update(sql, employee.getId(),
                 employee.getFirstName(), employee.getLastName());
     }
 
@@ -17,12 +30,12 @@ public class OracleEmployeeDao extends JdbcDaoSupport implements EmployeeDao {
 
         String sql = "SELECT * FROM EMPLOYEE WHERE ID = ?";
 
-        return (Employee) getJdbcTemplate().queryForObject(sql,
+        return (Employee) jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }
 
     public void delete(int empID) {
         String sql = "DELETE FROM EMPLOYEE WHERE ID = ?";
-        getJdbcTemplate().update(sql, empID);
+        jdbcTemplate.update(sql, empID);
     }
 }

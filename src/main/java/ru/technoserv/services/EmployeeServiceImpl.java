@@ -17,10 +17,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
-    public EmployeeServiceImpl(){
-
-    }
-
     public Employee getEmployee(int id){
         return employeeDao.read(id);
     }
@@ -28,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     static int id=10;
 
     public void addEmployee(String firstName, String lastName){
-        System.out.println(firstName + " "+lastName);
+
         employeeDao.create(new Employee(id++, firstName, lastName ));
     }
 }

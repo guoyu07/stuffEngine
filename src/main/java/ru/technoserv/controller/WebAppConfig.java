@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableWebMvc
 @ComponentScan("ru")
-@ImportResource("classpath:DaoConfig.xml")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 

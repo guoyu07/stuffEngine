@@ -6,6 +6,8 @@ import ru.technoserv.dao.Employee;
 import ru.technoserv.repository.EmployeeRepository;
 import ru.technoserv.services.EmployeeService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -33,7 +35,7 @@ public class EmployeeController {
     @RequestMapping(value="/employee", method= RequestMethod.POST)
     public String createEmployee(
             @RequestParam(value="firstName") String firstName,
-            @RequestParam(value="lastName") String lastName
+            @RequestParam(value="lastName") String lastName, HttpServletRequest request
     ){
         employeeService.addEmployee(firstName, lastName);
         return "newUser";
