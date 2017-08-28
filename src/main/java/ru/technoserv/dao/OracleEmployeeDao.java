@@ -10,23 +10,27 @@ public class OracleEmployeeDao implements EmployeeDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+
+
     public void create(Employee employee) {
 
         String sql = "INSERT INTO EMPLOYEE" +
-                "(ID, FIRST_NAME, LAST_NAME) VALUES (?,?,?)";
+                "(FIRST_NAME, LAST_NAME) VALUES (?,?)";
 
-        jdbcTemplate.update(sql, employee.getId(),
-                employee.getFirstName(), employee.getLastName());
+        jdbcTemplate.update(sql,employee.getFirstName(), employee.getLastName());
     }
 
-    public Employee read(int empID) {
-        String sql = "SELECT * FROM EMPLOYEE WHERE ID = ?";
+    public Employee read(String firstName, String lastName) {
+
+        String sql = "SELECT * FROM EMPLOYEE WHERE FIRST_NAME = ? AND LAST_NAME = ?";
+
         return (Employee) jdbcTemplate.queryForObject(sql,
-                new Object[]{empID}, new EmployeeRowMapper());
+                new Object[]{firstName, lastName}, new EmployeeRowMapper());
     }
 
-    public void delete(int empID) {
-        String sql = "DELETE FROM EMPLOYEE WHERE ID = ?";
-        jdbcTemplate.update(sql, empID);
+    public void delete(String firstName, String lastName) {
+        String sql = "DELETE FROM EMPLOYEE WHERE FIRST_NAME = ? AND LAST_NAME = ?";
+        jdbcTemplate.update(sql, firstName, lastName);
     }
 }
