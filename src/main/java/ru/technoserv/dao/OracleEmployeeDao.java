@@ -14,9 +14,6 @@ public class OracleEmployeeDao implements EmployeeDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-
-
     public void create(Employee employee) {
 
         String sql = "INSERT INTO EMPLOYEE" +
@@ -27,9 +24,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     }
 
     public Employee read(int empID) {
-
         String sql = "SELECT * FROM EMPLOYEE WHERE ID = ?";
-
         return (Employee) jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }

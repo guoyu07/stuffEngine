@@ -16,8 +16,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Override
     @Cacheable("employees")
-    public Employee getEmployeeById(int id){
-        Employee e = employeeService.getEmployee(id);
+    public Employee getEmployee(String lastName){
+        Employee e = employeeService.getEmployee(lastName);
         simulateSlowService();
         return e;
     }

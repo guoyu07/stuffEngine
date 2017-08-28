@@ -8,7 +8,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.dao.EmployeeDao;
-import ru.technoserv.dao.OracleEmployeeDao;
 
 
 @Component
@@ -17,14 +16,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
-    public Employee getEmployee(int id){
-        return employeeDao.read(id);
+    public Employee getEmployee(String firstName, String lastName){
+        return employeeDao.read(firstName, lastName);
     }
 
     static int id=10;
 
     public void addEmployee(String firstName, String lastName){
-
         employeeDao.create(new Employee(id++, firstName, lastName ));
     }
 }

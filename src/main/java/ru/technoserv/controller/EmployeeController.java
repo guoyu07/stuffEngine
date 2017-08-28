@@ -7,7 +7,6 @@ import ru.technoserv.repository.EmployeeRepository;
 import ru.technoserv.services.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -26,7 +25,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-       /**
+    /**
      * Запрос предназначен для создания работника
      * @param firstName имя
      * @param lastName фамилия
@@ -41,10 +40,11 @@ public class EmployeeController {
         return "newUser";
     }
 
-    @RequestMapping("/employee/{id}")
+    @RequestMapping("/employee/{lastName}/{firstName}")
     public Employee getEmployeeByName(
-            @PathVariable("id") int id){
-        return employeeRepository.getEmployeeById(id);
+            @PathVariable("lastName") String lastName,
+            @PathVariable("firstName") String firstName){
+        return employeeRepository.getEmployee(firstName, lastName);
     }
 
     @RequestMapping("/")

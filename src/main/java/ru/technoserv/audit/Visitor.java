@@ -13,8 +13,8 @@ public class Visitor {
 
     @Pointcut("execution(* ru.technoserv.services.EmployeeService.addEmployee(String, String)) && args(firstName, lastName)")
     public void addUser(String firstName, String lastName){}
-    @Autowired
-    private VisitStory visitStory;
+
+    private VisitStory visitStory = new VisitStory();
 
     @After("addUser(firstName, lastName)")
     public void recordVisit(String firstName, String lastName){
