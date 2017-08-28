@@ -5,8 +5,6 @@ import ru.technoserv.dao.Employee;
 
 public interface EmployeeRepository {
 
-    Employee getEmployeeById(String firstName, String lastName);
-
     @Cacheable("employees")
     Employee getEmployee(String firstName, String lastName);
 }

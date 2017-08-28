@@ -9,7 +9,7 @@ public class VisitStory {
     private String requestToServer;
     private String serverActions;
     private String dataReturn;
-    
+
 
     public void setVisitor(String visitor) {
         this.visitor = visitor;
