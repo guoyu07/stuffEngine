@@ -16,10 +16,9 @@ public class DAOConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
-        dataSource.setUrl("jdbc:oracle:thin:@89.108.84.144:1521/BPM8");//change url
-        dataSource.setUsername("test_a");//change userid
-        dataSource.setPassword("test_a");//change pwd
-
+        dataSource.setUrl("jdbc:oracle:thin:@89.108.84.144:1521/BPM8");
+        dataSource.setUsername("test_a");
+        dataSource.setPassword("test_a");
         return  dataSource;
     }
 

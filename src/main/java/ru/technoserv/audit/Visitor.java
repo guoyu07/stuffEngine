@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.technoserv.services.CurrentTime;
 import ru.technoserv.services.DataTimeService;
 
-
+/**
+ * Класс следящий за действиями запроса пользователя, собирает информацию в {@link VisitStory}
+ */
 @Aspect
 public class Visitor {
 
@@ -16,6 +18,11 @@ public class Visitor {
 
     private VisitStory visitStory = new VisitStory();
 
+    /**
+     * Запись информации о добавлении сотрудника
+     * @param firstName
+     * @param lastName
+     */
     @After("addUser(firstName, lastName)")
     public void recordVisit(String firstName, String lastName){
         DataTimeService date = new CurrentTime();

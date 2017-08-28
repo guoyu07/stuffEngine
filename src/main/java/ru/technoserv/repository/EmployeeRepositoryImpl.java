@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
+/**
+ * Проба использования кэша для полученного сотрудника
+ */
 @Component
 @ComponentScan("ru")
 public class EmployeeRepositoryImpl implements EmployeeRepository{
@@ -16,11 +19,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Override
     @Cacheable("employees")
-    public Employee getEmployee(String lastName){
-        Employee e = employeeService.getEmployee(lastName);
+    public Employee getEmployee(String firstName, String lastName){
+        Employee e = employeeService.getEmployee(firstName, lastName);
         simulateSlowService();
         return e;
     }
+
 
     private void simulateSlowService() {
         try {

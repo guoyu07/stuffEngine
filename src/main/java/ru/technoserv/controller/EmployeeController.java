@@ -40,6 +40,12 @@ public class EmployeeController {
         return "newUser";
     }
 
+    /**
+     * Получение сотрудника по имени и фамилии
+     * @param lastName фамилия искомого сотрудника
+     * @param firstName имя искомого сотрудника
+     * @return JSON объект клиенту сделавшему запрос
+     */
     @RequestMapping("/employee/{lastName}/{firstName}")
     public Employee getEmployeeByName(
             @PathVariable("lastName") String lastName,
@@ -47,9 +53,13 @@ public class EmployeeController {
         return employeeRepository.getEmployee(firstName, lastName);
     }
 
+    /**
+     * Приветсвенное сообщение
+     * @return приветствие
+     */
     @RequestMapping("/")
     public String welcomeMessage() {
-        return "employee";
+        return "Hello, I'm working!";
     }
 
 }
