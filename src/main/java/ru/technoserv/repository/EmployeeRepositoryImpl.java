@@ -25,7 +25,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
         return e;
     }
 
-
     private void simulateSlowService() {
         try {
             long time = 5000L;
@@ -35,6 +34,4 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             throw new IllegalStateException(e);
         }
     }
-
-
 }
