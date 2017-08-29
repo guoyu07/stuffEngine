@@ -8,6 +8,7 @@ import ru.technoserv.services.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -37,8 +38,17 @@ public class EmployeeController {
             @RequestParam(value="firstName") String firstName,
             @RequestParam(value="lastName") String lastName, HttpServletRequest request, HttpServletResponse response
     ){
-
-        employeeService.addEmployee(firstName, lastName);
+        try {
+            employeeService.addEmployee(firstName, lastName);
+        }
+        catch (Exception e) {
+            try {
+                response.sendError(502, "Не удалось добавить пользователя");
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
         return "newUser";
     }
 
@@ -56,11 +66,11 @@ public class EmployeeController {
         Employee emp = new Employee();
         try{
             emp = employeeRepository.getEmployee(firstName, lastName);
-        }catch (Exception e){
+        }catch (RuntimeException e){
             try {
-                response.sendError(500, "User not found!");
+                response.sendError(501, e.getMessage());
             }catch (Exception e1){
-                e1.printStackTrace();
+
             }
         }
         return emp;
