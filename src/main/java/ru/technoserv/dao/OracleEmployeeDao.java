@@ -14,7 +14,6 @@ public class OracleEmployeeDao implements EmployeeDao {
 
 
     public void create(Employee employee) {
-
         String sql = "INSERT INTO EMPLOYEE" +
                 "(FIRST_NAME, LAST_NAME) VALUES (?,?)";
 
@@ -25,7 +24,7 @@ public class OracleEmployeeDao implements EmployeeDao {
 
         String sql = "SELECT * FROM EMPLOYEE WHERE FIRST_NAME = ? AND LAST_NAME = ?";
 
-        return (Employee) jdbcTemplate.queryForObject(sql,
+        return  jdbcTemplate.queryForObject(sql,
                 new Object[]{firstName, lastName}, new EmployeeRowMapper());
     }
 

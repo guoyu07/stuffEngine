@@ -7,6 +7,8 @@ import ru.technoserv.repository.EmployeeRepository;
 import ru.technoserv.services.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 
 /**
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
  * сотрудниками.
  * @author Kondratyev Dmitry
  */
-
 @RestController
 public class EmployeeController {
 
@@ -34,8 +35,9 @@ public class EmployeeController {
     @RequestMapping(value="/employee", method= RequestMethod.POST)
     public String createEmployee(
             @RequestParam(value="firstName") String firstName,
-            @RequestParam(value="lastName") String lastName, HttpServletRequest request
+            @RequestParam(value="lastName") String lastName, HttpServletRequest request, HttpServletResponse response
     ){
+
         employeeService.addEmployee(firstName, lastName);
         return "newUser";
     }
@@ -49,8 +51,19 @@ public class EmployeeController {
     @RequestMapping("/employee/{lastName}/{firstName}")
     public Employee getEmployeeByName(
             @PathVariable("lastName") String lastName,
-            @PathVariable("firstName") String firstName){
-        return employeeRepository.getEmployee(firstName, lastName);
+            @PathVariable("firstName") String firstName,
+            HttpServletResponse response){
+        Employee emp = new Employee();
+        try{
+            emp = employeeRepository.getEmployee(firstName, lastName);
+        }catch (Exception e){
+            try {
+                response.sendError(500, "User not found!");
+            }catch (Exception e1){
+                e1.printStackTrace();
+            }
+        }
+        return emp;
     }
 
     /**

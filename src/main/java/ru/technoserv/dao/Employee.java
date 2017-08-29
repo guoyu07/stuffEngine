@@ -3,8 +3,9 @@ package ru.technoserv.dao;
 public class Employee {
     private String firstName, lastName;
 
-    public Employee(){};
+    public Employee(){}
 
+   // private static int ID = EmployeeDAO.getLastID();
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
