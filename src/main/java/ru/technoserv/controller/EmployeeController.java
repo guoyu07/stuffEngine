@@ -33,7 +33,7 @@ public class EmployeeController {
         try {
             switch (employeeRequest.getAction()){
                 case "create":
-                    answer = "create";
+                    actionCreate(employeeRequest);
                     break;
                 case "getHistory":
                     answer = "getHistory";
@@ -61,8 +61,8 @@ public class EmployeeController {
         return answer;
     }
 
-    private actionCreate(EmployeeRequest request){
-        employeeService.
+    private void actionCreate(EmployeeRequest request){
+        employeeService.createEmployee(request);
     }
 
 

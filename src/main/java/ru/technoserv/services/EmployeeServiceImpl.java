@@ -4,8 +4,10 @@ package ru.technoserv.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import ru.technoserv.controller.JSON.Request.EmployeeRequest;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.dao.EmployeeDao;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Управление информацией о сотрудниках
@@ -13,26 +15,34 @@ import ru.technoserv.dao.EmployeeDao;
 @Component
 @ComponentScan("ru")
 public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeDao employeeDao;
 
-    /**
-     * Получение объекта сотрудника по его имени и фамилии
-     * @param firstName имя сотрудника
-     * @param lastName фамилия сотрудника
-     * @return сотрудника с заданными именем и фамилией
-     */
-    public Employee getEmployee(String firstName, String lastName){
-        return employeeDao.read(firstName, lastName);
+
+    @Override
+    public void createEmployee(EmployeeRequest request) {
+        employeeDao.create(new Employee(request.getFirstName(), request.getLastName()));
     }
 
-    /**
-     * Добавление сотрудника в базу
-     * @param firstName имя сотрудника
-     * @param lastName фамилия сотрудника
-     */
-    public void addEmployee(String firstName, String lastName){
-        employeeDao.create(new Employee(firstName, lastName ));
+    @Override
+    public void getEmployeeStory(EmployeeRequest request) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void transferEmployee(EmployeeRequest request) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void removeEmployee(EmployeeRequest request) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void changeEmployeeData(EmployeeRequest request) {
+        throw new NotImplementedException();
     }
 }
 

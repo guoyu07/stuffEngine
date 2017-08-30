@@ -1,10 +1,17 @@
 package ru.technoserv.services;
 
-import ru.technoserv.dao.Employee;
+import ru.technoserv.controller.JSON.Request.EmployeeRequest;
 
 public interface EmployeeService {
 
-    void addEmployee(String firstName, String lastName);
-    Employee getEmployee(String firstName, String lastName);
+    void createEmployee(EmployeeRequest request);
+
+    void getEmployeeStory(EmployeeRequest request);
+
+    void transferEmployee(EmployeeRequest request);
+
+    void removeEmployee(EmployeeRequest request);
+
+    void changeEmployeeData(EmployeeRequest request);
 
 }
