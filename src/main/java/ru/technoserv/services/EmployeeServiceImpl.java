@@ -22,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void createEmployee(EmployeeRequest request) {
-        employeeDao.create(new Employee(request.getFirstName(), request.getLastName()));
+       // employeeDao.create(new Employee(request.getFirstName(), request.getLastName()));
     }
 
     @Override
