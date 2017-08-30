@@ -2,14 +2,11 @@ package ru.technoserv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.technoserv.dao.Employee;
-import ru.technoserv.repository.EmployeeRepository;
+
+import ru.technoserv.controller.JSON.Request.EmployeeRequest;
 import ru.technoserv.services.EmployeeService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
 
 
 /**
@@ -18,71 +15,57 @@ import java.sql.SQLException;
  * @author Kondratyev Dmitry
  */
 @RestController
+@RequestMapping(value="/employee", consumes = {"application/json"})
 public class EmployeeController {
-
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     @Autowired
     private EmployeeService employeeService;
 
     /**
-     * Запрос предназначен для создания работника
-     * @param firstName имя
-     * @param lastName фамилия
+     * Запрос на приема сотрудника на работу. Предполагается что сотрудник ранее не работал в компании.
+     * Метод создате сотрудника и добавляет его в базу как нового сотрудника.
      * @return Сотрудника, который посылается клиенту в виде JSON объекта
      */
-    @RequestMapping(value="/employee", method= RequestMethod.POST)
-    public String createEmployee(
-            @RequestParam(value="firstName") String firstName,
-            @RequestParam(value="lastName") String lastName, HttpServletRequest request, HttpServletResponse response
+    @RequestMapping(method = RequestMethod.POST)
+    public String createEmployee(@RequestBody EmployeeRequest employeeRequest, HttpServletResponse response
     ){
+        String answer ="error";
         try {
-            employeeService.addEmployee(firstName, lastName);
+            switch (employeeRequest.getAction()){
+                case "create":
+                    answer = "create";
+                    break;
+                case "getHistory":
+                    answer = "getHistory";
+                    break;
+                case "transferTo":
+                    answer = "transferTo";
+                    break;
+                case "change":
+                    answer = "change";
+                    break;
+                case "delete":
+                    answer = "delete";
+                    break;
+                default: throw new Exception("Invalid JSON param 'action'");
+            }
         }
         catch (Exception e) {
             try {
-                response.sendError(502, "Не удалось добавить пользователя");
+                response.sendError(555, e.getMessage());
             }
             catch (Exception ex){
                 ex.printStackTrace();
             }
         }
-        return "newUser";
+        return answer;
     }
 
-    /**
-     * Получение сотрудника по имени и фамилии
-     * @param lastName фамилия искомого сотрудника
-     * @param firstName имя искомого сотрудника
-     * @return JSON объект клиенту сделавшему запрос
-     */
-    @RequestMapping("/employee/{lastName}/{firstName}")
-    public Employee getEmployeeByName(
-            @PathVariable("lastName") String lastName,
-            @PathVariable("firstName") String firstName,
-            HttpServletResponse response){
-        Employee emp = new Employee();
-        try{
-            emp = employeeRepository.getEmployee(firstName, lastName);
-        }catch (RuntimeException e){
-            try {
-                response.sendError(501, e.getMessage());
-            }catch (Exception e1){
-
-            }
-        }
-        return emp;
+    private actionCreate(EmployeeRequest request){
+        employeeService.
     }
 
-    /**
-     * Приветсвенное сообщение
-     * @return приветствие
-     */
-    @RequestMapping("/")
-    public String welcomeMessage() {
-        return "Hello, I'm working!";
-    }
+
+
 
 }
