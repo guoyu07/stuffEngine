@@ -1,39 +1,35 @@
 package ru.technoserv.dao;
 
 public class Department {
-    private long id;
-    private Department parentDept;
+    private Long id;
+    private Long parentDeptId;
     private String deptName;
-    private Employee deptHead;
+    private Long deptHeadId;
 
     public Department() {
     }
 
-    public Department(long id, Department parentDept, String deptName, Employee deptHead) {
+    public Department(Long id, Long parentDeptId, String deptName, Long deptHeadId) {
         this.id = id;
-        this.parentDept = parentDept;
+        this.parentDeptId = parentDeptId;
         this.deptName = deptName;
-        this.deptHead = deptHead;
+        this.deptHeadId = deptHeadId;
     }
 
-    public Department(long id, String deptName) {
-        this(id, null, deptName, null);
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Department getParentDept() {
-        return parentDept;
+    public Long getParentDeptId() {
+        return parentDeptId;
     }
 
-    public void setParentDept(Department parentDept) {
-        this.parentDept = parentDept;
+    public void setParentDeptId(Long parentDeptId) {
+        this.parentDeptId = parentDeptId;
     }
 
     public String getDeptName() {
@@ -44,11 +40,21 @@ public class Department {
         this.deptName = deptName;
     }
 
-    public Employee getDeptHead() {
-        return deptHead;
+    public Long getDeptHeadId() {
+        return deptHeadId;
     }
 
-    public void setDeptHead(Employee deptHead) {
-        this.deptHead = deptHead;
+    public void setDeptHeadId(Long deptHeadId) {
+        this.deptHeadId = deptHeadId;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", parentDeptId=" + parentDeptId +
+                ", deptName='" + deptName + '\'' +
+                ", deptHeadId=" + deptHeadId +
+                '}';
     }
 }
