@@ -17,7 +17,7 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void create(Employee employee) {
-        String sql = "SELECT POS_ID FROM POSITION WHERE TITLE = ?";
+        String sql = "SELECT POS_ID FROM POSITION WHERE TITLE = ? ";
         SqlRowSet set = jdbcTemplate.queryForRowSet(sql, employee.getPosition());
         set.first();
         int posID = set.getInt("POS_ID");
@@ -32,10 +32,9 @@ public class OracleEmployeeDao implements EmployeeDao {
         set.first();
         int deptID = set.getInt("DEPT_ID");
 
-        sql = "INSERT INTO EMPLOYEE (EMP_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, " +
-                "PATR_NAME, GENDER, BIRTHDAY, SALARY) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, employee.getEmpID(), posID, grdID, deptID, employee.getLastName(),
-                employee.getFirstName(), employee.getPatrName(), employee.getGender(), employee.getBirthday(),employee.getSalary());
+        sql = "INSERT INTO EMPLOYEE (EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, SALARY, BIRTHDAY, GENDER) VALUES (?,?,?,?,?,?,?,?,?,?) " ;
+        jdbcTemplate.update(sql, employee.getEmpID(), employee.getLastName(), employee.getFirstName(), employee.getPatrName(), deptID, grdID, posID, employee.getSalary(), employee.getBirthday(), String.valueOf(employee.getGender()));
+
     }
 
     @Override
@@ -104,5 +103,5 @@ public class OracleEmployeeDao implements EmployeeDao {
         String sql = "UPDATE EMPLOYEE SET SALARY = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql,newSalary, empID);
     }
-    
+
 }

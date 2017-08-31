@@ -2,6 +2,9 @@ package ru.technoserv.dao;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+
 
 public class DaoTest {
     public static void main(String[] args) {
@@ -18,20 +21,25 @@ public class DaoTest {
 
         //ApplicationContext context = new ClassPathXmlApplicationContext("DaoConfig.xml");
         EmployeeDao employeeDao =(EmployeeDao) ctx.getBean("employeeDao");
-        Employee emp = new Employee("Иван", "Иванов");
-        employeeDao.create(emp);
-        emp = new Employee("Петр", "Петров");
-        employeeDao.create(emp);
-        emp = new Employee("Вася", "Васин");
-        employeeDao.create(emp);
-        emp = new Employee("Денис", "Денисов");
-        employeeDao.create(emp);
-//        Employee emp1 = employeeDao.read(2);
-//        System.out.println(emp1.toString());
-
-        Employee emp1 = employeeDao.read("Вася", "Васин");
-        System.out.println(emp1.toString());
+        employeeDao.updateDept(100, "LOLOLO");
+        employeeDao.updatePosition(100, "Гуру");
+        employeeDao.updateGrade(100, "C");
+        employeeDao.updateSalary(100, new BigDecimal(5656));
 
 
+//        Employee testEmp = new Employee();
+//        testEmp.setEmpID(100);
+//        testEmp.setPosition("Продавец");
+//        testEmp.setGrade("B");
+//        testEmp.setDepartment("Dept13");
+//        testEmp.setFirstName("Trevor");
+//        testEmp.setLastName("Silly");
+//        testEmp.setPatrName("FOOL");
+//        testEmp.setGender('W');
+//        Date d = new Date(80000000);
+//        testEmp.setBirthday(d);
+//        testEmp.setSalary(new BigDecimal("7777"));
+//        System.out.println(testEmp);
+//        employeeDao.create(testEmp);
     }
 }
