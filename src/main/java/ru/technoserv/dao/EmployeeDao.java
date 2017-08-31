@@ -5,19 +5,19 @@ import java.math.BigDecimal;
 public interface EmployeeDao {
     void create(Employee employee);
 
-    Employee read(String firstName, String lastName);
+    Employee read(int empID);
 
-    void delete(String firstName, String lastName);
+    void delete(int empID);
 
-    void deleteAllFromDept(Department dept);
+    void deleteAllFromDept(int deptId);
 
-    void updateDept(Employee emp, Department dept);
+    void updateDept(int empID, int deptID);
 
-    void updatePsoition(Employee emp, String newPosition);
+    void updatePsoition(int empID, String newPosition);
 
-    void updateGrade(Employee emp, String newGrade);
+    void updateGrade(int empID, String newGrade);
 
-    void updateSalary(Employee emp, BigDecimal newSalary);
+    void updateSalary(int empID, BigDecimal newSalary);
 
 }
 
