@@ -10,9 +10,6 @@ public class OracleEmployeeDao implements EmployeeDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-
-
     public void create(Employee employee) {
         String sql = "INSERT INTO EMPLOYEE" +
                 "(FIRST_NAME, LAST_NAME) VALUES (?,?)";

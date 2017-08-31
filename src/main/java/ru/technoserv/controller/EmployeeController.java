@@ -7,6 +7,7 @@ import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 /**
@@ -15,77 +16,54 @@ import javax.servlet.http.HttpServletResponse;
  * @author Kondratyev Dmitry
  */
 @RestController
-@RequestMapping(value="/employee", consumes = {"application/json"})
+@RequestMapping(value="/employee")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String createEmployee(@RequestBody Employee employee, HttpServletResponse response
-    ){
-        try {
-            employeeService.createEmployee(employee);
+    @RequestMapping(value = "/{department}", method = RequestMethod.GET)
+    public List<Employee> getDepartmentStuff(@PathVariable String department){
+        List<Employee> employeeList = employeeService.getEmployees(department);
+        if(employeeList.size()==0){throw new RuntimeException("There are not employees in department or department name is incorrect!");
         }
-        catch (Exception e) {
-            try {
-                response.sendError(555, e.getMessage());
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
-        return "newUser";
+        return employeeList;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Employee getEmployee(@RequestBody Employee employee, HttpServletResponse response
-    ){
-        try {
-            employeeService.getEmployeeStory(employee);
-        }
-        catch (Exception e) {
-            try {
-                response.sendError(555, e.getMessage());
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
-        return new Employee();
+    @RequestMapping(value="/newEmployee", method = RequestMethod.PUT,  consumes = {"application/json"} )
+    public String createEmployee(@RequestBody Employee employee){
+        employeeService.createEmployee(employee);
+        return "AddNeUser";
     }
 
-    @RequestMapping(method = RequestMethod.PATCH)
-    public String changeEmployeeParam(@RequestBody Employee employee, HttpServletResponse response
-    ){
-        try {
-            employeeService.changeEmployeeData(employee);
-        }
-        catch (Exception e) {
-            try {
-                response.sendError(555, e.getMessage());
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
-        return "changed";
+    @RequestMapping(value = "/transfer", method = RequestMethod.PATCH, consumes = {"application/json"})
+    public String employeeTransfer(@RequestBody Employee employee){
+        employeeService.transferEmployee(employee);
+        return "transfer";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public String deleteEmployee(@RequestBody Employee employee, HttpServletResponse response
-    ){
-        try {
-            employeeService.removeEmployee(employee);
-        }
-        catch (Exception e) {
-            try {
-                response.sendError(555, e.getMessage());
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
-        return "WASTED";
+    @RequestMapping(value = "/salary", method = RequestMethod.PATCH, consumes = {"application/json"})
+    public String employeeChangeSalary(@RequestBody Employee employee){
+        employeeService.changeEmployeeSalary(employee);
+        return "salary";
     }
+
+    @RequestMapping(value = "/grade", method = RequestMethod.PATCH, consumes = {"application/json"})
+    public String employeeChangeGrade(@RequestBody Employee employee){
+        employeeService.changeEmployeeGrade(employee);
+        return "grade";
+    }
+
+    @RequestMapping(value = "/position", method = RequestMethod.PATCH, consumes = {"application/json"})
+    public String employeeChangePosition(@RequestBody Employee employee){
+        employeeService.changeEmployeePosition(employee);
+        return "position";
+    }
+
+    @RequestMapping(value = "/quit/{id}", method = RequestMethod.DELETE)
+    public String employeeDelete(@PathVariable int id){
+        employeeService.removeEmployee(id);
+        return "delete";
+    }
+
 }

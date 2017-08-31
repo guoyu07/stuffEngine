@@ -1,6 +1,9 @@
 package ru.technoserv.services;
 
+import ru.technoserv.dao.Department;
 import ru.technoserv.dao.Employee;
+
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -10,8 +13,14 @@ public interface EmployeeService {
 
     void transferEmployee(Employee employee);
 
-    void removeEmployee(Employee employee);
+    void removeEmployee(int id);
 
-    void changeEmployeeData(Employee employee);
+    void changeEmployeeSalary(Employee employee);
+
+    void changeEmployeeGrade(Employee employee);
+
+    void changeEmployeePosition(Employee employee);
+
+    List<Employee> getEmployees(String department);
 
 }

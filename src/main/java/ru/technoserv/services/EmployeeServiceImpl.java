@@ -4,6 +4,7 @@ package ru.technoserv.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import ru.technoserv.dao.Department;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.dao.EmployeeDao;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -21,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void createEmployee(Employee employee) {
-       // employeeDao.create(new Employee(request.getFirstName(), request.getLastName()));
+       employeeDao.create(employee);
     }
 
     @Override
@@ -31,17 +32,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void transferEmployee(Employee employee) {
-        throw new NotImplementedException();
+        employeeDao.updateDept(employee.getEmpID(), employee.getDepartment());
     }
 
     @Override
-    public void removeEmployee(Employee employee) {
-        throw new NotImplementedException();
+    public void removeEmployee(int id) {
+        employeeDao.delete(id);
     }
 
     @Override
-    public void changeEmployeeData(Employee employee) {
-        throw new NotImplementedException();
+    public void changeEmployeeSalary(Employee employee) {
+        employeeDao.updateSalary(employee.getEmpID(), employee.getSalary());
+    }
+
+    public void changeEmployeeGrade(Employee employee) {
+        employeeDao.updateGrade(employee.getEmpID(), employee.getGrade());
+    }
+
+    public void changeEmployeePosition(Employee employee) {
+        employeeDao.updatePsoition(employee.getEmpID(), employee.getPosition());
+    }
+
+    public void getEmployees(Department department){
+        employeeDao.getAllFromDept(department.getID());
+
     }
 }
 
