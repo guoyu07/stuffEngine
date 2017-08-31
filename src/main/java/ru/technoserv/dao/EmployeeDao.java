@@ -1,6 +1,7 @@
 package ru.technoserv.dao;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface EmployeeDao {
     void create(Employee employee);
@@ -9,7 +10,9 @@ public interface EmployeeDao {
 
     void delete(int empID);
 
-    void deleteAllFromDept(int deptId);
+    List<Employee> getAllFromDept(int deptID)
+
+    void deleteAllFromDept(int deptID);
 
     void updateDept(int empID, int deptID);
 
