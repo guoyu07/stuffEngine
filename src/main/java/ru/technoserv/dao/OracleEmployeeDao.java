@@ -63,7 +63,12 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void updatePosition(int empID, String newPosition) {
-        throw new RuntimeException("updatePosition() not implemented");
+        String sql = "SELECT POS_ID FROM POSITION WHERE TITLE = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, newPosition);
+        set.first();
+        int newPosID = set.getInt("DEPT_ID");
+        sql = "UPDATE EMPLOYEE SET POSITION_ID = ? WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql, newPosID, empID);
     }
 
     @Override
