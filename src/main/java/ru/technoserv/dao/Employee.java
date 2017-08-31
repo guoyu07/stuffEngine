@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Employee {
-    private int empID;
+    private Integer empID;
     private String position;
     private String grade;
     private String department;
