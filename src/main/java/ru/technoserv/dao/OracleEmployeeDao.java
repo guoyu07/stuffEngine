@@ -17,7 +17,7 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void create(Employee employee) {
-
+        throw new RuntimeException("create() not implemented");
     }
 
     @Override
@@ -33,12 +33,11 @@ public class OracleEmployeeDao implements EmployeeDao {
     public void delete(int empID) {
         String sql = "DELETE FROM EMPLOYEE WHERE EMP_ID = ?";
         jdbcTemplate.update(sql,empID);
-
     }
 
     @Override
     public List<Employee> getAllFromDept(String deptName) {
-        throw new RuntimeException("getAllFromDept in OracleEmployeeDao не реализован");
+        throw new RuntimeException("getAllFromDept() not implemented");
     }
 
     @Override
@@ -64,12 +63,12 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void updatePosition(int empID, String newPosition) {
-
+        throw new RuntimeException("updatePosition() not implemented");
     }
 
     @Override
     public void updateGrade(int empID, String newGrade) {
-
+        throw new RuntimeException("updateGrade() not implemented");
     }
 
     @Override
