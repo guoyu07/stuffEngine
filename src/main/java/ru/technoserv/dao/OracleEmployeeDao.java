@@ -2,10 +2,12 @@ package ru.technoserv.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class OracleEmployeeDao implements EmployeeDao {
@@ -29,22 +31,29 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void delete(int empID) {
+        String sql = "DELETE FROM EMPLOYEE WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql,empID);
 
     }
 
     @Override
     public List<Employee> getAllFromDept(String deptName) {
-        return null;
+        throw new RuntimeException("getAllFromDept in OracleEmployeeDao не реализован");
     }
 
     @Override
     public void deleteAllFromDept(String deptName) {
-
+        throw new RuntimeException("deleteAllFromDept in OracleEmployeeDao не реализован");
     }
 
     @Override
     public void updateDept(int empID, String newDept) {
-
+        String sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, newDept);
+        set.first();
+        int newDeptID = set.getInt("DEPT_ID");
+        sql = "UPDATE EMPLOYEE SET DEPARTMENT_ID = ? WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql, newDeptID, empID);
     }
 
     @Override
