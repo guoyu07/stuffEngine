@@ -4,7 +4,6 @@ package ru.technoserv.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import ru.technoserv.controller.JSON.Request.EmployeeRequest;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.dao.EmployeeDao;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -21,27 +20,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public void createEmployee(EmployeeRequest request) {
+    public void createEmployee(Employee employee) {
        // employeeDao.create(new Employee(request.getFirstName(), request.getLastName()));
     }
 
     @Override
-    public void getEmployeeStory(EmployeeRequest request) {
+    public void getEmployeeStory(Employee employee) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void transferEmployee(EmployeeRequest request) {
+    public void transferEmployee(Employee employee) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void removeEmployee(EmployeeRequest request) {
+    public void removeEmployee(Employee employee) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void changeEmployeeData(EmployeeRequest request) {
+    public void changeEmployeeData(Employee employee) {
         throw new NotImplementedException();
     }
 }

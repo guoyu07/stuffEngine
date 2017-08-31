@@ -3,7 +3,6 @@ package ru.technoserv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ru.technoserv.controller.JSON.Request.EmployeeRequest;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
@@ -23,10 +22,10 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createEmployee(@RequestBody EmployeeRequest employeeRequest, HttpServletResponse response
+    public String createEmployee(@RequestBody Employee employee, HttpServletResponse response
     ){
         try {
-            employeeService.createEmployee(employeeRequest);
+            employeeService.createEmployee(employee);
         }
         catch (Exception e) {
             try {
@@ -40,10 +39,10 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Employee getEmployee(@RequestBody EmployeeRequest employeeRequest, HttpServletResponse response
+    public Employee getEmployee(@RequestBody Employee employee, HttpServletResponse response
     ){
         try {
-            employeeService.getEmployeeStory(employeeRequest);
+            employeeService.getEmployeeStory(employee);
         }
         catch (Exception e) {
             try {
@@ -57,10 +56,10 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.PATCH)
-    public String changeEmployeeParam(@RequestBody EmployeeRequest employeeRequest, HttpServletResponse response
+    public String changeEmployeeParam(@RequestBody Employee employee, HttpServletResponse response
     ){
         try {
-            employeeService.changeEmployeeData(employeeRequest);
+            employeeService.changeEmployeeData(employee);
         }
         catch (Exception e) {
             try {
@@ -74,10 +73,10 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public String deleteEmployee(@RequestBody EmployeeRequest employeeRequest, HttpServletResponse response
+    public String deleteEmployee(@RequestBody Employee employee, HttpServletResponse response
     ){
         try {
-            employeeService.removeEmployee(employeeRequest);
+            employeeService.removeEmployee(employee);
         }
         catch (Exception e) {
             try {
