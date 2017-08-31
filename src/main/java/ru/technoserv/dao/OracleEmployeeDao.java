@@ -24,7 +24,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     public Employee read(int empID) {
         String sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
                 "FROM DEPARTMENT d, EMPLOYEE e, POSITION p, GRADE g " +
-                "WHERE ((d.DEPT_ID = e.DEPARTMENT_ID) AND (e.EMP_ID = 13) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID))";
+                "WHERE ((d.DEPT_ID = e.DEPARTMENT_ID) AND (e.EMP_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID))";
         return (Employee) jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }
@@ -63,12 +63,22 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void updatePosition(int empID, String newPosition) {
-        throw new RuntimeException("updatePosition() not implemented");
+        String sql = "SELECT POS_ID FROM POSITION WHERE TITLE = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, newPosition);
+        set.first();
+        int newPosID = set.getInt("POS_ID");
+        sql = "UPDATE EMPLOYEE SET POSITION_ID = ? WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql, newPosID, empID);
     }
 
     @Override
     public void updateGrade(int empID, String newGrade) {
-        throw new RuntimeException("updateGrade() not implemented");
+        String sql = "SELECT GRD_ID FROM GRADE WHERE DESCRIPTION = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, newGrade);
+        set.first();
+        int newGrdID = set.getInt("GRD_ID");
+        sql = "UPDATE EMPLOYEE SET GRADE_ID = ? WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql, newGrdID, empID);
     }
 
     @Override
@@ -77,25 +87,4 @@ public class OracleEmployeeDao implements EmployeeDao {
         jdbcTemplate.update(sql,newSalary, empID);
     }
 
-
-//    public void create(Employee employee) {
-//
-//        String sql = "INSERT INTO EMPLOYEE" +
-//                "(FIRST_NAME, LAST_NAME) VALUES (?,?)";
-//
-//        jdbcTemplate.update(sql,employee.getFirstName(), employee.getLastName());
-//    }
-//
-//    public Employee read(String firstName, String lastName) {
-//
-//        String sql = "SELECT * FROM EMPLOYEE WHERE FIRST_NAME = ? AND LAST_NAME = ?";
-//
-//        return (Employee) jdbcTemplate.queryForObject(sql,
-//                new Object[]{firstName, lastName}, new EmployeeRowMapper());
-//    }
-//
-//    public void delete(String firstName, String lastName) {
-//        String sql = "DELETE FROM EMPLOYEE WHERE FIRST_NAME = ? AND LAST_NAME = ?";
-//        jdbcTemplate.update(sql, firstName, lastName);
-//    }
 }
