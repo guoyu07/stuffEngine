@@ -43,7 +43,13 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void deleteAllFromDept(String deptName) {
-        throw new RuntimeException("deleteAllFromDept in OracleEmployeeDao не реализован");
+        String sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, deptName);
+        set.first();
+        int deptID = set.getInt("DEPT_ID");
+        sql = "DELETE FROM EMPLOYEE WHERE DEPARTMENT_ID = ?";
+        jdbcTemplate.update(sql, deptID);
+
     }
 
     @Override
