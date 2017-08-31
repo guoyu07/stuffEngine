@@ -10,11 +10,11 @@ public interface EmployeeDao {
 
     void delete(int empID);
 
-    List<Employee> getAllFromDept(int deptID)
+    List<Employee> getAllFromDept(String deptName);
 
-    void deleteAllFromDept(int deptID);
+    void deleteAllFromDept(String deptName);
 
-    void updateDept(int empID, int deptID);
+    void updateDept(int empID, String newDept);
 
     void updatePsoition(int empID, String newPosition);
 
