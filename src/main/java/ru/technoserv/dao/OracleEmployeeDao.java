@@ -24,7 +24,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     public Employee read(int empID) {
         String sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
                 "FROM DEPARTMENT d, EMPLOYEE e, POSITION p, GRADE g " +
-                "WHERE ((d.DEPT_ID = e.DEPARTMENT_ID) AND (e.EMP_ID = 13) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID))";
+                "WHERE ((d.DEPT_ID = e.DEPARTMENT_ID) AND (e.EMP_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID))";
         return (Employee) jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }
