@@ -7,6 +7,8 @@ public interface DepartmentDao {
 
     Department read(Long depId);
 
+    void updateParentDeptId(Long newParentDeptId, Long depId);
+
     void delete(Long depId);
 
     List<Department> getDepartmentsList();

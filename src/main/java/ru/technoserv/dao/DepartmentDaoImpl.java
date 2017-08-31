@@ -23,6 +23,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
                     "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
     private static final String SELECT_LEVEL_BELOW_SUB_DEPTS =
             "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE PARENT_DEPT_ID = ?";
+    private static final String UPDATE_PARENT_DEPT_ID =
+            "UPDATE DEPARTMENT SET PARENT_DEPT_ID = ? WHERE DEPT_ID = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -37,6 +39,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public Department read(Long depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPARTMENT_BY_ID, new DepartmentRowMapper(), depId);
+    }
+
+    @Override
+    public void updateParentDeptId(Long newParentDeptId, Long depId) {
+        jdbcTemplate.update(UPDATE_PARENT_DEPT_ID, newParentDeptId, depId);
     }
 
     @Override
