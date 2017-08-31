@@ -5,9 +5,13 @@ import java.util.List;
 public interface DepartmentDao {
     void create(Department department);
 
-    Department read(long id);
+    Department read(Long depId);
 
-    void delete(long id);
+    void delete(Long depId);
 
     List<Department> getDepartmentsList();
+
+    List<Department> getAllSubDepts(Long depId);
+
+    List<Department> getLevelBelowSubDepts(Long depId);
 }
