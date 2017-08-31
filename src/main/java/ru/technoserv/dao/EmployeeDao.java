@@ -16,7 +16,7 @@ public interface EmployeeDao {
 
     void updateDept(int empID, String newDept);
 
-    void updatePsoition(int empID, String newPosition);
+    void updatePosition(int empID, String newPosition);
 
     void updateGrade(int empID, String newGrade);
 

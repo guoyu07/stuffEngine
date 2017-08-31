@@ -57,7 +57,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void updatePsoition(int empID, String newPosition) {
+    public void updatePosition(int empID, String newPosition) {
 
     }
 
@@ -68,7 +68,8 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void updateSalary(int empID, BigDecimal newSalary) {
-
+        String sql = "UPDATE EMPLOYEE SET SALARY = ? WHERE EMP_ID = ?";
+        jdbcTemplate.update(sql,newSalary, empID);
     }
 
 
