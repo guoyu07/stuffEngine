@@ -1,12 +1,9 @@
 package ru.technoserv.dao;
 
-
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
 import javax.sql.DataSource;
-
 
 @Configuration
 @ComponentScan("ru")
