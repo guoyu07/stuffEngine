@@ -2,6 +2,7 @@ package ru.technoserv.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -46,7 +47,14 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public List<Employee> getAllFromDept(String deptName) {
-        throw new RuntimeException("getAllFromDept() not implemented");
+        String sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, deptName);
+        set.first();
+        int deptID = set.getInt("DEPT_ID");
+        sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
+                "FROM EMPLOYEE e, DEPARTMENT d, POSITION p, GRADE g " +
+                "WHERE ((e.DEPARTMENT_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID) AND (e.DEPARTMENT_ID = d.DEPT_ID))";
+        return jdbcTemplate.query(sql, new Object[]{deptID}, new EmployeeRowMapper());
     }
 
     @Override
