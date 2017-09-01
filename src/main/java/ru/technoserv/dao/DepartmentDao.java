@@ -28,6 +28,14 @@ public interface DepartmentDao {
     Department readByName(String depName);
 
     /**
+     * Смена главы отдела
+     *
+     * @param newDeptHeadId id нового главы отдела
+     * @param depId         id отдела, где меняется глава
+     */
+    void updateDeptHead(Integer newDeptHeadId, Integer depId);
+
+    /**
      * Переподчинение отдела, id которого равняется depId,
      * другому отделу, id которого равняется newParentDeptId
      *
