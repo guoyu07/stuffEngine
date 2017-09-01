@@ -1,34 +1,34 @@
 package ru.technoserv.dao;
 
 public class Department {
-    private Long id;
-    private Long parentDeptId;
+    private Integer id;
+    private Integer parentDeptId;
     private String deptName;
-    private Long deptHeadId;
+    private Integer deptHeadId;
 
     public Department() {
     }
 
-    public Department(Long id, Long parentDeptId, String deptName, Long deptHeadId) {
+    public Department(Integer id, Integer parentDeptId, String deptName, Integer deptHeadId) {
         this.id = id;
         this.parentDeptId = parentDeptId;
         this.deptName = deptName;
         this.deptHeadId = deptHeadId;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getParentDeptId() {
+    public Integer getParentDeptId() {
         return parentDeptId;
     }
 
-    public void setParentDeptId(Long parentDeptId) {
+    public void setParentDeptId(Integer parentDeptId) {
         this.parentDeptId = parentDeptId;
     }
 
@@ -40,11 +40,11 @@ public class Department {
         this.deptName = deptName;
     }
 
-    public Long getDeptHeadId() {
+    public Integer getDeptHeadId() {
         return deptHeadId;
     }
 
-    public void setDeptHeadId(Long deptHeadId) {
+    public void setDeptHeadId(Integer deptHeadId) {
         this.deptHeadId = deptHeadId;
     }
 
