@@ -31,11 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         employee.setEmpID(Employee.getGlobalID());
         System.out.println(employee);
-        try {
-            employeeDao.create(employee);
-        }catch (Exception e){
-            throw new InvalidInputException("Не удалось создать сотрудника, возможно введены неправильные параметры");
-        }
+        employeeDao.create(employee);
     }
 
     @Override
@@ -44,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void transferEmployee(Employee employee) {
+    public void transferEmployee(Employee employee) throws InvalidInputException{
         employeeDao.updateDept(employee.getEmpID(), employee.getDepartment());
     }
 
@@ -54,37 +50,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void changeEmployeeSalary(Employee employee) {
-        try{
+    public void changeEmployeeSalary(Employee employee)  throws InvalidInputException {
         employeeDao.updateSalary(employee.getEmpID(), employee.getSalary());
-    }catch (Exception e){
-        throw new InvalidInputException("Неправильное значениее зарплаты");
-    }
     }
 
     public void changeEmployeeGrade(Employee employee) {
-        try{
         employeeDao.updateGrade(employee.getEmpID(), employee.getGrade());
-    }catch (Exception e){
-        throw new InvalidInputException("Неправильное значение грейда");
-    }
     }
 
     public void changeEmployeePosition(Employee employee) {
-        try {
             employeeDao.updatePosition(employee.getEmpID(), employee.getPosition());
-        }catch (Exception e){
-        throw new InvalidInputException("Неправильное имя должности");
-    }
     }
 
     public List<Employee> getEmployees(String department){
         List<Employee> employees;
-        try{
-            employees = employeeDao.getAllFromDept(department);
-        }catch (Exception e){
-            throw new InvalidInputException("Проверьте правильность имени отдела");
-        }
+        employees = employeeDao.getAllFromDept(department);
         return employeeDao.getAllFromDept(department);
     }
 

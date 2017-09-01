@@ -29,7 +29,7 @@ public class EmployeeController {
     @RequestMapping(value = "/{department}", method = RequestMethod.GET)
     public List<Employee> getDepartmentStuff(@PathVariable String department){
         List<Employee> employeeList = employeeService.getEmployees(department);
-        if(employeeList.size()==0){throw new InvalidInputException();
+        if(employeeList.size()==0){throw new InvalidInputException("");
         }
         return employeeList;
     }
@@ -41,7 +41,6 @@ public class EmployeeController {
      */
     @RequestMapping(value="/newEmployee", method = RequestMethod.PUT,  consumes = {"application/json"} )
     public String createEmployee(@RequestBody Employee employee){
-        System.out.println(employee);
         employeeService.createEmployee(employee);
         return "AddNewUser";
     }

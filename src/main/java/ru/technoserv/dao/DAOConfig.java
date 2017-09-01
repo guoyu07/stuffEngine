@@ -23,10 +23,9 @@ public class DAOConfig {
         return new JdbcTemplate(dataSource());
     }
 
-    @Bean
-
-    public EmployeeDao employeeDao() {
-        return new OracleEmployeeDao();
-    }
+//    @Bean
+//    public EmployeeDao employeeDao() {
+//        return new OracleEmployeeDao();
+//    }
 
 }
