@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import ru.technoserv.Exceptions.InvalidInputException;
-import ru.technoserv.dao.Employee;
-import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.dao.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
@@ -20,7 +19,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeDao employeeDao;
-
+    @Autowired
+    private DepartmentDao departmentDao;
     private boolean isIdLoaded = false;
 
     @Override
@@ -40,17 +40,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void transferEmployee(Employee employee) throws InvalidInputException{
+    public void transferEmployee(Employee employee){
+        Employee emp = employeeDao.read(employee.getEmpID());
+        Department dep = departmentDao.readByName(emp.getDepartment());
+        if(dep.getDeptHeadId().equals(emp.getEmpID())){
+            departmentDao.updateDeptHead(null, dep.getId());
+        }
         employeeDao.updateDept(employee.getEmpID(), employee.getDepartment());
     }
 
     @Override
     public void removeEmployee(int id) {
+        Employee emp = employeeDao.read(id);
+        Department dep = departmentDao.readByName(emp.getDepartment());
+        if(dep.getDeptHeadId().equals(emp.getEmpID())){
+            departmentDao.updateDeptHead(null, dep.getId());
+        }
         employeeDao.delete(id);
     }
 
     @Override
-    public void changeEmployeeSalary(Employee employee)  throws InvalidInputException {
+    public void changeEmployeeSalary(Employee employee) {
         employeeDao.updateSalary(employee.getEmpID(), employee.getSalary());
     }
 

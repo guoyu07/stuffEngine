@@ -33,9 +33,12 @@ public class EmployeeController {
         }
         return employeeList;
     }
-
+boolean a = true;
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Employee getDepartmentStuff(@PathVariable int id){
+        if(a) {
+            throw new InvalidInputException("Wrong input");
+        }
         return employeeService.getEmployee(id);
     }
 

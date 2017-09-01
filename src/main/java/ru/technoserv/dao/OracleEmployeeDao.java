@@ -35,8 +35,6 @@ public class OracleEmployeeDao implements EmployeeDao {
         int posID = set.getInt("POS_ID");
         int deptID = set.getInt("DEPT_ID");
 
-
-
         sql = "INSERT INTO EMPLOYEE (EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, SALARY, GENDER) VALUES (?,?,?,?,?,?,?,?,?) " ;
         jdbcTemplate.update(sql, employee.getEmpID(), employee.getLastName(), employee.getFirstName(), employee.getPatrName(), deptID, grdID, posID, employee.getSalary(), String.valueOf(employee.getGender()));
 
