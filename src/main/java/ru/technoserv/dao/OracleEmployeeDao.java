@@ -25,10 +25,8 @@ public class OracleEmployeeDao implements EmployeeDao {
         int deptID = set.getInt("DEPT_ID");
         int posID = set.getInt("POS_ID");
         int grdID = set.getInt("GRD_ID");
-        
-        sql = "INSERT INTO EMPLOYEE (EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, SALARY, BIRTHDAY, GENDER) VALUES (?,?,?,?,?,?,?,?,?,?) " ;
+        sql = "INSERT INTO EMPLOYEE (EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, SALARY, BIRTHDAY, GENDER) VALUES (?,?,?,?,?,?,?,?,?,?) ";
         jdbcTemplate.update(sql, employee.getEmpID(), employee.getLastName(), employee.getFirstName(), employee.getPatrName(), deptID, grdID, posID, employee.getSalary(), employee.getBirthday(), String.valueOf(employee.getGender()));
-
     }
 
     @Override
@@ -43,7 +41,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     @Override
     public void delete(int empID) {
         String sql = "DELETE FROM EMPLOYEE WHERE EMP_ID = ?";
-        jdbcTemplate.update(sql,empID);
+        jdbcTemplate.update(sql, empID);
     }
 
     @Override
@@ -59,7 +57,6 @@ public class OracleEmployeeDao implements EmployeeDao {
         int deptID = set.getInt("DEPT_ID");
         sql = "DELETE FROM EMPLOYEE WHERE DEPARTMENT_ID = ?";
         jdbcTemplate.update(sql, deptID);
-
     }
 
     @Override
@@ -95,7 +92,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     @Override
     public void updateSalary(int empID, BigDecimal newSalary) {
         String sql = "UPDATE EMPLOYEE SET SALARY = ? WHERE EMP_ID = ?";
-        jdbcTemplate.update(sql,newSalary, empID);
+        jdbcTemplate.update(sql, newSalary, empID);
     }
 
 }

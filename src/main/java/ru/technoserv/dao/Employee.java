@@ -15,7 +15,8 @@ public class Employee {
     private Date birthday;
     private BigDecimal salary;
 
-    public Employee(){};
+    public Employee() {
+    }
 
     public int getEmpID() {
         return empID;

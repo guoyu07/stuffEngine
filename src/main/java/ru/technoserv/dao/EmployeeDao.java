@@ -21,6 +21,5 @@ public interface EmployeeDao {
     void updateGrade(int empID, String newGrade);
 
     void updateSalary(int empID, BigDecimal newSalary);
-
 }
 
