@@ -17,7 +17,24 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Override
     public void create(Employee employee) {
-        throw new RuntimeException("create() not implemented");
+        String sql = "SELECT POS_ID FROM POSITION WHERE TITLE = ? ";
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, employee.getPosition());
+        set.first();
+        int posID = set.getInt("POS_ID");
+
+        sql = "SELECT GRD_ID FROM GRADE WHERE DESCRIPTION = ?";
+        set = jdbcTemplate.queryForRowSet(sql, employee.getGrade());
+        set.first();
+        int grdID = set.getInt("GRD_ID");
+
+        sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
+        set = jdbcTemplate.queryForRowSet(sql, employee.getDepartment());
+        set.first();
+        int deptID = set.getInt("DEPT_ID");
+
+        sql = "INSERT INTO EMPLOYEE (EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, SALARY, BIRTHDAY, GENDER) VALUES (?,?,?,?,?,?,?,?,?,?) " ;
+        jdbcTemplate.update(sql, employee.getEmpID(), employee.getLastName(), employee.getFirstName(), employee.getPatrName(), deptID, grdID, posID, employee.getSalary(), employee.getBirthday(), String.valueOf(employee.getGender()));
+
     }
 
     @Override
