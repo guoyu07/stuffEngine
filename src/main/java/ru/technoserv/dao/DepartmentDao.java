@@ -17,7 +17,15 @@ public interface DepartmentDao {
      * @param depId id искомого отдела
      * @return      отдел, id которого равняется depId
      */
-    Department read(Long depId);
+    Department readById(Integer depId);
+
+    /**
+     * Поиск отдела по названию
+     *
+     * @param depName название искомого отдела
+     * @return        отдел, название которого совпадает с depName
+     */
+    Department readByName(String depName);
 
     /**
      * Переподчинение отдела, id которого равняется depId,
@@ -27,14 +35,14 @@ public interface DepartmentDao {
      *                        быть переподчинен отдел с id = depId
      * @param depId           id переподчиняемого отдела
      */
-    void updateParentDeptId(Long newParentDeptId, Long depId);
+    void updateParentDeptId(Integer newParentDeptId, Integer depId);
 
     /**
      * Удаление отдела, id которого равняется depId
      *
      * @param depId id удаляемого отдела
      */
-    void delete(Long depId);
+    void delete(Integer depId);
 
     /**
      * Поиск всех отделов
@@ -53,7 +61,7 @@ public interface DepartmentDao {
      *              уровнях иерархии отдела, id которого
      *              равняется depId
      */
-    List<Department> getAllSubDepts(Long depId);
+    List<Department> getAllSubDepts(Integer depId);
 
     /**
      * Поиск всех дочерних отделов на один уровень ниже в
@@ -65,5 +73,5 @@ public interface DepartmentDao {
      *              уровень ниже в иерархии отдела, id
      *              которого равняется depId
      */
-    List<Department> getLevelBelowSubDepts(Long depId);
+    List<Department> getLevelBelowSubDepts(Integer depId);
 }

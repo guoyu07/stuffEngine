@@ -25,6 +25,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
             "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE PARENT_DEPT_ID = ?";
     private static final String UPDATE_PARENT_DEPT_ID =
             "UPDATE DEPARTMENT SET PARENT_DEPT_ID = ? WHERE DEPT_ID = ?";
+    private static final String SELECT_BY_NAME =
+            "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -37,17 +39,22 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
 
     @Override
-    public Department read(Long depId) {
+    public Department readById(Integer depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPARTMENT_BY_ID, new DepartmentRowMapper(), depId);
     }
 
     @Override
-    public void updateParentDeptId(Long newParentDeptId, Long depId) {
+    public Department readByName(String depName) {
+        return jdbcTemplate.queryForObject(SELECT_BY_NAME, new DepartmentRowMapper(), depName);
+    }
+
+    @Override
+    public void updateParentDeptId(Integer newParentDeptId, Integer depId) {
         jdbcTemplate.update(UPDATE_PARENT_DEPT_ID, newParentDeptId, depId);
     }
 
     @Override
-    public void delete(Long depId) {
+    public void delete(Integer depId) {
         jdbcTemplate.update(DELETE_DEPARTMENT, depId);
     }
 
@@ -57,12 +64,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
 
     @Override
-    public List<Department> getAllSubDepts(Long depId) {
+    public List<Department> getAllSubDepts(Integer depId) {
         return jdbcTemplate.query(SELECT_ALL_SUB_DEPTS, new DepartmentRowMapper(), depId);
     }
 
     @Override
-    public List<Department> getLevelBelowSubDepts(Long depId) {
+    public List<Department> getLevelBelowSubDepts(Integer depId) {
         return jdbcTemplate.query(SELECT_LEVEL_BELOW_SUB_DEPTS, new DepartmentRowMapper(), depId);
     }
 
@@ -71,10 +78,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
         @Override
         public Department mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Department(
-                    resultSet.getLong("DEPT_ID"),
-                    (Long) resultSet.getObject("PARENT_DEPT_ID"),
+                    resultSet.getInt("DEPT_ID"),
+                    (Integer) resultSet.getObject("PARENT_DEPT_ID"),
                     resultSet.getString("DEPT_NAME"),
-                    (Long) resultSet.getObject("DEPT_HEAD_ID")
+                    (Integer) resultSet.getObject("DEPT_HEAD_ID")
             );
         }
 
