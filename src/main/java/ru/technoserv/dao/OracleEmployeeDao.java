@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class OracleEmployeeDao implements EmployeeDao {
@@ -42,7 +41,7 @@ public class OracleEmployeeDao implements EmployeeDao {
         String sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
                 "FROM DEPARTMENT d, EMPLOYEE e, POSITION p, GRADE g " +
                 "WHERE ((d.DEPT_ID = e.DEPARTMENT_ID) AND (e.EMP_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID))";
-        return (Employee) jdbcTemplate.queryForObject(sql,
+        return jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }
 

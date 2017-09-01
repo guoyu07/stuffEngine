@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-public class EmployeeRowMapper implements RowMapper {
+public class EmployeeRowMapper implements RowMapper <Employee> {
 
-    public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+    public Employee mapRow(ResultSet resultSet, int i) throws SQLException {
         Employee employee = new Employee();
         employee.setEmpID((Integer) resultSet.getInt("EMP_ID"));
         employee.setPosition((String) resultSet.getObject("TITLE"));
