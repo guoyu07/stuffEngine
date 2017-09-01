@@ -26,7 +26,6 @@ public class DAOConfig {
     }
 
     @Bean
-
     public EmployeeDao employeeDao() {
         return new OracleEmployeeDao();
     }
