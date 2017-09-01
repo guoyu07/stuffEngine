@@ -1,13 +1,12 @@
 package ru.technoserv.services;
 
-import ru.technoserv.dao.Department;
 import ru.technoserv.dao.Employee;
 
 import java.util.List;
 
 public interface EmployeeService {
 
-    void createEmployee(Employee employee);
+   void createEmployee(Employee employee);
 
     void getEmployeeStory(Employee employee);
 
@@ -22,5 +21,7 @@ public interface EmployeeService {
     void changeEmployeePosition(Employee employee);
 
     List<Employee> getEmployees(String department);
+
+    Employee getEmployee(int id);
 
 }

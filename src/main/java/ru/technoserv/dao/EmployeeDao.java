@@ -1,9 +1,14 @@
 package ru.technoserv.dao;
 
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface EmployeeDao {
+
+    int getID();
+
     void create(Employee employee);
 
     Employee read(int empID);

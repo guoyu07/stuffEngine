@@ -4,10 +4,11 @@ package ru.technoserv.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import ru.technoserv.dao.Department;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.dao.EmployeeDao;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
 
 /**
  * Управление информацией о сотрудниках
@@ -19,10 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
+    private boolean isIdLoaded = false;
 
     @Override
     public void createEmployee(Employee employee) {
-       employeeDao.create(employee);
+        if(!isIdLoaded){
+            Employee.setGlobalID(employeeDao.getID());
+            isIdLoaded = true;
+        }
+        employee.setEmpID(Employee.getGlobalID());
+        System.out.println(employee);
+        employeeDao.create(employee);
     }
 
     @Override
@@ -50,12 +58,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void changeEmployeePosition(Employee employee) {
-        employeeDao.updatePsoition(employee.getEmpID(), employee.getPosition());
+        employeeDao.updatePosition(employee.getEmpID(), employee.getPosition());
     }
 
-    public void getEmployees(Department department){
-        employeeDao.getAllFromDept(department.getID());
+    public List<Employee> getEmployees(String department){
+        return employeeDao.getAllFromDept(department);
+    }
 
+    @Override
+    public Employee getEmployee(int id) {
+        return employeeDao.read(id);
     }
 }
 

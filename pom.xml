@@ -15,7 +15,9 @@
     <jackson.library>2.7.5</jackson.library>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+
   </properties>
+
 
   <dependencies>
     <dependency>
@@ -85,6 +87,8 @@
           <scope>test</scope>
       </dependency>
 
+
+
   </dependencies>
 
   <repositories>
@@ -109,6 +113,7 @@
 
   <build>
     <finalName>stuffEngine</finalName>
+
   </build>
 
   </project>

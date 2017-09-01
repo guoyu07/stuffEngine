@@ -1,8 +1,5 @@
 package controller;
 
-import static org.mockito.Mockito.*;
-
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -10,9 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import ru.technoserv.controller.EmployeeController;
-import ru.technoserv.dao.Employee;
 
-import javax.resource.spi.RetryableUnavailableException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

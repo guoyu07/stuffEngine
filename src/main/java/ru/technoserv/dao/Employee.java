@@ -1,9 +1,12 @@
 package ru.technoserv.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Employee {
+
     private Integer empID;
     private String position;
     private String grade;
@@ -15,7 +18,19 @@ public class Employee {
     private Date birthday;
     private BigDecimal salary;
 
-    public Employee(){};
+    private static Integer globalID;
+
+    public static Integer getGlobalID() {
+        return ++globalID;
+    }
+
+    public static void setGlobalID(Integer globalID) {
+        Employee.globalID = globalID;
+    }
+
+    public Employee(){
+
+    }
 
     public int getEmpID() {
         return empID;
@@ -95,6 +110,10 @@ public class Employee {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public String toString(){
+        return empID+" "+department;
     }
 }
 

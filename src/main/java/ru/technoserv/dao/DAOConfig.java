@@ -6,7 +6,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("ru")
 public class DAOConfig {
 
     @Bean
