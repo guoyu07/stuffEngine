@@ -26,12 +26,17 @@ public class EmployeeController {
      * @param department название отдела
      * @return список сотрудников отдела
      */
-    @RequestMapping(value = "/{department}", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/{department}", method = RequestMethod.GET)
     public List<Employee> getDepartmentStuff(@PathVariable String department){
         List<Employee> employeeList = employeeService.getEmployees(department);
         if(employeeList.size()==0){throw new InvalidInputException("");
         }
         return employeeList;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Employee getDepartmentStuff(@PathVariable int id){
+        return employeeService.getEmployee(id);
     }
 
     /**
