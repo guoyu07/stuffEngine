@@ -9,6 +9,13 @@ public class Department {
     public Department() {
     }
 
+    public Department(Integer id, Integer parentDeptId, String deptName, Integer deptHeadId) {
+        this.id = id;
+        this.parentDeptId = parentDeptId;
+        this.deptName = deptName;
+        this.deptHeadId = deptHeadId;
+    }
+
     public Integer getId() {
         return id;
     }
