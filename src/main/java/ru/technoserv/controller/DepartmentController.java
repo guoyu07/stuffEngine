@@ -32,8 +32,9 @@ public class DepartmentController {
 
     }
 
-    @RequestMapping(value = "/{depId}", method = RequestMethod.PATCH)
-    public void changeParentDept(@RequestBody Department department) {
+    @RequestMapping(value = "/{newParentDepId}", method = RequestMethod.PATCH)
+    public void changeParentDept(@RequestBody Department department,
+                                 @PathVariable Long newParentDepId) {
 
     }
 
