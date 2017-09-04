@@ -25,8 +25,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
             "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE PARENT_DEPT_ID = ?";
     private static final String UPDATE_PARENT_DEPT_ID =
             "UPDATE DEPARTMENT SET PARENT_DEPT_ID = ? WHERE DEPT_ID = ?";
-    private static final String SELECT_BY_NAME =
-            "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
     private static final String UPDATE_DEPT_HEAD =
             "UPDATE DEPARTMENT SET DEPT_HEAD_ID = ? WHERE DEPT_ID = ?";
 
@@ -43,11 +41,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public Department readById(Integer depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPARTMENT_BY_ID, new DepartmentRowMapper(), depId);
-    }
-
-    @Override
-    public Department readByName(String depName) {
-        return jdbcTemplate.queryForObject(SELECT_BY_NAME, new DepartmentRowMapper(), depName);
     }
 
     @Override

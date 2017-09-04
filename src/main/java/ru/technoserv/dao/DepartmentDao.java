@@ -20,14 +20,6 @@ public interface DepartmentDao {
     Department readById(Integer depId);
 
     /**
-     * Поиск отдела по названию
-     *
-     * @param depName название искомого отдела
-     * @return        отдел, название которого совпадает с depName
-     */
-    Department readByName(String depName);
-
-    /**
      * Смена главы отдела
      *
      * @param newDeptHeadId id нового главы отдела
