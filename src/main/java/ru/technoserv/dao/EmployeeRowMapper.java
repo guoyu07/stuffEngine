@@ -5,11 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-public class EmployeeRowMapper implements RowMapper <Employee> {
+public class EmployeeRowMapper implements RowMapper<Employee> {
 
     public Employee mapRow(ResultSet resultSet, int i) throws SQLException {
         Employee employee = new Employee();
-        employee.setEmpID(resultSet.getInt("EMP_ID"));
+        employee.setEmpID((Integer) resultSet.getInt("EMP_ID"));
         employee.setPosition((String) resultSet.getObject("TITLE"));
         employee.setGrade((String) resultSet.getObject("DESCRIPTION"));
         employee.setDepartment((String) resultSet.getObject("DEPT_NAME"));

@@ -3,6 +3,14 @@ package ru.technoserv.dao;
 import java.util.List;
 
 public interface DepartmentDao {
+
+    /**
+     * Поиск id с максимальным значением в таблице Department
+     *
+     * @return id с макс. значением
+     */
+    int getID();
+
     /**
      * Создание нового отдела
      *
@@ -18,14 +26,6 @@ public interface DepartmentDao {
      * @return      отдел, id которого равняется depId
      */
     Department readById(Integer depId);
-
-    /**
-     * Поиск отдела по названию
-     *
-     * @param depName название искомого отдела
-     * @return        отдел, название которого совпадает с depName
-     */
-    Department readByName(String depName);
 
     /**
      * Смена главы отдела
@@ -51,6 +51,15 @@ public interface DepartmentDao {
      * @param depId id удаляемого отдела
      */
     void delete(Integer depId);
+
+    /**
+     * Поиск руководителя отдела с id, равным depId
+     *
+     * @param depId id отдела, в отношении которого ведется
+     *              поиск руководителя отдела
+     * @return      руководитель отдела с id, равным depId
+     */
+    Employee getDeptHead(Integer depId);
 
     /**
      * Поиск всех отделов

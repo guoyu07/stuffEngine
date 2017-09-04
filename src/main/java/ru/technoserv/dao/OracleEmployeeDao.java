@@ -91,5 +91,4 @@ public class OracleEmployeeDao implements EmployeeDao {
         String sql = "UPDATE EMPLOYEE SET SALARY = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, newSalary, empID);
     }
-
 }

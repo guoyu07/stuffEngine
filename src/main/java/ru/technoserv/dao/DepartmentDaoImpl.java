@@ -3,6 +3,7 @@ package ru.technoserv.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -25,16 +26,27 @@ public class DepartmentDaoImpl implements DepartmentDao {
             "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE PARENT_DEPT_ID = ?";
     private static final String UPDATE_PARENT_DEPT_ID =
             "UPDATE DEPARTMENT SET PARENT_DEPT_ID = ? WHERE DEPT_ID = ?";
-    private static final String SELECT_BY_NAME =
-            "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
     private static final String UPDATE_DEPT_HEAD =
             "UPDATE DEPARTMENT SET DEPT_HEAD_ID = ? WHERE DEPT_ID = ?";
+    private static final String SELECT_MAX_ID = "SELECT MAX(DEPT_ID) AS DEPT_ID FROM DEPARTMENT";
+    private static final String SELECT_DEPT_HEAD =
+            "SELECT EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, " +
+                    "SALARY, BIRTHDAY, GENDER FROM EMPLOYEE, DEPARTMENT " +
+                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPT_ID = ?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public int getID() {
+        SqlRowSet set = jdbcTemplate.queryForRowSet(SELECT_MAX_ID);
+        set.first();
+        return set.getInt("DEPT_ID");
+    }
+
+    @Override
     public void create(Department department) {
+        jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper());
         jdbcTemplate.update(
                 CREATE_DEPARTMENT, department.getId(), department.getParentDeptId(),
                 department.getDeptName(), department.getDeptHeadId());
@@ -43,11 +55,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public Department readById(Integer depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPARTMENT_BY_ID, new DepartmentRowMapper(), depId);
-    }
-
-    @Override
-    public Department readByName(String depName) {
-        return jdbcTemplate.queryForObject(SELECT_BY_NAME, new DepartmentRowMapper(), depName);
     }
 
     @Override
@@ -63,6 +70,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public void delete(Integer depId) {
         jdbcTemplate.update(DELETE_DEPARTMENT, depId);
+    }
+
+    @Override
+    public Employee getDeptHead(Integer depId) {
+        return jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper(), depId);
     }
 
     @Override
@@ -86,9 +98,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
         public Department mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Department(
                     resultSet.getInt("DEPT_ID"),
-                    (Integer) resultSet.getObject("PARENT_DEPT_ID"),
+                    resultSet.getInt("PARENT_DEPT_ID"),
                     resultSet.getString("DEPT_NAME"),
-                    (Integer) resultSet.getObject("DEPT_HEAD_ID")
+                    resultSet.getInt("DEPT_HEAD_ID")
             );
         }
 
