@@ -14,7 +14,7 @@ public interface EmployeeDao {
 
     void deleteAllFromDept(int deptID);
 
-    void updateDept(int empID, String newDept);
+    void updateDept(int empID, int newDeptID);
 
     void updatePosition(int empID, String newPosition);
 

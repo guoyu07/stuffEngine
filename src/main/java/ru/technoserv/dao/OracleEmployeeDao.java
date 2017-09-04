@@ -59,12 +59,8 @@ public class OracleEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void updateDept(int empID, String newDept) {
-        String sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
-        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, newDept);
-        set.first();
-        int newDeptID = set.getInt("DEPT_ID");
-        sql = "UPDATE EMPLOYEE SET DEPARTMENT_ID = ? WHERE EMP_ID = ?";
+    public void updateDept(int empID, int newDeptID) {
+        String sql = "UPDATE EMPLOYEE SET DEPARTMENT_ID = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, newDeptID, empID);
     }
 
