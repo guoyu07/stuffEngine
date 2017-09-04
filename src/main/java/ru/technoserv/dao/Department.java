@@ -6,6 +6,16 @@ public class Department {
     private String deptName;
     private Integer deptHeadId;
 
+    private static Integer globalID;
+
+    public static Integer getGlobalID() {
+        return ++globalID;
+    }
+
+    public static void setGlobalID(Integer globalID) {
+        Department.globalID = globalID;
+    }
+
     public Department() {
     }
 
