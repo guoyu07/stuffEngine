@@ -17,11 +17,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentDao departmentDao;
     @Autowired
     EmployeeDao employeeDao;
-    private boolean isLoaded;
+    private boolean isIDLoaded = false;
 
     @Override
     public Department createDepartment(Department department) {
-        return null;
+        if (!isIDLoaded) {
+            Department.setGlobalID(departmentDao.getGlobalID);
+            isIDLoaded = true;
+        }
+        department.setId(Department.getGlobalID);
+        departmentDao.create(department);
     }
 
     @Override
