@@ -20,7 +20,7 @@ public interface EmployeeService {
 
     void changeEmployeePosition(Employee employee);
 
-    List<Employee> getEmployees(Employee employee);
+    List<Employee> getEmployees(int depId);
 
     Employee getEmployee(int id);
 

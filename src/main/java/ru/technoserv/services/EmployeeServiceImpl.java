@@ -61,8 +61,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new NotImplementedException();
     }
 
-    public List<Employee> getEmployees(Employee employee){
-        return employeeDao.getAllFromDept(employee.getEmpID());
+    public List<Employee> getEmployees(int depID){
+        return employeeDao.getAllFromDept(depID);
     }
 
     @Override

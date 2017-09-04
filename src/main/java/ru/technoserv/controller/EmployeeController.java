@@ -23,19 +23,19 @@ public class EmployeeController {
 
     /**
      * Получение списка сотрудников по названию
-     * @param department название отдела
+     * @param departmentID  id отдела
      * @return список сотрудников отдела
      */
-    @RequestMapping(value = "/all/{department}", method = RequestMethod.GET)
-    public List<Employee> getDepartmentStuff(@PathVariable String department){
-        List<Employee> employeeList = employeeService.getEmployees(department);
+    @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET)
+    public List<Employee> getDepartmentStuff(@PathVariable int departmentID){
+        List<Employee> employeeList = employeeService.getEmployees(departmentID);
         if(employeeList.size()==0){throw new InvalidInputException("");
         }
         return employeeList;
     }
 boolean a = true;
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Employee getDepartmentStuff(@PathVariable int id){
+    public Employee getEmployee(@PathVariable int id){
         if(a) {
             throw new InvalidInputException("Wrong input");
         }
