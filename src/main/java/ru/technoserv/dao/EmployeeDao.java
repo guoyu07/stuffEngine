@@ -15,17 +15,16 @@ public interface EmployeeDao {
 
     void delete(int empID);
 
-    List<Employee> getAllFromDept(String deptName);
+    List<Employee> getAllFromDept(int deptID);
 
-    void deleteAllFromDept(String deptName);
+    void deleteAllFromDept(int deptID);
 
-    void updateDept(int empID, String newDept);
+    void updateDept(int empID, int newDeptID);
 
-    void updatePosition(int empID, String newPosition);
+    void updatePosition(int empID, int newPosID);
 
-    void updateGrade(int empID, String newGrade);
+    void updateGrade(int empID, int newGrdID);
 
     void updateSalary(int empID, BigDecimal newSalary);
-
 }
 

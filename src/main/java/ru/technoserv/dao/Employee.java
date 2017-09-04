@@ -1,43 +1,21 @@
 package ru.technoserv.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Employee {
-
-
     private Integer empID;
     private String position;
     private String grade;
     private String department;
-    @Size(min=3, max=50)
     private String lastName;
-    @Size(min=3, max=50)
     private String firstName;
-    @Size(min=3, max=50)
     private String patrName;
-    @Size(max=1)
     private Character gender;
     private Date birthday;
-    @Size(min=0)
     private BigDecimal salary;
 
-    private static Integer globalID;
-
-    public static Integer getGlobalID() {
-        return ++globalID;
-    }
-
-    public static void setGlobalID(Integer globalID) {
-        Employee.globalID = globalID;
-    }
-
-    public Employee(){
-
+    public Employee() {
     }
 
     public int getEmpID() {
@@ -120,8 +98,20 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String toString(){
-        return empID+" "+department;
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empID=" + empID +
+                ", position='" + position + '\'' +
+                ", grade='" + grade + '\'' +
+                ", department='" + department + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", patrName='" + patrName + '\'' +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
+                ", salary=" + salary +
+                '}';
     }
 }
 

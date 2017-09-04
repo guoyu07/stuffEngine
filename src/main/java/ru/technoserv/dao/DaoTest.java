@@ -19,16 +19,13 @@ public class DaoTest {
             e.printStackTrace();
         }
 
-//        //ApplicationContext context = new ClassPathXmlApplicationContext("DaoConfig.xml");
-         EmployeeDao employeeDao =(EmployeeDao) ctx.getBean("employeeDao");
+        EmployeeDao employeeDao =(EmployeeDao) ctx.getBean("employeeDao");
 //        employeeDao.updateDept(100, "LOLOLO");
 //        employeeDao.updatePosition(100, "Гуру");
 //        employeeDao.updateGrade(100, "C");
 //        employeeDao.updateSalary(100, new BigDecimal(5656));
-
-
         Employee testEmp = new Employee();
-        testEmp.setEmpID(101);
+        testEmp.setEmpID(100);
         testEmp.setPosition("Продавец");
         testEmp.setGrade("B");
         testEmp.setDepartment("Dept13");
