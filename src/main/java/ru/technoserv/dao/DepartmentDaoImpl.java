@@ -3,6 +3,7 @@ package ru.technoserv.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -27,9 +28,17 @@ public class DepartmentDaoImpl implements DepartmentDao {
             "UPDATE DEPARTMENT SET PARENT_DEPT_ID = ? WHERE DEPT_ID = ?";
     private static final String UPDATE_DEPT_HEAD =
             "UPDATE DEPARTMENT SET DEPT_HEAD_ID = ? WHERE DEPT_ID = ?";
+    private static final String SELECT_MAX_ID = "SELECT MAX(DEPT_ID) AS DEPT_ID FROM DEPARTMENT";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public int getID() {
+        SqlRowSet set = jdbcTemplate.queryForRowSet(SELECT_MAX_ID);
+        set.first();
+        return set.getInt("DEPT_ID");
+    }
 
     @Override
     public void create(Department department) {
