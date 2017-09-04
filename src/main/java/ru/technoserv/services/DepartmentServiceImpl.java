@@ -51,6 +51,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department deleteDepartment(int deptID) {
-        return null;
+        Department deletedDept = departmentDao.readById(deptID);
+        departmentDao.delete(deptID);
+        return deletedDept;
     }
 }
