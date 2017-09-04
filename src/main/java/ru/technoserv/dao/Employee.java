@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Employee {
+
     private Integer empID;
     private String position;
     private String grade;
@@ -14,6 +15,15 @@ public class Employee {
     private Character gender;
     private Date birthday;
     private BigDecimal salary;
+    private static Integer globalID;
+
+    public static Integer getGlobalID() {
+        return ++globalID;
+    }
+
+    public static void setGlobalID(Integer globalID) {
+        Employee.globalID = globalID;
+    }
 
     public Employee() {
     }

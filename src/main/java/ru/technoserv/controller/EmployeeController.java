@@ -3,7 +3,7 @@ package ru.technoserv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ru.technoserv.Exceptions.InvalidInputException;
+import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 

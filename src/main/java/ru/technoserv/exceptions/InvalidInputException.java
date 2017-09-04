@@ -1,4 +1,4 @@
-package ru.technoserv.Exceptions;
+package ru.technoserv.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
