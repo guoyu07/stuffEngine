@@ -1,12 +1,16 @@
 package ru.technoserv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -33,12 +37,9 @@ public class EmployeeController {
         }
         return employeeList;
     }
-boolean a = true;
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Employee getEmployee(@PathVariable int id){
-        if(a) {
-            throw new InvalidInputException("Wrong input");
-        }
         return employeeService.getEmployee(id);
     }
 
@@ -47,22 +48,25 @@ boolean a = true;
      * @param employee принимаемый сотрудник
      * @return строку об успешном завершении
      */
-    @RequestMapping(value="/newEmployee", method = RequestMethod.PUT,  consumes = {"application/json"} )
-    public String createEmployee(@RequestBody Employee employee){
-        employeeService.createEmployee(employee);
-        return "AddNewUser";
+    @RequestMapping(value="/newEmployee", method = RequestMethod.PUT )
+    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            System.out.println("Error");
+            throw new IllegalArgumentException();
+        }
+        Employee e =  employeeService.createEmployee(employee);
+        return new ResponseEntity<>(e, HttpStatus.CREATED);
     }
+
 
 
     /**
      * Запрос на перевод сотрудника в другой отдел
-     * @param employee Экземпляр сотрудника с изменяемыми полями
      * @return строку с информации об успешном завершении
      */
-    @RequestMapping(value = "/transfer", method = RequestMethod.PATCH, consumes = {"application/json"})
-    public String employeeTransfer(@RequestBody Employee employee){
-        System.out.println(employee);
-        employeeService.transferEmployee(employee);
+    @RequestMapping(value = "/transfer{empID}/to{depID}", method = RequestMethod.PATCH)
+    public String employeeTransfer(@PathVariable int empID, @PathVariable int depID){
+        employeeService.transferEmployee(empID, depID);
         return "transfer";
     }
 

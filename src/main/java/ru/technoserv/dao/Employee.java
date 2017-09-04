@@ -1,5 +1,8 @@
 package ru.technoserv.dao;
 
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -8,12 +11,19 @@ public class Employee {
     private Integer empID;
     private String position;
     private String grade;
+    @NotNull
     private String department;
+    @NotNull
+    @Size(min=3, max=50)
     private String lastName;
+    @NotNull
+    @Size(min=3, max=50)
     private String firstName;
     private String patrName;
+    @NotNull
     private Character gender;
     private Date birthday;
+    @NotNull
     private BigDecimal salary;
     private static Integer globalID;
 

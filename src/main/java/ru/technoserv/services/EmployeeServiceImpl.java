@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private boolean isIdLoaded = false;
 
     @Override
-    public void createEmployee(Employee employee) {
+    public Employee createEmployee(Employee employee) {
         if(!isIdLoaded){
             Employee.setGlobalID(employeeDao.getID());
             isIdLoaded = true;
@@ -31,6 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmpID(Employee.getGlobalID());
         System.out.println(employee);
         employeeDao.create(employee);
+        return employee;
     }
 
     @Override
@@ -39,8 +40,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void transferEmployee(Employee employee){
-        throw new NotImplementedException();
+    public void transferEmployee(int empID, int depID){
+        //TODO проверка на начальника и его затирание
+        employeeDao.updateDept(empID, depID);
     }
 
     @Override
