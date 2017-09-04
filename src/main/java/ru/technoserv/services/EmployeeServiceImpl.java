@@ -4,7 +4,7 @@ package ru.technoserv.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import ru.technoserv.Exceptions.InvalidInputException;
+import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -41,21 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void transferEmployee(Employee employee){
-        Employee emp = employeeDao.read(employee.getEmpID());
-        Department dep = departmentDao.readByName(emp.getDepartment());
-        if(dep.getDeptHeadId().equals(emp.getEmpID())){
-            departmentDao.updateDeptHead(null, dep.getId());
-        }
-        employeeDao.updateDept(employee.getEmpID(), employee.getDepartment());
+        throw new NotImplementedException();
     }
 
     @Override
     public void removeEmployee(int id) {
-        Employee emp = employeeDao.read(id);
-        Department dep = departmentDao.readByName(emp.getDepartment());
-        if(dep.getDeptHeadId().equals(emp.getEmpID())){
-            departmentDao.updateDeptHead(null, dep.getId());
-        }
         employeeDao.delete(id);
     }
 
@@ -65,17 +55,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void changeEmployeeGrade(Employee employee) {
-        employeeDao.updateGrade(employee.getEmpID(), employee.getGrade());
+        throw new NotImplementedException();
     }
 
     public void changeEmployeePosition(Employee employee) {
-            employeeDao.updatePosition(employee.getEmpID(), employee.getPosition());
+        throw new NotImplementedException();
     }
 
-    public List<Employee> getEmployees(String department){
-        List<Employee> employees;
-        employees = employeeDao.getAllFromDept(department);
-        return employeeDao.getAllFromDept(department);
+    public List<Employee> getEmployees(int depID){
+        return employeeDao.getAllFromDept(depID);
     }
 
     @Override

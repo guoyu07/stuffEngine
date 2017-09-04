@@ -6,22 +6,22 @@ import java.util.List;
 
 public interface EmployeeService {
 
-   void createEmployee(Employee employee);
+  void createEmployee(Employee employee);
 
-    void getEmployeeStory(Employee employee);
+  void getEmployeeStory(Employee employee);
 
-    void transferEmployee(Employee employee);
+  void transferEmployee(Employee employee);
 
-    void removeEmployee(int id);
+  void removeEmployee(int id);
 
-    void changeEmployeeSalary(Employee employee);
+  void changeEmployeeSalary(Employee employee);
 
-    void changeEmployeeGrade(Employee employee);
+  void changeEmployeeGrade(Employee employee);
 
-    void changeEmployeePosition(Employee employee);
+  void changeEmployeePosition(Employee employee);
 
-    List<Employee> getEmployees(String department);
+  List<Employee> getEmployees(int depId);
 
-    Employee getEmployee(int id);
+  Employee getEmployee(int id);
 
 }
