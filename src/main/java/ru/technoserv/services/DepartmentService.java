@@ -12,7 +12,7 @@ public interface DepartmentService {
 
     List<Department> getSubDepts(int deptId);
 
-    void reassignDepartment(int dept, int newParentDept);
+    void reassignDepartment(int dept, Integer newParentDept);
 
     Department deleteDepartment(int deptID);
 }

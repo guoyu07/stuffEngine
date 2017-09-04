@@ -7,7 +7,6 @@ import ru.technoserv.dao.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -46,7 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void reassignDepartment(int dept, int newParentDept) {
+    public void reassignDepartment(int dept, Integer newParentDept) {
 
     }
 
