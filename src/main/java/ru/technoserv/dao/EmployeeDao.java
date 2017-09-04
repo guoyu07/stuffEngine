@@ -10,7 +10,7 @@ public interface EmployeeDao {
 
     void delete(int empID);
 
-    List<Employee> getAllFromDept(String deptName);
+    List<Employee> getAllFromDept(int deptID);
 
     void deleteAllFromDept(String deptName);
 

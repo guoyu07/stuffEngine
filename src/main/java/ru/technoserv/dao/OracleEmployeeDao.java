@@ -45,12 +45,8 @@ public class OracleEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public List<Employee> getAllFromDept(String deptName) {
-        String sql = "SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME = ?";
-        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, deptName);
-        set.first();
-        int deptID = set.getInt("DEPT_ID");
-        sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
+    public List<Employee> getAllFromDept(int deptID) {
+        String sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
                 "FROM EMPLOYEE e, DEPARTMENT d, POSITION p, GRADE g " +
                 "WHERE ((e.DEPARTMENT_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID) AND (e.DEPARTMENT_ID = d.DEPT_ID))";
         return jdbcTemplate.query(sql, new Object[]{deptID}, new EmployeeRowMapper());
