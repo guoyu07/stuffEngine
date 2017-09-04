@@ -26,7 +26,13 @@ public class DepartmentController {
         return subDepts;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{depId}", method = RequestMethod.GET)
+    public Department getDept(@PathVariable Integer depId) {
+        return departmentService.getDepartment(depId);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST,
+            produces = "application/json", consumes = "application/json")
     public Department createDepartment(@RequestBody Department department) {
         return departmentService.createDepartment(department);
     }
