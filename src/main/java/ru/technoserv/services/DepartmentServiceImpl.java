@@ -40,7 +40,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> getSubDepts(int deptId) {
-        return null;
+        List<Department> subDepts;
+        subDepts = departmentDao.getAllSubDepts(deptId);
+        return subDepts;
     }
 
     @Override
