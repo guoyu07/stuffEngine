@@ -29,6 +29,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
     private static final String UPDATE_DEPT_HEAD =
             "UPDATE DEPARTMENT SET DEPT_HEAD_ID = ? WHERE DEPT_ID = ?";
     private static final String SELECT_MAX_ID = "SELECT MAX(DEPT_ID) AS DEPT_ID FROM DEPARTMENT";
+    private static final String SELECT_DEPT_HEAD =
+            "SELECT EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, " +
+                    "SALARY, BIRTHDAY, GENDER FROM EMPLOYEE, DEPARTMENT " +
+                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPT_ID = ?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -42,6 +46,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     @Override
     public void create(Department department) {
+        jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper());
         jdbcTemplate.update(
                 CREATE_DEPARTMENT, department.getId(), department.getParentDeptId(),
                 department.getDeptName(), department.getDeptHeadId());
@@ -65,6 +70,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public void delete(Integer depId) {
         jdbcTemplate.update(DELETE_DEPARTMENT, depId);
+    }
+
+    @Override
+    public Employee getDeptHead(Integer depId) {
+        return jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper(), depId);
     }
 
     @Override

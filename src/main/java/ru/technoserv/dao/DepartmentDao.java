@@ -53,6 +53,15 @@ public interface DepartmentDao {
     void delete(Integer depId);
 
     /**
+     * Поиск руководителя отдела с id, равным depId
+     *
+     * @param depId id отдела, в отношении которого ведется
+     *              поиск руководителя отдела
+     * @return      руководитель отдела с id, равным depId
+     */
+    Employee getDeptHead(Integer depId);
+
+    /**
      * Поиск всех отделов
      *
      * @return список всех отделов
