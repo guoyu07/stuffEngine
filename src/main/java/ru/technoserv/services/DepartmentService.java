@@ -8,11 +8,13 @@ public interface DepartmentService {
 
     Department createDepartment (Department department);
 
+    Department getDepartment(int deptID);
+
     List<Department> getAllDepartments();
 
     List<Department> getSubDepts(int deptId);
 
-    void reassignDepartment(int dept, Integer newParentDept);
+    void reassignDepartment(int deptID, Integer newParentDeptID);
 
     Department deleteDepartment(int deptID);
 }
