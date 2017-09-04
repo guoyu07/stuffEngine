@@ -14,5 +14,5 @@ public interface DepartmentService {
 
     void reassignDepartment(int dept, int newParentDept);
 
-    Department deleteDepartment(Department department);
+    Department deleteDepartment(int deptID);
 }

@@ -51,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department deleteDepartment(Department department) {
+    public Department deleteDepartment(int deptID) {
         return null;
     }
 }
