@@ -88,9 +88,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
         public Department mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Department(
                     resultSet.getInt("DEPT_ID"),
-                    (Integer) resultSet.getObject("PARENT_DEPT_ID"),
+                    resultSet.getInt("PARENT_DEPT_ID"),
                     resultSet.getString("DEPT_NAME"),
-                    (Integer) resultSet.getObject("DEPT_HEAD_ID")
+                    resultSet.getInt("DEPT_HEAD_ID")
             );
         }
 
