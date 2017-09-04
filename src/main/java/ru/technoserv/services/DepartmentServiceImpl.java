@@ -7,6 +7,7 @@ import ru.technoserv.dao.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,11 +28,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         department.setId(Department.getGlobalID);
         departmentDao.create(department);
+        return department;
     }
 
     @Override
     public List<Department> getAllDepartments() {
-        return null;
+        List<Department> allEmps;
+        allEmps = departmentDao.getDepartmentsList();
+        return allEmps;
     }
 
     @Override
