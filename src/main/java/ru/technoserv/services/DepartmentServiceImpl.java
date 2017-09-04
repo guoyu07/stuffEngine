@@ -46,7 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void reassignDepartment(int dept, Integer newParentDept) {
-
+        departmentDao.updateParentDeptId(newParentDept, dept);
     }
 
     @Override
