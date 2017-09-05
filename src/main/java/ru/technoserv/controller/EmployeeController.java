@@ -64,7 +64,7 @@ public class EmployeeController {
      * Запрос на перевод сотрудника в другой отдел
      * @return строку с информации об успешном завершении
      */
-    @RequestMapping(value = "/transfer{empID}/to{depID}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/transfer_{empID}/to_{depID}", method = RequestMethod.PATCH)
     public String employeeTransfer(@PathVariable int empID, @PathVariable int depID){
         employeeService.transferEmployee(empID, depID);
         return "transfer";
