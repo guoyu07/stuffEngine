@@ -1,5 +1,6 @@
 package ru.technoserv.services;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import java.util.List;
 @Component
 @ComponentScan("ru")
 public class DepartmentServiceImpl implements DepartmentService {
+
+    private static final Logger log = Logger.getLogger(DepartmentServiceImpl.class);
 
     @Autowired
     DepartmentDao departmentDao;
@@ -37,6 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> getAllDepartments() {
+        log.info("Получаем все отделы");
         List<Department> allEmps;
         allEmps = departmentDao.getDepartmentsList();
         return allEmps;
@@ -44,6 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> getSubDepts(int deptId) {
+        log.info("Получаем подотделы");
         List<Department> subDepts;
         subDepts = departmentDao.getAllSubDepts(deptId);
         return subDepts;
