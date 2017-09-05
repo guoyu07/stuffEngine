@@ -1,6 +1,7 @@
 package ru.technoserv.services;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ import java.util.List;
 @ComponentScan("ru")
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private static final Logger log = Logger.getLogger(OracleEmployeeDao.class);
+
     @Autowired
     private EmployeeDao employeeDao;
     @Autowired
@@ -25,12 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createEmployee(Employee employee) {
-        if(!isIdLoaded){
+        if(!isIdLoaded) {
             Employee.setGlobalID(employeeDao.getID());
             isIdLoaded = true;
         }
         employee.setEmpID(Employee.getGlobalID());
-        System.out.println(employee);
+        log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         employeeDao.create(employee);
         return employee;
     }
@@ -65,6 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public List<Employee> getEmployees(int depID){
+        log.info("Посылаем запрос dao на получение сотрудников отдела с ИД "+depID);
         return employeeDao.getAllFromDept(depID);
     }
 

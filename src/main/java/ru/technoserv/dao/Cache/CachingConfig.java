@@ -22,7 +22,8 @@ public class CachingConfig {
     @Bean
     public EhCacheManagerFactoryBean ehcache(){
         EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-        ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ru/technoserv/dao/cache/ehcache.xml"));
+        ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        ehCacheManagerFactoryBean.setShared(true);
         return ehCacheManagerFactoryBean;
     }
 
