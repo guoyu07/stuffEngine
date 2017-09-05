@@ -1,6 +1,8 @@
 package ru.technoserv.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,7 @@ public class OracleEmployeeDao implements EmployeeDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
+    @Cacheable(value="employeesCache")
     @Override
     public int getID(){
         String sql = "SELECT MAX(EMP_ID) AS EMP_ID FROM EMPLOYEE";
@@ -24,6 +26,7 @@ public class OracleEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @CacheEvict(value = "employeesCache", allEntries = true)
     public void create(Employee employee) {
         String sql = "SELECT d.DEPT_ID, p.POS_ID, g.GRD_ID FROM " +
                 "DEPARTMENT d, POSITION p, GRADE g " +
@@ -46,13 +49,14 @@ public class OracleEmployeeDao implements EmployeeDao {
         return jdbcTemplate.queryForObject(sql,
                 new Object[]{empID}, new EmployeeRowMapper());
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void delete(int empID) {
         String sql = "DELETE FROM EMPLOYEE WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, empID);
     }
 
+    @Cacheable(value="employeesCache")
     @Override
     public List<Employee> getAllFromDept(int deptID) {
         String sql = "SELECT e.EMP_ID, e.LAST_NAME, e.FIRST_NAME, e.PATR_NAME, e.GENDER, e.BIRTHDAY, e.SALARY, d.DEPT_NAME, p.TITLE, g.DESCRIPTION " +
@@ -60,32 +64,32 @@ public class OracleEmployeeDao implements EmployeeDao {
                 "WHERE ((e.DEPARTMENT_ID = ?) AND (p.POS_ID = e.POSITION_ID) AND (e.GRADE_ID = g.GRD_ID) AND (e.DEPARTMENT_ID = d.DEPT_ID))";
         return jdbcTemplate.query(sql, new Object[]{deptID}, new EmployeeRowMapper());
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void deleteAllFromDept(int deptID) {
         String sql = "DELETE FROM EMPLOYEE WHERE DEPARTMENT_ID = ?";
         jdbcTemplate.update(sql, deptID);
 
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void updateDept(int empID, int newDeptID) {
         String sql = "UPDATE EMPLOYEE SET DEPARTMENT_ID = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, newDeptID, empID);
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void updatePosition(int empID, int newPosID) {
         String sql = "UPDATE EMPLOYEE SET POSITION_ID = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, newPosID, empID);
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void updateGrade(int empID, int newGrdID) {
         String sql = "UPDATE EMPLOYEE SET GRADE_ID = ? WHERE EMP_ID = ?";
         jdbcTemplate.update(sql, newGrdID, empID);
     }
-
+    @CacheEvict(value = "employeesCache", allEntries = true)
     @Override
     public void updateSalary(int empID, BigDecimal newSalary) {
         String sql = "UPDATE EMPLOYEE SET SALARY = ? WHERE EMP_ID = ?";
