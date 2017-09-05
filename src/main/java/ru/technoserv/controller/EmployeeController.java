@@ -1,7 +1,9 @@
 package ru.technoserv.controller;
 
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,9 @@ import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -39,8 +43,8 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Employee getEmployee(@PathVariable int id){
-        return employeeService.getEmployee(id);
+    public ResponseEntity<?> getEmployee(@PathVariable int id){
+        return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
     }
 
     /**
@@ -48,14 +52,14 @@ public class EmployeeController {
      * @param employee принимаемый сотрудник
      * @return строку об успешном завершении
      */
-    @RequestMapping(value="/newEmployee", method = RequestMethod.PUT )
-    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult){
+    @RequestMapping(value="/newEmployee", method = RequestMethod.PUT, consumes = {"application/json"} )
+    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult, HttpServletResponse response){
         if(bindingResult.hasErrors()) {
             System.out.println("Error");
-            throw new IllegalArgumentException();
+            return new ResponseEntity<>( new IllegalArgumentException(), HttpStatus.BAD_REQUEST);
         }
-        Employee e =  employeeService.createEmployee(employee);
-        return new ResponseEntity<>(e, HttpStatus.CREATED);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+        return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
     }
 
 
@@ -64,10 +68,10 @@ public class EmployeeController {
      * Запрос на перевод сотрудника в другой отдел
      * @return строку с информации об успешном завершении
      */
-    @RequestMapping(value = "/transfer{empID}/to{depID}", method = RequestMethod.PATCH)
-    public String employeeTransfer(@PathVariable int empID, @PathVariable int depID){
-        employeeService.transferEmployee(empID, depID);
-        return "transfer";
+    @RequestMapping(value = "/{empID}/department/{depID}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> employeeTransfer(@PathVariable int empID, @PathVariable int depID, HttpServletResponse response){
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+        return new ResponseEntity<>(employeeService.transferEmployee(empID, depID), HttpStatus.OK);
     }
 
     /**
@@ -75,10 +79,10 @@ public class EmployeeController {
      * @param employee экземпляр сотрудника с изменяемыми полями
      * @return строку об успешном завершении
      */
-    @RequestMapping(value = "/salary", method = RequestMethod.PATCH, consumes = {"application/json"})
-    public String employeeChangeSalary(@RequestBody Employee employee){
-        employeeService.changeEmployeeSalary(employee);
-        return "salary";
+    @RequestMapping(value = "{empID}/salary/{newSalary}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> employeeChangeSalary(@PathVariable int empID, @PathVariable BigDecimal newSalary, HttpServletResponse response){
+        response.setContentType(MediaType.APPLICATION_JSON.toString());
+        return new ResponseEntity<>( employeeService.changeEmployeeSalary(empID, newSalary), HttpStatus.OK);
     }
 
     /**
@@ -86,10 +90,10 @@ public class EmployeeController {
      * @param employee экземпляр сотрудника с изменяемыми полями
      * @return строку об успешном завершении
      */
-    @RequestMapping(value = "/grade", method = RequestMethod.PATCH, consumes = {"application/json"})
-    public String employeeChangeGrade(@RequestBody Employee employee){
-        employeeService.changeEmployeeGrade(employee);
-        return "grade";
+    @RequestMapping(value = "{empID}/grade/{newGradeID}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> employeeChangeGrade(@PathVariable int empID, @PathVariable int newGradeID, HttpServletResponse response){
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+        return new ResponseEntity<>( employeeService.changeEmployeeGrade(empID, newGradeID), HttpStatus.OK);
     }
 
     /**
@@ -97,10 +101,10 @@ public class EmployeeController {
      * @param employee экземпляр с изменяемыми полями
      * @return строка об успешном завершении
      */
-    @RequestMapping(value = "/position", method = RequestMethod.PATCH, consumes = {"application/json"})
-    public String employeeChangePosition(@RequestBody Employee employee){
-        employeeService.changeEmployeePosition(employee);
-        return "position";
+    @RequestMapping(value = "{empID}/position/{newPositionID}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> employeeChangePosition(@PathVariable int empID, @PathVariable int newPositionID, HttpServletResponse response){
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+        return new ResponseEntity<>(employeeService.changeEmployeePosition(empID, newPositionID), HttpStatus.OK);
     }
 
     /**

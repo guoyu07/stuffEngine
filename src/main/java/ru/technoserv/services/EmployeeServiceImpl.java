@@ -8,6 +8,7 @@ import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,9 +42,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void transferEmployee(int empID, int depID){
+    public Employee transferEmployee(int empID, int depID){
         //TODO проверка на начальника и его затирание
         employeeDao.updateDept(empID, depID);
+        return employeeDao.read(empID);
     }
 
     @Override
@@ -52,15 +54,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void changeEmployeeSalary(Employee employee) {
-        employeeDao.updateSalary(employee.getEmpID(), employee.getSalary());
+    public Employee changeEmployeeSalary(int empID, BigDecimal salary) {
+        employeeDao.updateSalary(empID, salary);
+        return employeeDao.read(empID);
     }
-
-    public void changeEmployeeGrade(Employee employee) {
+    @Override
+    public Employee changeEmployeeGrade(int empID, int gradeID) {
         throw new NotImplementedException();
     }
-
-    public void changeEmployeePosition(Employee employee) {
+    @Override
+    public Employee changeEmployeePosition(int empID, int positionID) {
         throw new NotImplementedException();
     }
 

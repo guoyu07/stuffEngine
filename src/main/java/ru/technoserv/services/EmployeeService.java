@@ -2,6 +2,7 @@ package ru.technoserv.services;
 
 import ru.technoserv.dao.Employee;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface EmployeeService {
@@ -10,15 +11,15 @@ public interface EmployeeService {
 
     void getEmployeeStory(Employee employee);
 
-    void transferEmployee(int empID, int depID);
+    Employee transferEmployee(int empID, int depID);
 
     void removeEmployee(int id);
 
-    void changeEmployeeSalary(Employee employee);
+    Employee changeEmployeeSalary(int empID, BigDecimal salary);
 
-    void changeEmployeeGrade(Employee employee);
+    Employee changeEmployeeGrade(int empID, int gradeID);
 
-    void changeEmployeePosition(Employee employee);
+    Employee changeEmployeePosition(int empID, int positionID);
 
     List<Employee> getEmployees(int depId);
 
