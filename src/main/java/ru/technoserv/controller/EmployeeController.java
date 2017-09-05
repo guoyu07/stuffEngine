@@ -52,14 +52,15 @@ public class EmployeeController {
      * @param employee принимаемый сотрудник
      * @return строку об успешном завершении
      */
+    @ResponseBody
     @RequestMapping(value="/newEmployee", method = RequestMethod.PUT, consumes = {"application/json"} )
-    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult, HttpServletResponse response){
+    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult, HttpServletResponse response){
         if(bindingResult.hasErrors()) {
             System.out.println("Error");
             return new ResponseEntity<>( new IllegalArgumentException(), HttpStatus.BAD_REQUEST);
         }
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
+        return new ResponseEntity<>( employeeService.createEmployee(employee), HttpStatus.CREATED);
     }
 
 
