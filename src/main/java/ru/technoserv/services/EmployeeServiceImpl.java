@@ -23,6 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeDao employeeDao;
+
     @Autowired
     private DepartmentDao departmentDao;
     private boolean isIdLoaded = false;
