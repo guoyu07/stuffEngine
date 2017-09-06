@@ -47,6 +47,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee transferEmployee(int empID, int depID){
         //TODO проверка на начальника и его затирание
+        if(departmentDao.getDeptHead(depID).getEmpID()==empID){
+            departmentDao.updateDeptHead(null, depID);
+        }
         employeeDao.updateDept(empID, depID);
         return employeeDao.read(empID);
     }
@@ -63,11 +66,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     @Override
     public Employee changeEmployeeGrade(int empID, int gradeID) {
-        throw new NotImplementedException();
+        employeeDao.updateGrade(empID, gradeID);
+        return employeeDao.read(empID);
     }
     @Override
     public Employee changeEmployeePosition(int empID, int positionID) {
-        throw new NotImplementedException();
+        employeeDao.updatePosition(empID, positionID);
+        return employeeDao.read(empID);
     }
 
     public List<Employee> getEmployees(int depID){
