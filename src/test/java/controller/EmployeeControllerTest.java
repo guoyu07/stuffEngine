@@ -141,7 +141,7 @@ public class EmployeeControllerTest {
         employee.setLastName("Ivanov");
         Gson gson = new Gson();
         String json = gson.toJson(employee);
-        mockMvc.perform(post("/employee/newEmployee").contentType(MediaType.APPLICATION_JSON).content(json))
+        mockMvc.perform(post("/employee/").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isBadRequest());
     }
 
@@ -197,7 +197,7 @@ public class EmployeeControllerTest {
     @Test
     public void  testEmployeeRemove() throws Exception {
         doNothing().when(employeeService).removeEmployee(1);
-        mockMvc.perform(delete("/employee/quit/1"))
+        mockMvc.perform(delete("/employee/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("delete"));
 
