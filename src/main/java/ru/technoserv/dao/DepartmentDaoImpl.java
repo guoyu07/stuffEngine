@@ -1,6 +1,9 @@
 package ru.technoserv.dao;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -12,6 +15,9 @@ import java.util.List;
 
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao {
+
+    private static final Logger log = Logger.getLogger(DepartmentDaoImpl.class);
+
     private static final String CREATE_DEPARTMENT =
             "INSERT INTO DEPARTMENT (DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID) VALUES (?, ?, ?, ?)";
     private static final String SELECT_DEPARTMENT_BY_ID =
@@ -44,49 +50,52 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return set.getInt("DEPT_ID");
     }
 
+    @CacheEvict(value = "departmentCache", allEntries = true)
     @Override
     public void create(Department department) {
-        jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper());
+        log.info("Создаем отдел");
         jdbcTemplate.update(
                 CREATE_DEPARTMENT, department.getId(), department.getParentDeptId(),
                 department.getDeptName(), department.getDeptHeadId());
     }
-
+    @Cacheable(value="departmentCache")
     @Override
     public Department readById(Integer depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPARTMENT_BY_ID, new DepartmentRowMapper(), depId);
     }
-
+    @CacheEvict(value = "departmentCache", allEntries = true)
     @Override
     public void updateDeptHead(Integer newDeptHeadId, Integer depId) {
         jdbcTemplate.update(UPDATE_DEPT_HEAD, newDeptHeadId, depId);
     }
-
+    @CacheEvict(value = "departmentCache", allEntries = true)
     @Override
     public void updateParentDeptId(Integer newParentDeptId, Integer depId) {
         jdbcTemplate.update(UPDATE_PARENT_DEPT_ID, newParentDeptId, depId);
     }
-
+    @CacheEvict(value = "departmentCache", allEntries = true)
     @Override
     public void delete(Integer depId) {
         jdbcTemplate.update(DELETE_DEPARTMENT, depId);
     }
-
+    @Cacheable(value="departmentCache")
     @Override
     public Employee getDeptHead(Integer depId) {
         return jdbcTemplate.queryForObject(SELECT_DEPT_HEAD, new EmployeeRowMapper(), depId);
     }
-
+    @Cacheable(value="departmentCache")
     @Override
     public List<Department> getDepartmentsList() {
+        log.info("Получаем все отделы из базы");
         return jdbcTemplate.query(SELECT_DEPARTMENTS_LIST, new DepartmentRowMapper());
     }
-
+    @Cacheable(value="departmentCache")
     @Override
     public List<Department> getAllSubDepts(Integer depId) {
+        log.info("Получаем все отделы из базы");
         return jdbcTemplate.query(SELECT_ALL_SUB_DEPTS, new DepartmentRowMapper(), depId);
     }
-
+    @Cacheable(value="departmentCache")
     @Override
     public List<Department> getLevelBelowSubDepts(Integer depId) {
         return jdbcTemplate.query(SELECT_LEVEL_BELOW_SUB_DEPTS, new DepartmentRowMapper(), depId);
