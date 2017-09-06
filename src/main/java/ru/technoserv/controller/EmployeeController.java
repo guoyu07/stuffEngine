@@ -60,7 +60,7 @@ public class EmployeeController {
      * @param bindingResult результат валидации
      * @return созданного сотрудника с кодом CREATED
      */
-    @RequestMapping(value="/newEmployee", method = RequestMethod.POST, consumes = {"application/json"} )
+    @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
     public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
             System.out.println("Error");
@@ -118,7 +118,7 @@ public class EmployeeController {
      * @param id ид удаляемого сотрудника
      * @return строку об успешном завершении
      */
-    @RequestMapping(value = "/quit/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String employeeDelete(@PathVariable int id){
         employeeService.removeEmployee(id);
         return "delete";
