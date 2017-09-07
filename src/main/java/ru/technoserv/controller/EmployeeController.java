@@ -12,6 +12,7 @@ import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -34,8 +35,9 @@ public class EmployeeController {
      * @param departmentID ИД отдела
      * @return Список отделов и код ОК
      */
-    @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID){
+    @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET,
+            name = "получение списка сотрудников отдела")
+    public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID, HttpServletRequest request){
         List<Employee> employeeList = employeeService.getEmployees(departmentID);
         if(employeeList.size()==0){
             throw new InvalidInputException("");
@@ -48,8 +50,9 @@ public class EmployeeController {
      * @param id ИД сотрудника
      * @return Объект сотрудника и код ОК
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getEmployee(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            name = "поиск сотрудника по id")
+    public ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request){
         return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
     }
 
@@ -60,8 +63,10 @@ public class EmployeeController {
      * @param bindingResult результат валидации
      * @return созданного сотрудника с кодом CREATED
      */
-    @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
-    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult){
+    @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"},
+            name = "создание сотрудника" )
+    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult,
+                                             HttpServletRequest request){
         if(bindingResult.hasErrors()) {
             System.out.println("Error");
             return new ResponseEntity<>( new IllegalArgumentException(), HttpStatus.BAD_REQUEST);
@@ -77,8 +82,10 @@ public class EmployeeController {
      * @param depID ИД отдела в который переводят
      * @return измененный объект сотрудника с кодом ОК
      */
-    @RequestMapping(value = "/{empID}/department/{depID}", method = RequestMethod.PATCH)
-    public ResponseEntity<?> employeeTransfer(@PathVariable int empID, @PathVariable int depID){
+    @RequestMapping(value = "/{empID}/department/{depID}", method = RequestMethod.PATCH,
+            name = "перевод сотрудника в другой отдел")
+    public ResponseEntity<?> employeeTransfer(@PathVariable int empID, @PathVariable int depID,
+                                              HttpServletRequest request){
         return new ResponseEntity<>(employeeService.transferEmployee(empID, depID), HttpStatus.OK);
     }
 
@@ -88,8 +95,10 @@ public class EmployeeController {
      * @param newSalary новое значение зарплаты
      * @return измененный объект сотрудника с кодом ОК
      */
-    @RequestMapping(value = "{empID}/salary/{newSalary}", method = RequestMethod.PATCH)
-    public ResponseEntity<?> employeeChangeSalary(@PathVariable int empID, @PathVariable BigDecimal newSalary){
+    @RequestMapping(value = "{empID}/salary/{newSalary}", method = RequestMethod.PATCH,
+            name = "изменение зарплаты сотрудника")
+    public ResponseEntity<?> employeeChangeSalary(@PathVariable int empID, @PathVariable BigDecimal newSalary,
+                                                  HttpServletRequest request){
         return new ResponseEntity<>( employeeService.changeEmployeeSalary(empID, newSalary), HttpStatus.OK);
     }
 
@@ -99,8 +108,10 @@ public class EmployeeController {
      * @param newGradeID ИД грейда
      * @return измененный объект сотрудника с кодом ОК
      */
-    @RequestMapping(value = "{empID}/grade/{newGradeID}", method = RequestMethod.PATCH)
-    public ResponseEntity<?> employeeChangeGrade(@PathVariable int empID, @PathVariable int newGradeID){
+    @RequestMapping(value = "{empID}/grade/{newGradeID}", method = RequestMethod.PATCH,
+            name = "изменение грейда сотрудника")
+    public ResponseEntity<?> employeeChangeGrade(@PathVariable int empID, @PathVariable int newGradeID,
+                                                 HttpServletRequest request){
         return new ResponseEntity<>( employeeService.changeEmployeeGrade(empID, newGradeID), HttpStatus.OK);
     }
 
@@ -110,8 +121,10 @@ public class EmployeeController {
      * @param newPositionID ИД должности
      * @return измененный объект сотрудника с кодом ОК
      */
-    @RequestMapping(value = "{empID}/position/{newPositionID}", method = RequestMethod.PATCH)
-    public ResponseEntity<?> employeeChangePosition(@PathVariable int empID, @PathVariable int newPositionID){
+    @RequestMapping(value = "{empID}/position/{newPositionID}", method = RequestMethod.PATCH,
+            name = "изменение должности сотрудника")
+    public ResponseEntity<?> employeeChangePosition(@PathVariable int empID, @PathVariable int newPositionID,
+                                                    HttpServletRequest request){
         return new ResponseEntity<>(employeeService.changeEmployeePosition(empID, newPositionID), HttpStatus.OK);
     }
 
@@ -120,8 +133,9 @@ public class EmployeeController {
      * @param id ид удаляемого сотрудника
      * @return строку об успешном завершении
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String employeeDelete(@PathVariable int id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
+            name = "удаление сотрудника")
+    public String employeeDelete(@PathVariable int id, HttpServletRequest request){
         employeeService.removeEmployee(id);
         return "delete";
     }
