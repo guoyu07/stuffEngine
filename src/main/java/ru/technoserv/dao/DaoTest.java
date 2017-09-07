@@ -29,9 +29,9 @@ public class DaoTest {
 
         Employee testEmp = new Employee();
         testEmp.setEmpID(101);
-        testEmp.setPosition("Продавец");
-        testEmp.setGrade("B");
-        testEmp.setDepartment("Dept13");
+       // testEmp.setPosition("Продавец");
+       // testEmp.setGrade("B");
+       // testEmp.setDepartment("Dept13");
         testEmp.setFirstName("Trevor");
         testEmp.setLastName("Silly");
         testEmp.setPatrName("FOOL");

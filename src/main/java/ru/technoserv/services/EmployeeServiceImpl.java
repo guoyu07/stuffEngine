@@ -19,7 +19,7 @@ import java.util.List;
 @ComponentScan("ru")
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private static final Logger log = Logger.getLogger(OracleEmployeeDao.class);
+   // private static final Logger log = Logger.getLogger(OracleEmployeeDao.class);
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -35,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             isIdLoaded = true;
         }
         employee.setEmpID(Employee.getGlobalID());
-        log.info("Посылаем запрос dao на создание сотрудника: "+employee);
+     //   log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         employeeDao.create(employee);
         return employee;
     }
@@ -77,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public List<Employee> getEmployees(int depID){
-        log.info("Посылаем запрос dao на получение сотрудников отдела с ИД "+depID);
+      //  log.info("Посылаем запрос dao на получение сотрудников отдела с ИД "+depID);
         return employeeDao.getAllFromDept(depID);
     }
 

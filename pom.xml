@@ -86,6 +86,11 @@
       <version>1.2.17</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>11.2.0</version>
+    </dependency>
     <!--<dependency>
       <groupId>com.oracle.jdbc</groupId>
       <artifactId>ojdbc8</artifactId>
@@ -133,6 +138,22 @@
       <artifactId>ehcache</artifactId>
       <version>2.10.4</version>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.0.12.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.0.0.GA</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>5.4.1.Final</version>
+    </dependency>
+
 
 
   </dependencies>

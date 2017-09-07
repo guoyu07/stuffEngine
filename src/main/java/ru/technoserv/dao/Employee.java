@@ -1,21 +1,25 @@
 package ru.technoserv.dao;
 
 
+import javafx.geometry.Pos;
+import org.hibernate.annotations.JoinColumnOrFormula;
 import org.springframework.cache.annotation.Cacheable;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-
+@Entity
+@Table(name="EMPLOYEE")
 public class Employee {
 
     private Integer empID;
-    private String position;
-    private String grade;
-    @NotNull
-    private String department;
+    private Position position;
+    private Grade grade;
+
+    private Department department;
     @NotNull
     @Size(min=3, max=50)
     private String lastName;
@@ -40,7 +44,8 @@ public class Employee {
 
     public Employee() {
     }
-
+    @Id
+    @Column(name="EMP_ID")
     public int getEmpID() {
         return empID;
     }
@@ -49,30 +54,35 @@ public class Employee {
         this.empID = empID;
     }
 
-    public String getPosition() {
+    @OneToOne
+    @JoinColumn(name="POSITION_ID")
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
-
-    public String getGrade() {
+    @OneToOne
+    @JoinColumn(name="GRADE_ID")
+    public Grade getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
-    public String getDepartment() {
+    @ManyToOne
+    @JoinColumn(name="DEPARTMENT_ID")
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
-
+   @Column(name="LAST_NAME")
     public String getLastName() {
         return lastName;
     }
@@ -80,7 +90,7 @@ public class Employee {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    @Column(name="FIRST_NAME")
     public String getFirstName() {
         return firstName;
     }
@@ -88,7 +98,7 @@ public class Employee {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    @Column(name="PATR_NAME")
     public String getPatrName() {
         return patrName;
     }
@@ -96,7 +106,7 @@ public class Employee {
     public void setPatrName(String patrName) {
         this.patrName = patrName;
     }
-
+    @Column(name="GENDER")
     public Character getGender() {
         return gender;
     }
@@ -104,7 +114,7 @@ public class Employee {
     public void setGender(Character gender) {
         this.gender = gender;
     }
-
+    @Column(name="BIRTHDAY")
     public Date getBirthday() {
         return birthday;
     }
@@ -112,7 +122,7 @@ public class Employee {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-
+    @Column(name="SALARY")
     public BigDecimal getSalary() {
         return salary;
     }

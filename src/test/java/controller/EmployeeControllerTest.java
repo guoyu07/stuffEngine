@@ -91,9 +91,9 @@ public class EmployeeControllerTest {
         emp.setEmpID(1);
         emp.setLastName("Ivanov");
         emp.setFirstName("Ivan");
-        emp.setDepartment("Помещения");
+       /* emp.setDepartment("Помещения");
         emp.setGender('М');
-        emp.setGrade("E");
+        emp.setGrade("E");*/
         emp.setSalary(new BigDecimal(20000));
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
     }
@@ -149,7 +149,7 @@ public class EmployeeControllerTest {
     public void  testEmployeeTransfer() throws Exception {
         Employee emp1 = new Employee();
         emp1.setEmpID(emp.getEmpID());
-        emp1.setDepartment("Игрушки");
+       // emp1.setDepartment("Игрушки");
         when(employeeService.transferEmployee(1,1)).thenReturn(emp1);
         mockMvc.perform(patch("/employee/1/department/1"))
                 .andExpect(status().isOk())
@@ -174,7 +174,7 @@ public class EmployeeControllerTest {
     public void  testEmployeeChangeGrade() throws Exception {
         Employee emp1 = new Employee();
         emp1.setEmpID(1);
-        emp1.setGrade("D");
+       // emp1.setGrade("D");
         when(employeeService.changeEmployeeGrade(1,4)).thenReturn(emp1);
         mockMvc.perform(patch("/employee/1/grade/4"))
                 .andExpect(status().isOk())
@@ -186,7 +186,7 @@ public class EmployeeControllerTest {
     public void  testEmployeePosition() throws Exception {
         Employee emp1 = new Employee();
         emp1.setEmpID(emp.getEmpID());
-        emp1.setPosition("position");
+      //  emp1.setPosition("position");
         when(employeeService.changeEmployeePosition(1,1)).thenReturn(emp1);
         mockMvc.perform(patch("/employee/1/position/1"))
                 .andExpect(status().isOk())

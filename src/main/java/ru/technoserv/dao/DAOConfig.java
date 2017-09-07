@@ -5,10 +5,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
-@Configuration
+//@Configuration
 public class DAOConfig {
 
-    @Bean
+   // @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
@@ -18,7 +18,9 @@ public class DAOConfig {
         return  dataSource;
     }
 
-    @Bean
+
+
+   // @Bean
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }

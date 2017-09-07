@@ -1,5 +1,5 @@
 package ru.technoserv.services;
-
+/*
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -66,3 +66,4 @@ public class DepartmentServiceImpl implements DepartmentService {
         return deletedDept;
     }
 }
+*/

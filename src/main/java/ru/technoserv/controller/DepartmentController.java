@@ -1,5 +1,5 @@
 package ru.technoserv.controller;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.dao.Department;
@@ -7,10 +7,7 @@ import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
 
-/**
- * Данный контроллер предназначен для обработки запросов, связанных
- * с отделами.
- */
+
 
 @RestController
 @RequestMapping(value = "/department")
@@ -49,3 +46,4 @@ public class DepartmentController {
     }
 
 }
+*/

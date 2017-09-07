@@ -38,9 +38,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
     private static final String SELECT_DEPT_HEAD =
             "SELECT EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, " +
                     "SALARY, BIRTHDAY, GENDER FROM EMPLOYEE, DEPARTMENT " +
-                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPT_ID = ?)";
+                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPARTMENT_ID = ?)";
 
-    @Autowired
+   // @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
