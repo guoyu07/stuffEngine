@@ -35,6 +35,7 @@ import ru.technoserv.controller.WebAppConfig;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditor;
 import java.math.BigDecimal;
@@ -71,6 +72,11 @@ public class EmployeeControllerTest {
             return mock(BindingResult.class);
         }
 
+        @Bean
+        public HttpServletRequest request() {
+            return mock(HttpServletRequest.class);
+        }
+
     }
     @Autowired
     private EmployeeController employeeController;
@@ -80,6 +86,9 @@ public class EmployeeControllerTest {
 
     @Autowired
     private BindingResult binding;
+
+    @Autowired
+    private HttpServletRequest request;
 
     private MockMvc mockMvc;
 
@@ -131,7 +140,7 @@ public class EmployeeControllerTest {
         ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
         when(employeeService.createEmployee(emp)).thenReturn(emp);
         when(binding.hasErrors()).thenReturn(false);
-        Assert.assertEquals(responseEntity, employeeController.createEmployee(emp, binding));
+        Assert.assertEquals(responseEntity, employeeController.createEmployee(emp, binding, request));
 
     }
 
