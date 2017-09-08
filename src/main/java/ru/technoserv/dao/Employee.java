@@ -1,10 +1,6 @@
 package ru.technoserv.dao;
 
 
-import javafx.geometry.Pos;
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.springframework.cache.annotation.Cacheable;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,17 +16,11 @@ public class Employee {
     private Grade grade;
 
     private Department department;
-    @NotNull
-    @Size(min=3, max=50)
     private String lastName;
-    @NotNull
-    @Size(min=3, max=50)
     private String firstName;
     private String patrName;
-    @NotNull
     private Character gender;
     private Date birthday;
-    @NotNull
     private BigDecimal salary;
     private static Integer globalID;
 

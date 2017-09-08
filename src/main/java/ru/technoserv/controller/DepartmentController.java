@@ -1,5 +1,6 @@
 package ru.technoserv.controller;
-/*
+
+import ru.technoserv.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.dao.Department;
@@ -28,8 +29,7 @@ public class DepartmentController {
         return departmentService.getDepartment(depId);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST,
-            produces = "application/json", consumes = "application/json")
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public Department createDepartment(@RequestBody Department department) {
         return departmentService.createDepartment(department);
     }
@@ -46,4 +46,3 @@ public class DepartmentController {
     }
 
 }
-*/

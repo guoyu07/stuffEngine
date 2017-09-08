@@ -1,17 +1,17 @@
 package ru.technoserv.services;
-/*
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.technoserv.dao.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 
 import java.util.List;
 
-@Component
-@ComponentScan("ru")
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
     private static final Logger log = Logger.getLogger(DepartmentServiceImpl.class);
@@ -30,7 +30,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         department.setId(Department.getGlobalID());
         departmentDao.create(department);
-        return department;
+        return departmentDao.readById(department.getId());
     }
 
     @Override
@@ -66,4 +66,3 @@ public class DepartmentServiceImpl implements DepartmentService {
         return deletedDept;
     }
 }
-*/

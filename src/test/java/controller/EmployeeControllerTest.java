@@ -4,43 +4,25 @@ package controller;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.technoserv.controller.EmployeeController;
-import ru.technoserv.controller.WebAppConfig;
 import ru.technoserv.dao.Employee;
 import ru.technoserv.services.EmployeeService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.beans.PropertyEditor;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -123,16 +105,12 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("lastName", is("Ivanov")));
     }
 
-
-
-    //TODO в приложении работает, в тесте нет
     @Test
     public void testCreateEmployee() throws  Exception{
-        ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
+        @SuppressWarnings("unchecked") ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
         when(employeeService.createEmployee(emp)).thenReturn(emp);
         when(binding.hasErrors()).thenReturn(false);
-        Assert.assertEquals(responseEntity, employeeController.createEmployee(emp, binding));
-
+        Assert.assertEquals(responseEntity, employeeController.createEmployee(emp));
     }
 
     @Test
@@ -146,55 +124,6 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void  testEmployeeTransfer() throws Exception {
-        Employee emp1 = new Employee();
-        emp1.setEmpID(emp.getEmpID());
-       // emp1.setDepartment("Игрушки");
-        when(employeeService.transferEmployee(1,1)).thenReturn(emp1);
-        mockMvc.perform(patch("/employee/1/department/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("empID", is(1)))
-                .andExpect(jsonPath("department", is("Игрушки")));
-
-    }
-
-    @Test
-    public void  testEmployeeChangeSalary() throws Exception {
-        Employee emp1 = new Employee();
-        emp1.setEmpID(emp.getEmpID());
-        emp1.setSalary(new BigDecimal(22000));
-        when(employeeService.changeEmployeeSalary(1,new BigDecimal(22000))).thenReturn(emp1);
-        mockMvc.perform(patch("/employee/1/salary/22000"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("empID", is(1)))
-                .andExpect(jsonPath("salary", is(22000)));
-    }
-
-    @Test
-    public void  testEmployeeChangeGrade() throws Exception {
-        Employee emp1 = new Employee();
-        emp1.setEmpID(1);
-       // emp1.setGrade("D");
-        when(employeeService.changeEmployeeGrade(1,4)).thenReturn(emp1);
-        mockMvc.perform(patch("/employee/1/grade/4"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("empID", is(1)))
-                .andExpect(jsonPath("grade", is("D")));
-    }
-
-    @Test
-    public void  testEmployeePosition() throws Exception {
-        Employee emp1 = new Employee();
-        emp1.setEmpID(emp.getEmpID());
-      //  emp1.setPosition("position");
-        when(employeeService.changeEmployeePosition(1,1)).thenReturn(emp1);
-        mockMvc.perform(patch("/employee/1/position/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("empID", is(1)))
-                .andExpect(jsonPath("position", is("position")));
-    }
-
-    @Test
     public void  testEmployeeRemove() throws Exception {
         doNothing().when(employeeService).removeEmployee(1);
         mockMvc.perform(delete("/employee/1"))
@@ -202,5 +131,7 @@ public class EmployeeControllerTest {
                 .andExpect(content().string("delete"));
 
     }
+
+
 
 }

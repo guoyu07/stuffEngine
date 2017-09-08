@@ -1,11 +1,11 @@
 package ru.technoserv.services;
 
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import ru.technoserv.exceptions.InvalidInputException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -15,8 +15,7 @@ import java.util.List;
 /**
  * Управление информацией о сотрудниках
  */
-@Component
-@ComponentScan("ru")
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
    // private static final Logger log = Logger.getLogger(OracleEmployeeDao.class);
@@ -37,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmpID(Employee.getGlobalID());
      //   log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         employeeDao.create(employee);
-        return employee;
+        return employeeDao.read(employee.getEmpID());
     }
 
     @Override
@@ -46,34 +45,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee transferEmployee(int empID, int depID){
-        //TODO проверка на начальника и его затирание
-        if(departmentDao.getDeptHead(depID).getEmpID()==empID){
-            departmentDao.updateDeptHead(null, depID);
-        }
-        employeeDao.updateDept(empID, depID);
-        return employeeDao.read(empID);
-    }
-
-    @Override
     public void removeEmployee(int id) {
         employeeDao.delete(id);
     }
 
     @Override
-    public Employee changeEmployeeSalary(int empID, BigDecimal salary) {
-        employeeDao.updateSalary(empID, salary);
-        return employeeDao.read(empID);
-    }
-    @Override
-    public Employee changeEmployeeGrade(int empID, int gradeID) {
-        employeeDao.updateGrade(empID, gradeID);
-        return employeeDao.read(empID);
-    }
-    @Override
-    public Employee changeEmployeePosition(int empID, int positionID) {
-        employeeDao.updatePosition(empID, positionID);
-        return employeeDao.read(empID);
+    public Employee changeEmployee(Employee employee) {
+        return employeeDao.updateEmployee(employee);
     }
 
     public List<Employee> getEmployees(int depID){
@@ -82,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee getEmployee(int id) {
         return employeeDao.read(id);
     }

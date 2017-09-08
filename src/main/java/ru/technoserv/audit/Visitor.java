@@ -1,9 +1,6 @@
 package ru.technoserv.audit;
 
 import org.aspectj.lang.annotation.Aspect;
-import ru.technoserv.dao.Employee;
-import ru.technoserv.services.CurrentTime;
-import ru.technoserv.services.DataTimeService;
 
 /**
  * Класс следящий за действиями запроса пользователя, собирает информацию в {@link VisitStory}
