@@ -1,5 +1,7 @@
 package ru.technoserv.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import ru.technoserv.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,31 +20,37 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @RequestMapping(value = "/{depId}/subdepts", method = RequestMethod.GET)
-    public List<Department> getSubDepts(@PathVariable Integer depId) {
+    public ResponseEntity<List<Department>> getSubDepts(@PathVariable Integer depId) {
         List<Department> subDepts = departmentService.getSubDepts(depId);
 
-        return subDepts;
+        return new ResponseEntity<>(subDepts, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.GET)
-    public Department getDept(@PathVariable Integer depId) {
-        return departmentService.getDepartment(depId);
+    public ResponseEntity<Department> getDept(@PathVariable Integer depId) {
+        Department dep = departmentService.getDepartment(depId);
+        return new ResponseEntity<>(dep, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public Department createDepartment(@RequestBody Department department) {
-        return departmentService.createDepartment(department);
+    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+        Department dep = departmentService.createDepartment(department);
+        return new ResponseEntity<>(dep, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.DELETE)
-    public Department closeDepartment(@PathVariable Integer depId) {
-        return departmentService.deleteDepartment(depId);
+    public ResponseEntity<Department> closeDepartment(@PathVariable Integer depId) {
+        Department dep = departmentService.deleteDepartment(depId);
+
+        return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.PATCH)
-    public Department changeParentDept(@RequestBody Department newParentDepartment,
-                                 @PathVariable Integer depId) {
-        return departmentService.reassignDepartment(depId, newParentDepartment.getId());
+    public ResponseEntity<Department> changeParentDept(@RequestBody Department newParentDepartment,
+                                                       @PathVariable Integer depId) {
+        Department dep = departmentService.reassignDepartment(depId, newParentDepartment.getParentDeptId());
+
+        return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
 }
