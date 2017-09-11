@@ -40,9 +40,9 @@ public class DepartmentController {
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.PATCH)
-    public void changeParentDept(@RequestBody Department newParentDepartment,
+    public Department changeParentDept(@RequestBody Department newParentDepartment,
                                  @PathVariable Integer depId) {
-        departmentService.reassignDepartment(depId, newParentDepartment.getId());
+        return departmentService.reassignDepartment(depId, newParentDepartment.getId());
     }
 
 }
