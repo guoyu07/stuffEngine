@@ -112,7 +112,7 @@ public class EmployeeControllerTest {
         when(binding.hasErrors()).thenReturn(false);
         Assert.assertEquals(responseEntity, employeeController.createEmployee(emp));
     }
-
+    /*
     @Test
     public void testWrongParamCreateEmployee() throws Exception {
         Employee employee = new Employee();
@@ -121,7 +121,7 @@ public class EmployeeControllerTest {
         String json = gson.toJson(employee);
         mockMvc.perform(post("/employee/").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isBadRequest());
-    }
+    }        */
 
     @Test
     public void  testEmployeeRemove() throws Exception {
