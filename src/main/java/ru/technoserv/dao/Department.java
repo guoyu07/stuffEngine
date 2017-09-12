@@ -1,5 +1,9 @@
 package ru.technoserv.dao;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="DEPARTMENT")
 public class Department {
     private Integer id;
     private Integer parentDeptId;
@@ -19,13 +23,8 @@ public class Department {
     public Department() {
     }
 
-    public Department(Integer id, Integer parentDeptId, String deptName, Integer deptHeadId) {
-        this.id = id;
-        this.parentDeptId = parentDeptId;
-        this.deptName = deptName;
-        this.deptHeadId = deptHeadId;
-    }
-
+    @Id
+    @Column(name="DEPT_ID")
     public Integer getId() {
         return id;
     }
@@ -33,7 +32,7 @@ public class Department {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Column(name="PARENT_DEPT_ID")
     public Integer getParentDeptId() {
         return parentDeptId;
     }
@@ -41,7 +40,7 @@ public class Department {
     public void setParentDeptId(Integer parentDeptId) {
         this.parentDeptId = parentDeptId;
     }
-
+    @Column(name="DEPT_NAME")
     public String getDeptName() {
         return deptName;
     }
@@ -50,6 +49,7 @@ public class Department {
         this.deptName = deptName;
     }
 
+    @Column(name="DEPT_HEAD_ID")
     public Integer getDeptHeadId() {
         return deptHeadId;
     }

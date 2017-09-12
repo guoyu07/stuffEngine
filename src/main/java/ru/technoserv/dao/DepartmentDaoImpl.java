@@ -1,7 +1,6 @@
 package ru.technoserv.dao;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
+/*
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao {
 
@@ -38,9 +37,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
     private static final String SELECT_DEPT_HEAD =
             "SELECT EMP_ID, LAST_NAME, FIRST_NAME, PATR_NAME, DEPARTMENT_ID, GRADE_ID, POSITION_ID, " +
                     "SALARY, BIRTHDAY, GENDER FROM EMPLOYEE, DEPARTMENT " +
-                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPT_ID = ?)";
+                    "WHERE (EMP_ID = DEPT_HEAD_ID) and (DEPARTMENT_ID = ?)";
 
-    @Autowired
+   // @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -114,4 +113,4 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
 
     }
-}
+}*/

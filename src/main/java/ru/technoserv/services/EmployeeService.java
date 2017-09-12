@@ -11,16 +11,9 @@ public interface EmployeeService {
 
     void getEmployeeStory(Employee employee);
 
-    Employee transferEmployee(int empID, int depID);
-
     void removeEmployee(int id);
 
-    Employee changeEmployeeSalary(int empID, BigDecimal salary);
-
-    Employee changeEmployeeGrade(int empID, int gradeID);
-
-    Employee changeEmployeePosition(int empID, int positionID);
-
+    Employee changeEmployee(Employee employee);
     List<Employee> getEmployees(int depId);
 
     Employee getEmployee(int id);

@@ -4,14 +4,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.technoserv.dao.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 
 import java.util.List;
 
-@Component
-@ComponentScan("ru")
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
     private static final Logger log = Logger.getLogger(DepartmentServiceImpl.class);
@@ -30,19 +30,19 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         department.setId(Department.getGlobalID());
         departmentDao.create(department);
-        return department;
+        return departmentDao.readById(department.getId());
     }
 
     @Override
     public Department getDepartment(int deptID) {
-        return departmentDao.readById(deptID);
+        Department dep = departmentDao.readById(deptID);
+        return dep;
     }
 
     @Override
     public List<Department> getAllDepartments() {
         log.info("Получаем все отделы");
-        List<Department> allEmps;
-        allEmps = departmentDao.getDepartmentsList();
+        List<Department> allEmps = departmentDao.getDepartmentsList();
         return allEmps;
     }
 
@@ -55,8 +55,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void reassignDepartment(int deptID, Integer newParentDeptID) {
-        departmentDao.updateParentDeptId(newParentDeptID, deptID);
+    public Department updateDept(Department department) {
+        return departmentDao.updateDept(department);
     }
 
     @Override

@@ -1,17 +1,16 @@
 package ru.technoserv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.dao.Department;
 import ru.technoserv.services.DepartmentService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Данный контроллер предназначен для обработки запросов, связанных
- * с отделами.
- */
+
 
 @RestController
 @RequestMapping(value = "/department")
@@ -21,37 +20,41 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @RequestMapping(value = "/{depId}/subdepts", method = RequestMethod.GET,
-            name = "получение дочерних отделов")
-    public List<Department> getSubDepts(@PathVariable Integer depId, HttpServletRequest request) {
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Department>> getSubDepts(@PathVariable Integer depId) {
         List<Department> subDepts = departmentService.getSubDepts(depId);
 
-        return subDepts;
+        return new ResponseEntity<>(subDepts, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.GET,
-            name = "поиск отдела по id")
-    public Department getDept(@PathVariable Integer depId, HttpServletRequest request) {
-        return departmentService.getDepartment(depId);
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Department> getDept(@PathVariable Integer depId) {
+        Department dep = departmentService.getDepartment(depId);
+        return new ResponseEntity<>(dep, HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST,
-            produces = "application/json", consumes = "application/json",
-            name = "создание отдела")
-    public Department createDepartment(@RequestBody Department department, HttpServletRequest request) {
-        return departmentService.createDepartment(department);
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+        Department dep = departmentService.createDepartment(department);
+        return new ResponseEntity<>(dep, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.DELETE,
-            name = "удаление отдела")
-    public Department closeDepartment(@PathVariable Integer depId, HttpServletRequest request) {
-        return departmentService.deleteDepartment(depId);
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Department> closeDepartment(@PathVariable Integer depId) {
+        Department dep = departmentService.deleteDepartment(depId);
+
+        return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{depId}", method = RequestMethod.PATCH,
-            name = "переподчинение отдела другому отделу")
-    public void changeParentDept(@RequestBody Department newParentDepartment,
-                                 @PathVariable Integer depId, HttpServletRequest request) {
-        departmentService.reassignDepartment(depId, newParentDepartment.getId());
+    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Department> updateDept(@RequestBody Department department) {
+        Department dep = departmentService.updateDept(department);
+
+        return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
 }
