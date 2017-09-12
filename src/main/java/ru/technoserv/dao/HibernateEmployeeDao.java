@@ -26,10 +26,10 @@ public class HibernateEmployeeDao implements EmployeeDao {
         return sessionFactory.getCurrentSession();
     }
 
-    @Override
-    public int getID() {
-        return getAllEmployees().size();
-    }
+//    @Override
+//    public int getID() {
+//        return getAllEmployees().size();
+//    }
 
     @Override
     public void create(Employee employee) {

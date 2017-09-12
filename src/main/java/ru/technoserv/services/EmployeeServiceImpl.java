@@ -29,11 +29,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createEmployee(Employee employee) {
-        if(!isIdLoaded) {
-            Employee.setGlobalID(employeeDao.getID());
-            isIdLoaded = true;
-        }
-        employee.setEmpID(Employee.getGlobalID());
+//        if(!isIdLoaded) {
+//            Employee.setGlobalID(employeeDao.getID());
+//            isIdLoaded = true;
+//        }
+//        employee.setEmpID(Employee.getGlobalID());
      //   log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         employeeDao.create(employee);
         return employeeDao.read(employee.getEmpID());

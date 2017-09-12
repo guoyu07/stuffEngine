@@ -24,11 +24,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department createDepartment(Department department) {
-        if (!isIDLoaded) {
-            Department.setGlobalID(departmentDao.getID());
-            isIDLoaded = true;
-        }
-        department.setId(Department.getGlobalID());
+//        if (!isIDLoaded) {
+//            Department.setGlobalID(departmentDao.getID());
+//            isIDLoaded = true;
+//        }
+//        department.setId(Department.getGlobalID());
         departmentDao.create(department);
         return departmentDao.readById(department.getId());
     }
