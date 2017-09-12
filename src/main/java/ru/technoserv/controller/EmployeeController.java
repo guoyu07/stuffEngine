@@ -1,5 +1,7 @@
 package ru.technoserv.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import java.util.List;
  * сотрудниками.
  */
 @RestController
-@RequestMapping(value="/employee")
+@RequestMapping(value="/employee", produces={"application/json; charset=UTF-8"})
 public class EmployeeController {
 
     @Autowired
@@ -37,7 +39,8 @@ public class EmployeeController {
         if(employeeList.size()==0){
             throw new InvalidInputException("");
         }
-        return new ResponseEntity<Object>(employeeList, HttpStatus.OK);
+        String json = GsonUtility.toJson(employeeList);
+        return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
 
     /**
@@ -46,8 +49,9 @@ public class EmployeeController {
      * @return Объект сотрудника и код ОК
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getEmployee(@PathVariable int id){
-        return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id){
+        String json = GsonUtility.toJson(employeeService.getEmployee(id));
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
 
@@ -58,12 +62,14 @@ public class EmployeeController {
      */
     @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
     public  ResponseEntity<?> createEmployee( @RequestBody Employee employee){
-        return new ResponseEntity<>( employeeService.createEmployee(employee), HttpStatus.CREATED);
+        String json = GsonUtility.toJson(employeeService.createEmployee(employee));
+        return new ResponseEntity<>( json, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = {"application/json"} )
     public ResponseEntity<?> editEmployee(@RequestBody Employee employee){
-        return new ResponseEntity<>(employeeService.changeEmployee(employee), HttpStatus.OK);
+        String json = GsonUtility.toJson(employeeService.changeEmployee(employee));
+        return new ResponseEntity<>(json , HttpStatus.OK);
     }
     /**
      * Удаление сотрудника по заданному ид

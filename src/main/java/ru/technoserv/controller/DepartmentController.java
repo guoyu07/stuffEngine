@@ -1,5 +1,7 @@
 package ru.technoserv.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/department")
+@RequestMapping(value = "/department", produces={"application/json; charset=UTF-8"})
 public class DepartmentController {
 
     @Autowired
@@ -21,40 +23,42 @@ public class DepartmentController {
 
     @RequestMapping(value = "/{depId}/subdepts", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Department>> getSubDepts(@PathVariable Integer depId) {
+    public ResponseEntity<?> getSubDepts(@PathVariable Integer depId) {
         List<Department> subDepts = departmentService.getSubDepts(depId);
-
-        return new ResponseEntity<>(subDepts, HttpStatus.FOUND);
+        String json = GsonUtility.toJson(subDepts);
+        return new ResponseEntity<>(json, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Department> getDept(@PathVariable Integer depId) {
+    public @ResponseBody  ResponseEntity<?> getDept(@PathVariable Integer depId) {
         Department dep = departmentService.getDepartment(depId);
-        return new ResponseEntity<>(dep, HttpStatus.FOUND);
+        String json = GsonUtility.toJson(dep);
+        return new ResponseEntity<>(json, HttpStatus.FOUND);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+    public ResponseEntity<?> createDepartment(@RequestBody Department department) {
         Department dep = departmentService.createDepartment(department);
-        return new ResponseEntity<>(dep, HttpStatus.CREATED);
+        String json = GsonUtility.toJson(dep);
+        return new ResponseEntity<>(json, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{depId}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Department> closeDepartment(@PathVariable Integer depId) {
+    public ResponseEntity<?> closeDepartment(@PathVariable Integer depId) {
         Department dep = departmentService.deleteDepartment(depId);
-
-        return new ResponseEntity<>(dep, HttpStatus.OK);
+        String json = GsonUtility.toJson(dep);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Department> updateDept(@RequestBody Department department) {
+    public ResponseEntity<?> updateDept(@RequestBody Department department) {
         Department dep = departmentService.updateDept(department);
-
-        return new ResponseEntity<>(dep, HttpStatus.OK);
+        String json = GsonUtility.toJson(dep);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
 }
