@@ -103,7 +103,16 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     public List<Employee> getAllEmployees(){
         Session session = getSession();
-        return session.createQuery("from Employee").list();
+        List<Employee> employees;
+        try{
+            session.beginTransaction();
+            employees = session.createQuery("from Employee").list();
+            session.getTransaction().commit();
+        }catch (RuntimeException e){
+            session.getTransaction().rollback();
+            throw e;
+        }
+        return employees;
     }
 
 
