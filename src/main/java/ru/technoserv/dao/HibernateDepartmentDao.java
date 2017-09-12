@@ -61,9 +61,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
-    public void updateDeptHead(Integer newDeptHeadId, Integer depId) {
-        Department department = readById(depId);
-        department.setDeptHeadId(newDeptHeadId);
+    public Department updateDept(Department department) {
         Session session = getSession();
         try{
             session.beginTransaction();
@@ -73,22 +71,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().rollback();
             throw e;
         }
+        return readById(department.getId());
     }
 
-    @Override
-    public void updateParentDeptId(Integer newParentDeptId, Integer depId) {
-        Department department = readById(depId);
-        department.setParentDeptId(newParentDeptId);
-        Session session = getSession();
-        try{
-            session.beginTransaction();
-            session.update(department);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
-            session.getTransaction().rollback();
-            throw e;
-        }
-    }
 
     @Override
     public void delete(Integer depId) {

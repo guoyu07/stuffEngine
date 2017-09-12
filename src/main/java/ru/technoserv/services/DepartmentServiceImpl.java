@@ -35,14 +35,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department getDepartment(int deptID) {
-        return departmentDao.readById(deptID);
+        Department dep = departmentDao.readById(deptID);
+        return dep;
     }
 
     @Override
     public List<Department> getAllDepartments() {
         log.info("Получаем все отделы");
-        List<Department> allEmps;
-        allEmps = departmentDao.getDepartmentsList();
+        List<Department> allEmps = departmentDao.getDepartmentsList();
         return allEmps;
     }
 
@@ -55,10 +55,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department reassignDepartment(int deptID, Integer newParentDeptID) {
-        departmentDao.updateParentDeptId(newParentDeptID, deptID);
-
-        return departmentDao.readById(deptID);
+    public Department updateDept(Department department) {
+        return departmentDao.updateDept(department);
     }
 
     @Override

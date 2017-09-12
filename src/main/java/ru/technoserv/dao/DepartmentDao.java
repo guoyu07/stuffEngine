@@ -28,22 +28,12 @@ public interface DepartmentDao {
     Department readById(Integer depId);
 
     /**
-     * Смена главы отдела
+     * Обновление информации по отделу
      *
-     * @param newDeptHeadId id нового главы отдела
-     * @param depId         id отдела, где меняется глава
+     * @param department обновляемый отдел
+     * @return           обновленный отдел
      */
-    void updateDeptHead(Integer newDeptHeadId, Integer depId);
-
-    /**
-     * Переподчинение отдела, id которого равняется depId,
-     * другому отделу, id которого равняется newParentDeptId
-     *
-     * @param newParentDeptId id отдела, которому должен
-     *                        быть переподчинен отдел с id = depId
-     * @param depId           id переподчиняемого отдела
-     */
-    void updateParentDeptId(Integer newParentDeptId, Integer depId);
+    Department updateDept(Department department);
 
     /**
      * Удаление отдела, id которого равняется depId
