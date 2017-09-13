@@ -60,16 +60,6 @@ public class Employee {
     @Column(name="SALARY")
     private BigDecimal salary;
 
-//    private static Integer globalID;
-//
-//    public static Integer getGlobalID() {
-//        return ++globalID;
-//    }
-//
-//    public static void setGlobalID(Integer globalID) {
-//        Employee.globalID = globalID;
-//    }
-
     public Employee() {
     }
 

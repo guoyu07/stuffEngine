@@ -5,8 +5,6 @@ import java.util.List;
 
 public interface EmployeeDao {
 
-//    int getID();
-
     void create(Employee employee);
 
     Employee read(int empID);

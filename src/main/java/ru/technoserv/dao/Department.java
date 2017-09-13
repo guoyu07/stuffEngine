@@ -34,16 +34,6 @@ public class Department {
     @Column(name="DEPT_HEAD_ID")
     private Integer deptHeadId;
 
-//    private static Integer globalID;
-//
-//    public static Integer getGlobalID() {
-//        return ++globalID;
-//    }
-//
-//    public static void setGlobalID(Integer globalID) {
-//        Department.globalID = globalID;
-//    }
-
     public Department() {
     }
 

@@ -27,11 +27,6 @@ public class HibernateDepartmentDao implements DepartmentDao {
     private static String sqlQueryForSubDepts2 =
             "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
-//    @Override
-//    public int getID() {
-//        return getDepartmentsList().size();
-//    }
-
     @Override
     public void create(Department department) {
         Session session = getSession();
