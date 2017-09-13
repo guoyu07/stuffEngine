@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration
 public class EmployeeControllerTest {
 
-
     @Configuration
     static class LoginControllerTestConfiguration {
 
@@ -54,6 +53,7 @@ public class EmployeeControllerTest {
         }
 
     }
+
     @Autowired
     private EmployeeController employeeController;
 
@@ -98,7 +98,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void testGetEmployee() throws Exception {
-
         when(employeeService.getEmployee(1)).thenReturn(emp);
         mockMvc.perform(get("/employee/1")).andExpect(status().isOk())
                 .andExpect(jsonPath("empID", is(1)))
@@ -131,7 +130,4 @@ public class EmployeeControllerTest {
                 .andExpect(content().string("delete"));
 
     }
-
-
-
 }
