@@ -111,7 +111,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
         Session session = getSession();
         try{
             session.beginTransaction();
-            departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).list();
+            departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
