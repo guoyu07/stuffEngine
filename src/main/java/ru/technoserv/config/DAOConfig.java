@@ -1,4 +1,4 @@
-package ru.technoserv.dao;
+package ru.technoserv.config;
 
 import org.hibernate.Hibernate;
 import org.hibernate.ejb.HibernatePersistence;
@@ -40,7 +40,7 @@ public class DAOConfig {
     private static final String PROPERTY_NAME_DATABASE_URL = "jdbc:oracle:thin:@//89.108.84.144:1521/BPM8";
     private static final String PROPERTY_NAME_DATABASE_USERNAME = "test_a";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-    private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "ru.technoserv.dao";
+    private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "ru.technoserv.domain";
     private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
 
     @Bean

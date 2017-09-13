@@ -1,4 +1,4 @@
-package ru.technoserv.dao.Cache;
+package ru.technoserv.config;
 
 
 

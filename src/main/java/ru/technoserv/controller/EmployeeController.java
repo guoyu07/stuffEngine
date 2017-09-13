@@ -6,19 +6,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import ru.technoserv.dao.Employee;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
 
-import javax.jws.WebService;
 import javax.validation.Valid;
-import javax.xml.ws.WebServiceException;
-import java.util.ArrayList;
 import java.util.List;
 
 

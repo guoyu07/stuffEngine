@@ -1,4 +1,4 @@
-package ru.technoserv.dao;
+package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.CacheEvict;

@@ -1,13 +1,12 @@
-package ru.technoserv.services;
+package ru.technoserv.services.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.technoserv.dao.Department;
+import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
 

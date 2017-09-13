@@ -1,4 +1,4 @@
-package ru.technoserv.dao;
+package ru.technoserv.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
 

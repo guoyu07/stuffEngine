@@ -1,24 +1,19 @@
-package ru.technoserv.dao;
+package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.technoserv.controller.EmployeeController;
+import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.DepartmentNotFoundException;
 import ru.technoserv.exceptions.EmployeeException;
 import ru.technoserv.exceptions.EmployeeNotFoundException;
 import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository

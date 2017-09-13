@@ -1,5 +1,8 @@
 package ru.technoserv.dao;
 
+import ru.technoserv.domain.Department;
+import ru.technoserv.domain.Employee;
+
 import java.util.List;
 
 public interface DepartmentDao {

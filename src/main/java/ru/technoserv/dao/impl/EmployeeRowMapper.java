@@ -1,9 +1,10 @@
-package ru.technoserv.dao;
+package ru.technoserv.dao.impl;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
+import ru.technoserv.domain.Employee;
 
 public class EmployeeRowMapper implements RowMapper<Employee> {
 

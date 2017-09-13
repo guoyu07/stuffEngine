@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.technoserv.dao.Department;
+import ru.technoserv.domain.Department;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.DepartmentService;
-import ru.technoserv.services.EmployeeServiceImpl;
+import ru.technoserv.services.impl.EmployeeServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

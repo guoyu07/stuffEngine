@@ -1,8 +1,7 @@
-package ru.technoserv.dao;
+package ru.technoserv.domain;
 
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

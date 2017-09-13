@@ -1,4 +1,4 @@
-package ru.technoserv.dao;
+package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -6,12 +6,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.technoserv.dao.DepartmentDao;
+import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.Department;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.DepartmentException;
 import ru.technoserv.exceptions.DepartmentNotEmpty;
 import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.resource.NotSupportedException;
 import java.util.List;
 @Repository
 @Transactional

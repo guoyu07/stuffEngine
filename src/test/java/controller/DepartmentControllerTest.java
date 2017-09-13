@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.technoserv.controller.DepartmentController;
-import ru.technoserv.dao.Department;
+import ru.technoserv.domain.Department;
 import ru.technoserv.services.DepartmentService;
 
 import java.io.IOException;

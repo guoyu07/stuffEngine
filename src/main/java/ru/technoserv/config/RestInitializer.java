@@ -1,4 +1,4 @@
-package ru.technoserv.controller;
+package ru.technoserv.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
