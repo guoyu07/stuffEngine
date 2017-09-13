@@ -4,11 +4,19 @@ package ru.technoserv.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import ru.technoserv.dao.Employee;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
+
+import javax.jws.WebService;
+import javax.validation.Valid;
+import javax.xml.ws.WebServiceException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,13 +62,14 @@ public class EmployeeController {
      * @return созданного сотрудника с кодом CREATED
      */
     @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
-    public  ResponseEntity<?> createEmployee( @RequestBody Employee employee){
+    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee){
+
         String json = GsonUtility.toJson(employeeService.createEmployee(employee));
         return new ResponseEntity<>( json, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = {"application/json"} )
-    public ResponseEntity<?> editEmployee(@RequestBody Employee employee){
+    public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee){
         String json = GsonUtility.toJson(employeeService.changeEmployee(employee));
         return new ResponseEntity<>(json , HttpStatus.OK);
     }
@@ -93,4 +102,7 @@ public class EmployeeController {
     public ResponseEntity<CommonError> headException(EmployeeTheHeadOfDepartment e){
         return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.METHOD_NOT_ALLOWED);
     }
+
+
+
 }

@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.dao.Department;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.DepartmentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -76,5 +79,7 @@ public class DepartmentController {
     public ResponseEntity<CommonError> notFound(DepartmentNotFoundException e){
         return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
     }
+
+
 
 }

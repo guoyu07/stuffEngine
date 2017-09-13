@@ -2,6 +2,7 @@ package ru.technoserv.dao;
 
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -37,26 +38,26 @@ public class Employee {
     @OneToOne
     @JoinColumn(name="GRADE_ID")
     private Grade grade;
-
+    @NotNull(message = "Необходимо указать отдел в котором работает сотрудник")
     @ManyToOne
     @JoinColumn(name="DEPARTMENT_ID")
     private Department department;
-
+    @Size(min=3, max=50,message = "Фамилия должно быть от 3 до 50 символов")
     @Column(name="LAST_NAME")
     private String lastName;
-
+    @Size(min=3, max=50,message = "Имя должно быть от 3 до 50 символов")
     @Column(name="FIRST_NAME")
     private String firstName;
 
     @Column(name="PATR_NAME")
     private String patrName;
-
+    @NotNull(message = "Укажите ваш пол")
     @Column(name="GENDER")
     private Character gender;
 
     @Column(name="BIRTHDAY")
     private Date birthday;
-
+    @NotNull(message = "Не все сотрудники работают за еду")
     @Column(name="SALARY")
     private BigDecimal salary;
 

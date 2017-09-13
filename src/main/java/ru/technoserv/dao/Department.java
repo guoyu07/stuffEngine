@@ -1,12 +1,15 @@
 package ru.technoserv.dao;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="DEPARTMENT")
 public class Department {
+
 
     @Id
     @GeneratedValue(
@@ -27,7 +30,7 @@ public class Department {
 
     @Column(name="PARENT_DEPT_ID")
     private Integer parentDeptId;
-
+    @Size(min=5, max = 100, message = "Имя отдела должно содердать от 5 до 100 букв")
     @Column(name="DEPT_NAME")
     private String deptName;
 
