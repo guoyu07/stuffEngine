@@ -1,5 +1,6 @@
 package ru.technoserv.dao;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
+
+    private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -32,12 +35,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public void create(Department department) {
+        logger.info("Запрос к базе на создание отдела");
         Session session = getSession();
         try{
             session.beginTransaction();
             session.save(department);
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentException(0);
         }
@@ -45,6 +50,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public Department readById(Integer depId) {
+        logger.info("Запрос к базе на получение отдела");
         Department department;
         Session session = getSession();
         try{
@@ -52,6 +58,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             department = (Department) session.get(Department.class, depId);
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentException(depId);
         }
@@ -61,12 +68,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public Department updateDept(Department department) {
+        logger.info("Запрос к базе на изменение отдела");
         Session session = getSession();
         try{
             session.beginTransaction();
             session.update(department);
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentException(department.getId());
         }
@@ -76,6 +85,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public void delete(Integer depId) {
+        logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
         Session session = getSession();
         try{
@@ -83,6 +93,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.delete(department);
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentNotEmpty(depId);
         }
@@ -90,12 +101,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public Employee getDeptHead(Integer depId) {
+        logger.info("Запрос к базе на получение начальника отдела");
         Department department = readById(depId);
         return employeeDao.read(department.getDeptHeadId());
     }
 
     @Override
     public List<Department> getDepartmentsList() {
+        logger.info("Запрос к базе на получение списка отделов отдела");
         List departments;
         Session session = getSession();
         try{
@@ -103,6 +116,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             departments = session.createQuery("from Department ").list();
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentException(0);
         }
@@ -111,6 +125,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public List<Department> getAllSubDepts(Integer depId) {
+        logger.info("Запрос к базе на получение подотделов");
         List departments;
         Session session = getSession();
         try{
@@ -118,6 +133,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();
             session.getTransaction().commit();
         }catch (RuntimeException e){
+            logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentException(0);
         }

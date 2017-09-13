@@ -1,5 +1,7 @@
 package ru.technoserv.controller;
 
+
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -14,8 +16,12 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandlerController {
 
+
+    private static final Logger logger = Logger.getLogger(EmployeeController.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationProblem(MethodArgumentNotValidException e){
+        logger.error(e.getMessage());
         List<ObjectError> errors= e.getBindingResult().getAllErrors();
         List<CommonError> myErrors = new ArrayList<>();
         for (ObjectError err: errors

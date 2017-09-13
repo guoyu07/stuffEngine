@@ -15,6 +15,8 @@ import java.sql.Date;
 @Table(name="EMPLOYEE")
 public class Employee {
 
+
+
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
