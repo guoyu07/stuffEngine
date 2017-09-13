@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -57,7 +58,8 @@ public class Employee {
 
     @Column(name="BIRTHDAY")
     private Date birthday;
-    @NotNull(message = "Не все сотрудники работают за еду")
+    @NotNull(message="Укажите зарплату")
+    @Min(value=0,message = "Не все сотрудники работают за еду")
     @Column(name="SALARY")
     private BigDecimal salary;
 

@@ -3,7 +3,7 @@ package ru.technoserv.exceptions;
 public class EmployeeException extends CommonException {
 
     private final static int ERROR_ID = 2;
-    private final static String SHORT_MESSAGE = "Неправильный формат сотрудника";
+    private final static String SHORT_MESSAGE = "Неправильный формат объекта  сотрудника";
     private int employeeId;
 
     public EmployeeException(int employeeId){

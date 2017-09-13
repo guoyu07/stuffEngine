@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandlerController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationProblem(MethodArgumentNotValidException e){

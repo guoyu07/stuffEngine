@@ -55,7 +55,6 @@ public class EmployeeController {
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
-
     /**
      * Запрос на создание нового сотрудника
      * @param employee создаваемый сотрудника
@@ -102,7 +101,5 @@ public class EmployeeController {
     public ResponseEntity<CommonError> headException(EmployeeTheHeadOfDepartment e){
         return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.METHOD_NOT_ALLOWED);
     }
-
-
 
 }
