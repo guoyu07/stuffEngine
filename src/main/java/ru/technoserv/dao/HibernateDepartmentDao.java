@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.technoserv.exceptions.DepartmentException;
+import ru.technoserv.exceptions.DepartmentNotEmpty;
+import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.resource.NotSupportedException;
@@ -36,7 +39,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentException(0);
         }
     }
 
@@ -50,8 +53,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentException(depId);
         }
+        if(department==null) throw new DepartmentNotFoundException(depId);
         return department;
     }
 
@@ -64,7 +68,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentException(department.getId());
         }
         return readById(department.getId());
     }
@@ -80,7 +84,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentNotEmpty(depId);
         }
     }
 
@@ -100,7 +104,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentException(0);
         }
         return departments;
     }
@@ -115,7 +119,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentException(0);
         }
         return departments;
     }

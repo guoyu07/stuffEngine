@@ -64,7 +64,7 @@ public class Employee {
     }
 
 
-    public int getEmpID() {
+    public Integer getEmpID() {
         return empID;
     }
 
