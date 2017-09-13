@@ -1,19 +1,14 @@
 package ru.technoserv.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import ru.technoserv.exceptions.InvalidInputException;
 import ru.technoserv.dao.Employee;
+import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
-
-import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -36,9 +31,6 @@ public class EmployeeController {
     @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET)
     public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID){
         List<Employee> employeeList = employeeService.getEmployees(departmentID);
-        if(employeeList.size()==0){
-            throw new InvalidInputException("");
-        }
         String json = GsonUtility.toJson(employeeList);
         return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
@@ -50,7 +42,8 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id){
-        String json = GsonUtility.toJson(employeeService.getEmployee(id));
+        Employee employee = employeeService.getEmployee(id);
+        String json = GsonUtility.toJson(employee);
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
@@ -80,5 +73,24 @@ public class EmployeeController {
     public String employeeDelete(@PathVariable int id){
         employeeService.removeEmployee(id);
         return "delete";
+    }
+
+    @ExceptionHandler(CommonException.class)
+    public ResponseEntity<CommonError> commonException(CommonException e){
+        return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(EmployeeException.class)
+    public ResponseEntity<CommonError> employeeException(EmployeeException e){
+        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<CommonError> notFound(EmployeeNotFoundException e){
+        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmployeeTheHeadOfDepartment.class)
+    public ResponseEntity<CommonError> headException(EmployeeTheHeadOfDepartment e){
+        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.METHOD_NOT_ALLOWED);
     }
 }

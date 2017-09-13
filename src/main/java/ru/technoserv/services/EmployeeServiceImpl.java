@@ -2,14 +2,13 @@ package ru.technoserv.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.*;
+import ru.technoserv.exceptions.EmployeeNotFoundException;
+import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -51,6 +50,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee changeEmployee(Employee employee) {
+        Employee dbEmployee = employeeDao.read(employee.getEmpID());
+        if(!employee.getDepartment().equals(dbEmployee.getDepartment())){
+            if(employee.getEmpID().equals(dbEmployee.getDepartment().getDeptHeadId())) throw new EmployeeTheHeadOfDepartment(employee.getEmpID());
+        }
         return employeeDao.updateEmployee(employee);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.dao.Department;
+import ru.technoserv.exceptions.*;
 import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
@@ -59,6 +60,21 @@ public class DepartmentController {
         Department dep = departmentService.updateDept(department);
         String json = GsonUtility.toJson(dep);
         return new ResponseEntity<>(json, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(CommonException.class)
+    public ResponseEntity<CommonError> commonException(CommonException e){
+        return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DepartmentException.class)
+    public ResponseEntity<CommonError> departmnetException(DepartmentException e){
+        return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<CommonError> notFound(DepartmentNotFoundException e){
+        return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
     }
 
 }

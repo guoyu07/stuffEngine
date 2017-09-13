@@ -36,7 +36,7 @@ public class Employee {
     }
     @Id
     @Column(name="EMP_ID")
-    public int getEmpID() {
+    public Integer getEmpID() {
         return empID;
     }
 

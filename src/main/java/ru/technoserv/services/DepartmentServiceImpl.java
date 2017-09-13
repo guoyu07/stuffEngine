@@ -1,5 +1,6 @@
 package ru.technoserv.services;
 
+import net.sf.ehcache.transaction.DeadLockException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.technoserv.dao.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.exceptions.DepartmentException;
 
 import java.util.List;
 
@@ -29,7 +31,11 @@ public class DepartmentServiceImpl implements DepartmentService {
             isIDLoaded = true;
         }
         department.setId(Department.getGlobalID());
-        departmentDao.create(department);
+        try {
+            departmentDao.create(department);
+        }catch (RuntimeException e){
+            throw new DepartmentException(0);
+        }
         return departmentDao.readById(department.getId());
     }
 
@@ -42,7 +48,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> getAllDepartments() {
         log.info("Получаем все отделы");
-        List<Department> allEmps = departmentDao.getDepartmentsList();
+        List<Department> allEmps;
+        try {
+            allEmps = departmentDao.getDepartmentsList();
+        }catch (RuntimeException e){
+            throw new DepartmentException(0);
+        }
         return allEmps;
     }
 
@@ -50,13 +61,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> getSubDepts(int deptId) {
         log.info("Получаем подотделы");
         List<Department> subDepts;
-        subDepts = departmentDao.getAllSubDepts(deptId);
+        try {
+            subDepts = departmentDao.getAllSubDepts(deptId);
+        }catch (RuntimeException e){
+            throw new DepartmentException(deptId);
+        }
         return subDepts;
     }
 
     @Override
     public Department updateDept(Department department) {
-        return departmentDao.updateDept(department);
+        Department dep;
+        try{
+            dep = departmentDao.updateDept(department);
+        }catch (DepartmentException e){
+            throw new DepartmentException(department.getId());
+        }
+        return dep;
     }
 
     @Override

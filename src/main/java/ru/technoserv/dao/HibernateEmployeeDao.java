@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.technoserv.exceptions.DepartmentNotFoundException;
+import ru.technoserv.exceptions.EmployeeException;
+import ru.technoserv.exceptions.EmployeeNotFoundException;
+import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 
 
 import java.math.BigDecimal;
@@ -40,7 +44,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new EmployeeException(0);
         }
     }
 
@@ -54,8 +58,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e) {
             session.getTransaction().rollback();
-            throw e;
+            throw new EmployeeException(empID);
         }
+        if(dbEmployee ==null) throw new EmployeeNotFoundException(empID);
         return dbEmployee;
     }
 
@@ -68,7 +73,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new EmployeeTheHeadOfDepartment(empID);
         }
     }
 
@@ -82,7 +87,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new DepartmentNotFoundException(deptID);
         }
         return employees;
     }
@@ -96,7 +101,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new EmployeeException(employee.getEmpID());
         }
         return read(employee.getEmpID());
     }
@@ -110,7 +115,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.getTransaction().commit();
         }catch (RuntimeException e){
             session.getTransaction().rollback();
-            throw e;
+            throw new EmployeeException(0);
         }
         return employees;
     }
