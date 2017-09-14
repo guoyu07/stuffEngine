@@ -47,7 +47,7 @@ public class DAOConfig {
     private String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "packages.to.scan";
     private String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
-    private String PROPERTY_NAME_CURRENT_SESSION_CONTEXT = "hibernate.current_session_context_class";
+    private String PROPERTY_NAME_CURRENT_SESSION_CONTEXT = "current_session_context_class";
 
     @Bean
     public DataSource dataSource() {
