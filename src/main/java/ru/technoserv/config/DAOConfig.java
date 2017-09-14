@@ -70,7 +70,7 @@ public class DAOConfig {
         properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, true);
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, "org.hibernate.dialect.OracleDialect");
         //TODO перевести настройки в файл ресурсов
-        properties.put("hibernate.current_session_context_class", "thread");
+        properties.put("current_session_context_class", "thread");
         return properties;
     }
 

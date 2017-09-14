@@ -1,6 +1,7 @@
 package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
         logger.info("Запрос к базе на создание сотрудника");
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.save(employee);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new EmployeeException(0);
         }
     }
@@ -50,12 +48,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Employee dbEmployee;
         Session session = getSession();
         try {
-            session.beginTransaction();
             dbEmployee = (Employee) session.get(Employee.class, empID);
-            session.getTransaction().commit();
-        }catch (RuntimeException e) {
+        } catch (HibernateException e) {
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new EmployeeException(empID);
         }
         if(dbEmployee ==null) throw new EmployeeNotFoundException(empID);
@@ -67,12 +62,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
         logger.info("Запрос к базе на удаление сотрудника");
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.delete( session.get(Employee.class, empID));
-            session.getTransaction().commit();
         }catch (RuntimeException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new EmployeeTheHeadOfDepartment(empID);
         }
     }
@@ -83,9 +75,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
         List<Employee> employees;
         try{
-            session.beginTransaction();
             employees = session.createQuery("from Employee E where E.department ="+deptID).list();
-            session.getTransaction().commit();
         }catch (RuntimeException e){
             logger.error(e.getMessage());
             session.getTransaction().rollback();
@@ -99,12 +89,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
         logger.info("Запрос к базе на изменение сотрудника");
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.update(employee);
-            session.getTransaction().commit();
         }catch (RuntimeException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new EmployeeException(employee.getEmpID());
         }
         return read(employee.getEmpID());
@@ -115,12 +102,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
         List<Employee> employees;
         try{
-            session.beginTransaction();
             employees = session.createQuery("from Employee").list();
-            session.getTransaction().commit();
         }catch (RuntimeException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new EmployeeException(0);
         }
         return employees;
