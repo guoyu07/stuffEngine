@@ -41,7 +41,6 @@ public class DAOConfig {
     @Autowired
     Environment environment;
 
-    //TODO перевести настройки в файл ресурсов
     private String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
     private String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
     private String PROPERTY_NAME_DATABASE_URL = "db.url";
