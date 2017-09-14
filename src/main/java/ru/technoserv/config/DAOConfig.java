@@ -89,11 +89,4 @@ public class DAOConfig {
         return transactionManager;
     }
 
-    @Bean
-    public HibernateTemplate hibernateTemplate(){
-        return new HibernateTemplate(sessionFactory().getObject());
-    }
-
-
-
 }

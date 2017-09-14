@@ -63,7 +63,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
         try{
             session.delete( session.get(Employee.class, empID));
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new EmployeeTheHeadOfDepartment(empID);
         }
@@ -76,7 +76,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         List<Employee> employees;
         try{
             employees = session.createQuery("from Employee E where E.department ="+deptID).list();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
             session.getTransaction().rollback();
             throw new DepartmentNotFoundException(deptID);
@@ -90,7 +90,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
         try{
             session.update(employee);
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new EmployeeException(employee.getEmpID());
         }
@@ -103,7 +103,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         List<Employee> employees;
         try{
             employees = session.createQuery("from Employee").list();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new EmployeeException(0);
         }
