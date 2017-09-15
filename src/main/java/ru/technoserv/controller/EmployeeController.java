@@ -12,8 +12,11 @@ import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,13 +37,12 @@ public class EmployeeController {
      * @param departmentID ИД отдела
      * @return Список отделов и код ОК
      */
-    @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET)
-    public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID){
+    @RequestMapping(name = "1", value = "/all/{departmentID}", method = RequestMethod.GET)
+    public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID, HttpServletRequest request){
         logger.info("Запрос на получения списка отдела по ид"+ departmentID);
         List<Employee> employeeList = employeeService.getEmployees(departmentID);
-        String json = GsonUtility.toJson(employeeList);
-        logger.info("Json отдаваемый на запрос получения списка сотрудников"+json);
-        return new ResponseEntity<Object>(json, HttpStatus.OK);
+        logger.info("Json отдаваемый на запрос получения списка сотрудников"+employeeList);
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     /**
@@ -48,13 +50,13 @@ public class EmployeeController {
      * @param id ИД сотрудника
      * @return Объект сотрудника и код ОК
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id){
+    @RequestMapping(name = "2", value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request)throws IOException{
         logger.info("Запрос на получение сотрудника по ид"+ id);
+        System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
         Employee employee = employeeService.getEmployee(id);
-        String json = GsonUtility.toJson(employee);
-        logger.info("Json ответ на получение сотрудника по ид"+ json);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+        logger.info("Json ответ на получение сотрудника по ид"+ employee);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     /**
@@ -62,28 +64,28 @@ public class EmployeeController {
      * @param employee создаваемый сотрудника
      * @return созданного сотрудника с кодом CREATED
      */
-    @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
-    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee){
+    @RequestMapping(name ="4", method = RequestMethod.POST, consumes = {"application/json"} )
+    public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request){
         logger.info("Запрос на создание сотрудника"+ employee);
-        String json = GsonUtility.toJson(employeeService.createEmployee(employee));
-        logger.info("Json ответ на запрос создания сотрудника"+ json);
-        return new ResponseEntity<>( json, HttpStatus.CREATED);
+        Employee emp = employeeService.createEmployee(employee);
+        logger.info("Json ответ на запрос создания сотрудника"+ emp);
+        return new ResponseEntity<>( emp, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = {"application/json"} )
-    public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee){
+    @RequestMapping(name = "3",method = RequestMethod.PUT, consumes = {"application/json"} )
+    public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request)throws IOException{
         logger.info("Запрос на изменение сотрудника"+employee);
-        String json = GsonUtility.toJson(employeeService.changeEmployee(employee));
-        logger.info("Json твет на изменение сотрудника"+json);
-        return new ResponseEntity<>(json , HttpStatus.OK);
+        Employee emp = employeeService.changeEmployee(employee);
+        logger.info("Json твет на изменение сотрудника"+emp);
+        return new ResponseEntity<>(emp , HttpStatus.OK);
     }
     /**
      * Удаление сотрудника по заданному ид
      * @param id ид удаляемого сотрудника
      * @return строку об успешном завершении
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String employeeDelete(@PathVariable int id){
+    @RequestMapping(name = "5", value = "/{id}", method = RequestMethod.DELETE)
+    public String employeeDelete(@PathVariable int id, HttpServletRequest request){
         logger.info("Запрос на удаление сотрудника по ид"+id);
         employeeService.removeEmployee(id);
         logger.info("Успешное удаление сотрудника");
