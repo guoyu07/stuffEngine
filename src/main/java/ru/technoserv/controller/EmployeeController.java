@@ -31,6 +31,7 @@ public class EmployeeController {
      * @param departmentID ИД отдела
      * @return Список отделов и код ОК
      */
+    @CrossOrigin
     @RequestMapping(value = "/all/{departmentID}", method = RequestMethod.GET)
     public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID){
         List<Employee> employeeList = employeeService.getEmployees(departmentID);
@@ -57,11 +58,12 @@ public class EmployeeController {
      * @param employee создаваемый сотрудника
      * @return созданного сотрудника с кодом CREATED
      */
+    @CrossOrigin
     @RequestMapping( method = RequestMethod.POST, consumes = {"application/json"} )
     public  ResponseEntity<?> createEmployee( @RequestBody Employee employee){
         return new ResponseEntity<>( employeeService.createEmployee(employee), HttpStatus.CREATED);
     }
-
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, consumes = {"application/json"} )
     public ResponseEntity<?> editEmployee(@RequestBody Employee employee){
         return new ResponseEntity<>(employeeService.changeEmployee(employee), HttpStatus.OK);
@@ -71,6 +73,7 @@ public class EmployeeController {
      * @param id ид удаляемого сотрудника
      * @return строку об успешном завершении
      */
+    @CrossOrigin
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String employeeDelete(@PathVariable int id){
         employeeService.removeEmployee(id);
