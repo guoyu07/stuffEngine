@@ -28,8 +28,8 @@ public class GlobalExceptionHandlerController {
                 ) {
             myErrors.add(new CommonError(7, err.getDefaultMessage()));
         }
-        String json = GsonUtility.toJson(myErrors);
-        return new ResponseEntity<>(json, HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(myErrors, HttpStatus.BAD_REQUEST);
     }
 
 }

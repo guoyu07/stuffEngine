@@ -40,7 +40,6 @@ public class Department {
     public Department() {
     }
 
-
     public Integer getId() {
         return id;
     }

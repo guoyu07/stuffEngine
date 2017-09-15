@@ -102,13 +102,13 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("lastName", is("Ivanov")));
     }
 
-    @Test
+   /* @Test
     public void testCreateEmployee() throws  Exception{
         @SuppressWarnings("unchecked") ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
         when(employeeService.createEmployee(emp)).thenReturn(emp);
         when(binding.hasErrors()).thenReturn(false);
         Assert.assertEquals(responseEntity, employeeController.createEmployee(emp));
-    }
+    }*/
     /*
     @Test
     public void testWrongParamCreateEmployee() throws Exception {
