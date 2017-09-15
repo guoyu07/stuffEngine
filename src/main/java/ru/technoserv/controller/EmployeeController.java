@@ -45,6 +45,7 @@ public class EmployeeController {
      * @param id ИД сотрудника
      * @return Объект сотрудника и код ОК
      */
+    @CrossOrigin
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getEmployee(@PathVariable int id){
         return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
