@@ -18,7 +18,7 @@ public class DepartmentController {
 
     @Autowired
     DepartmentService departmentService;
-
+    @CrossOrigin(origins =  "http://localhost:8080")
     @RequestMapping(value = "/{depId}/subdepts", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Department>> getSubDepts(@PathVariable Integer depId) {
@@ -26,7 +26,7 @@ public class DepartmentController {
 
         return new ResponseEntity<>(subDepts, HttpStatus.FOUND);
     }
-
+    @CrossOrigin(origins =  "http://localhost:3000")
     @RequestMapping(value = "/{depId}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Department> getDept(@PathVariable Integer depId) {
