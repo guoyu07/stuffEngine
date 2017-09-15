@@ -23,6 +23,7 @@ import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import ru.technoserv.audit.AuditHandler;
 
 import javax.annotation.Resource;
 import javax.ejb.Local;
@@ -48,6 +49,8 @@ public class DAOConfig {
     private String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "packages.to.scan";
     private String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private String PROPERTY_NAME_CURRENT_SESSION_CONTEXT = "current_session_context_class";
+
+
 
     @Bean
     public DataSource dataSource() {
