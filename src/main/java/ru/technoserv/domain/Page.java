@@ -1,15 +1,18 @@
 package ru.technoserv.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "CERT_PAGES")
 public class Page {
+
+    @Id
+    @Column (name = "ID")
+    Integer id;
+
     @Column(name = "CERT_NUMBER")
     Integer number;
+
     @Column(name = "PAGE")
     Integer page;
     @Column(name = "IMAGE")

@@ -2,12 +2,14 @@ package ru.technoserv.services.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
 import ru.technoserv.services.CertificateService;
 
 import java.util.List;
 
+@Service
 public class CertificateServiceImpl implements CertificateService {
 
     private static final Logger logger = Logger.getLogger(CertificateServiceImpl.class);
