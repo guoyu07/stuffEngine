@@ -80,7 +80,6 @@ public class AuditHandler {
                                             Department department, HttpServletRequest request, CommonException e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-
         AuditInfo auditRecord = new AuditInfo(department.getId(), null, request.getRemoteAddr(), ""+department, action, e.getShortMessage());
         auditService.createRecord(auditRecord);
     }
@@ -109,7 +108,6 @@ public class AuditHandler {
     public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint, CommonException e,  Integer empId, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        //TO DO
         AuditInfo auditRecord = new AuditInfo(null, empId, request.getRemoteAddr(), ""+empId, action, e.getShortMessage()  );
         auditService.createRecord(auditRecord);
     }
@@ -120,7 +118,6 @@ public class AuditHandler {
                                             Employee employee, HttpServletRequest request, CommonException e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-
         AuditInfo auditRecord = new AuditInfo(null, employee.getEmpID(), request.getRemoteAddr(), employee.toString(), action, e.getShortMessage());
         auditService.createRecord(auditRecord);
     }
@@ -139,16 +136,14 @@ public class AuditHandler {
     public void handleAfterMethodWithDepIdRequestParams( JoinPoint joinPoint, CommonException e,HttpServletRequest request,   Integer depId) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-
         AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), ""+depId, action, e.getShortMessage()  );
         auditService.createRecord(auditRecord);
     }
 
     @AfterThrowing(pointcut = "allControllers() && args(request,..)", throwing = "e")
-    public void handleAfterUnknownError( JoinPoint joinPoint, CommonException e,HttpServletRequest request) {
+    public void handleAfterUnknownError(JoinPoint joinPoint, CommonException e,HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        //TO DO
         AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "unknown", action, e.getShortMessage()  );
         auditService.createRecord(auditRecord);
     }
