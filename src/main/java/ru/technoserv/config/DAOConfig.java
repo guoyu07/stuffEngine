@@ -50,6 +50,8 @@ public class DAOConfig {
     private String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private String PROPERTY_NAME_CURRENT_SESSION_CONTEXT = "current_session_context_class";
 
+
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
