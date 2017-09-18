@@ -7,6 +7,10 @@ import java.sql.Blob;
 @Table(name = "CERT_PAGES")
 public class Page {
 
+    public Page() {
+
+    }
+
     @Id
     @Column (name = "ID")
     Integer id;
@@ -18,7 +22,7 @@ public class Page {
     Integer page;
 
     @Column(name = "IMAGE")
-    Blob image;
+    byte[] image;
 
     public Integer getId() {
         return id;
@@ -44,12 +48,11 @@ public class Page {
         this.page = page;
     }
 
-    public Blob getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
-
 }

@@ -8,6 +8,9 @@ import java.util.Set;
 @Table(name = "CERTIFICATE")
 public class Certificate {
 
+    public Certificate() {
+    }
+
     @Id
     @Column(name = "CERT_NUMBER")
     private Integer number;
@@ -24,7 +27,7 @@ public class Certificate {
     @Column(name = "ISSUE_DATE")
     private Date issueDate;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "CERT_NUMBER")
     private Set<Page> pages;
 
@@ -76,3 +79,4 @@ public class Certificate {
         this.pages = pages;
     }
 }
+
