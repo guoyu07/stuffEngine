@@ -1,15 +1,17 @@
-package ru.technoserv.audit;
+package ru.technoserv.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import ru.technoserv.audit.AuditHandler;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class VisitorConfig {
+public class AuditConfig {
 
     @Bean
-    public Visitor visitor(){
-        return new Visitor();
+    public AuditHandler auditHandler(){
+        return new AuditHandler();
     }
+
 }

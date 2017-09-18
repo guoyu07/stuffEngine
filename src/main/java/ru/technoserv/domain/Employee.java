@@ -1,7 +1,10 @@
-package ru.technoserv.dao;
+package ru.technoserv.domain;
 
+
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -11,32 +14,61 @@ import java.sql.Date;
 @Table(name="EMPLOYEE")
 public class Employee {
 
+
+
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "emp_generator"
+    )
+    @GenericGenerator(
+            name = "emp_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "EMPLOYEE_SEQ"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "15"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
+    @Column(name="EMP_ID")
     private Integer empID;
+
+    @OneToOne
+    @JoinColumn(name="POSITION_ID")
     private Position position;
+
+    @OneToOne
+    @JoinColumn(name="GRADE_ID")
     private Grade grade;
-
+    @NotNull(message = "Необходимо указать отдел в котором работает сотрудник")
+    @ManyToOne
+    @JoinColumn(name="DEPARTMENT_ID")
     private Department department;
+    @Size(min=3, max=50,message = "Фамилия должно быть от 3 до 50 символов")
+    @Column(name="LAST_NAME")
     private String lastName;
+    @Size(min=3, max=50,message = "Имя должно быть от 3 до 50 символов")
+    @Column(name="FIRST_NAME")
     private String firstName;
+
+    @Column(name="PATR_NAME")
     private String patrName;
+    @NotNull(message = "Укажите ваш пол")
+    @Column(name="GENDER")
     private Character gender;
+
+    @Column(name="BIRTHDAY")
     private Date birthday;
+    @NotNull(message="Укажите зарплату")
+    @Min(value=0,message = "Не все сотрудники работают за еду")
+    @Column(name="SALARY")
     private BigDecimal salary;
-    private static Integer globalID;
-
-    public static Integer getGlobalID() {
-        return ++globalID;
-    }
-
-    public static void setGlobalID(Integer globalID) {
-        Employee.globalID = globalID;
-    }
 
     public Employee() {
     }
-    @Id
-    @Column(name="EMP_ID")
-    public int getEmpID() {
+
+
+    public Integer getEmpID() {
         return empID;
     }
 
@@ -44,8 +76,7 @@ public class Employee {
         this.empID = empID;
     }
 
-    @OneToOne
-    @JoinColumn(name="POSITION_ID")
+
     public Position getPosition() {
         return position;
     }
@@ -53,8 +84,7 @@ public class Employee {
     public void setPosition(Position position) {
         this.position = position;
     }
-    @OneToOne
-    @JoinColumn(name="GRADE_ID")
+
     public Grade getGrade() {
         return grade;
     }
@@ -63,8 +93,7 @@ public class Employee {
         this.grade = grade;
     }
 
-    @ManyToOne
-    @JoinColumn(name="DEPARTMENT_ID")
+
     public Department getDepartment() {
         return department;
     }
@@ -72,7 +101,7 @@ public class Employee {
     public void setDepartment(Department department) {
         this.department = department;
     }
-   @Column(name="LAST_NAME")
+
     public String getLastName() {
         return lastName;
     }
@@ -80,7 +109,7 @@ public class Employee {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    @Column(name="FIRST_NAME")
+
     public String getFirstName() {
         return firstName;
     }
@@ -88,7 +117,7 @@ public class Employee {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @Column(name="PATR_NAME")
+
     public String getPatrName() {
         return patrName;
     }
@@ -96,7 +125,7 @@ public class Employee {
     public void setPatrName(String patrName) {
         this.patrName = patrName;
     }
-    @Column(name="GENDER")
+
     public Character getGender() {
         return gender;
     }
@@ -104,7 +133,7 @@ public class Employee {
     public void setGender(Character gender) {
         this.gender = gender;
     }
-    @Column(name="BIRTHDAY")
+
     public Date getBirthday() {
         return birthday;
     }
@@ -112,7 +141,7 @@ public class Employee {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-    @Column(name="SALARY")
+
     public BigDecimal getSalary() {
         return salary;
     }

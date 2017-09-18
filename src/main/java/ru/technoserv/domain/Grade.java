@@ -1,9 +1,12 @@
-package ru.technoserv.dao;
+package ru.technoserv.domain;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="GRADE")
@@ -28,5 +31,13 @@ public class Grade {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

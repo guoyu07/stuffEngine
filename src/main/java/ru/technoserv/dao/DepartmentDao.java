@@ -1,15 +1,11 @@
 package ru.technoserv.dao;
 
+import ru.technoserv.domain.Department;
+import ru.technoserv.domain.Employee;
+
 import java.util.List;
 
 public interface DepartmentDao {
-
-    /**
-     * Поиск id с максимальным значением в таблице Department
-     *
-     * @return id с макс. значением
-     */
-    int getID();
 
     /**
      * Создание нового отдела

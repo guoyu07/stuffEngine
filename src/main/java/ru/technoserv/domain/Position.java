@@ -1,4 +1,6 @@
-package ru.technoserv.dao;
+package ru.technoserv.domain;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,5 +30,13 @@ public class Position {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

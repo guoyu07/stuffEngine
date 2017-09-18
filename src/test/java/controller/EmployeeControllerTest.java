@@ -1,7 +1,6 @@
 package controller;
 
 
-import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,13 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.technoserv.controller.EmployeeController;
-import ru.technoserv.dao.Employee;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.services.EmployeeService;
 
 import java.math.BigDecimal;
@@ -33,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class EmployeeControllerTest {
-
 
     @Configuration
     static class LoginControllerTestConfiguration {
@@ -54,6 +51,7 @@ public class EmployeeControllerTest {
         }
 
     }
+
     @Autowired
     private EmployeeController employeeController;
 
@@ -98,20 +96,19 @@ public class EmployeeControllerTest {
 
     @Test
     public void testGetEmployee() throws Exception {
-
         when(employeeService.getEmployee(1)).thenReturn(emp);
         mockMvc.perform(get("/employee/1")).andExpect(status().isOk())
                 .andExpect(jsonPath("empID", is(1)))
                 .andExpect(jsonPath("lastName", is("Ivanov")));
     }
 
-    @Test
+   /* @Test
     public void testCreateEmployee() throws  Exception{
         @SuppressWarnings("unchecked") ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
         when(employeeService.createEmployee(emp)).thenReturn(emp);
         when(binding.hasErrors()).thenReturn(false);
         Assert.assertEquals(responseEntity, employeeController.createEmployee(emp));
-    }
+    }*/
     /*
     @Test
     public void testWrongParamCreateEmployee() throws Exception {
@@ -131,7 +128,4 @@ public class EmployeeControllerTest {
                 .andExpect(content().string("delete"));
 
     }
-
-
-
 }

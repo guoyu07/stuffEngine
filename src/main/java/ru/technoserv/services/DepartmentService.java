@@ -1,6 +1,6 @@
 package ru.technoserv.services;
 
-import ru.technoserv.dao.Department;
+import ru.technoserv.domain.Department;
 
 import java.util.List;
 

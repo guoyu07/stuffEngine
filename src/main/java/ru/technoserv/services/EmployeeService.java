@@ -1,8 +1,7 @@
 package ru.technoserv.services;
 
-import ru.technoserv.dao.Employee;
+import ru.technoserv.domain.Employee;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface EmployeeService {
