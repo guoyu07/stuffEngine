@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jndi.JndiObjectFactoryBean;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -69,7 +70,7 @@ public class DAOConfig {
         properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, true);
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, "org.hibernate.dialect.OracleDialect");
         //TODO перевести настройки в файл ресурсов
-        properties.put("hibernate.current_session_context_class", "thread");
+        properties.put("current_session_context_class", "thread");
         return properties;
     }
 

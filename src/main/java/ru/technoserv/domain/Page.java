@@ -1,6 +1,7 @@
 package ru.technoserv.domain;
 
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "CERT_PAGES")
@@ -15,8 +16,17 @@ public class Page {
 
     @Column(name = "PAGE")
     Integer page;
+
     @Column(name = "IMAGE")
-    byte[] image;
+    Blob image;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getNumber() {
         return number;
@@ -25,7 +35,7 @@ public class Page {
     public void setNumber(Integer number) {
         this.number = number;
     }
-    @ManyToOne
+
     public Integer getPage() {
         return page;
     }
@@ -34,11 +44,12 @@ public class Page {
         this.page = page;
     }
 
-    public byte[] getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
+
 }

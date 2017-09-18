@@ -1,6 +1,7 @@
 package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
@@ -31,6 +33,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     private Session getSession(){
         return sessionFactory.getCurrentSession();
     }
+
     private static String sqlQueryForSubDepts1 = "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT START WITH PARENT_DEPT_ID = ";
 
     private static String sqlQueryForSubDepts2 =
@@ -41,12 +44,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         logger.info("Запрос к базе на создание отдела");
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.save(department);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentException(0);
         }
     }
@@ -57,12 +57,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         Department department;
         Session session = getSession();
         try{
-            session.beginTransaction();
             department = (Department) session.get(Department.class, depId);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentException(depId);
         }
         if(department==null) throw new DepartmentNotFoundException(depId);
@@ -74,12 +71,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         logger.info("Запрос к базе на изменение отдела");
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.update(department);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentException(department.getId());
         }
         return readById(department.getId());
@@ -92,12 +86,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         Department department = readById(depId);
         Session session = getSession();
         try{
-            session.beginTransaction();
             session.delete(department);
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentNotEmpty(depId);
         }
     }
@@ -115,12 +106,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         List departments;
         Session session = getSession();
         try{
-            session.beginTransaction();
             departments = session.createQuery("from Department ").list();
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentException(0);
         }
         return departments;
@@ -132,12 +120,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
         List departments;
         Session session = getSession();
         try{
-            session.beginTransaction();
             departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();
-            session.getTransaction().commit();
-        }catch (RuntimeException e){
+        }catch (HibernateException e){
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentException(0);
         }
         return departments;

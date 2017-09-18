@@ -2,7 +2,6 @@ package ru.technoserv.domain;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -25,9 +24,9 @@ public class Certificate {
     @Column(name = "ISSUE_DATE")
     private Date issueDate;
 
-    @OneToMany(mappedBy = "CERTIFICATE")
-    @MapKey(name = "PAGE")
-    private Map<Integer, byte[]> pages;
+    @OneToMany
+    @JoinColumn(name = "CERT_NUMBER")
+    private Set<Page> pages;
 
     public Integer getNumber() {
         return number;
@@ -69,23 +68,11 @@ public class Certificate {
         this.issueDate = issueDate;
     }
 
-    public Map<Integer, byte[]> getPages() {
+    public Set<Page> getPages() {
         return pages;
     }
 
-    public void setPages(Map<Integer, byte[]> pages) {
+    public void setPages(Set<Page> pages) {
         this.pages = pages;
-    }
-
-    @Override
-    public String toString() {
-        return "Certificate{" +
-                "number=" + number +
-                ", ownerId=" + ownerId +
-                ", name='" + name + '\'' +
-                ", issuerName='" + issuerName + '\'' +
-                ", issueDate=" + issueDate +
-                ", pages=" + pages +
-                '}';
     }
 }

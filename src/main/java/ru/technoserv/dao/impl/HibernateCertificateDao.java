@@ -46,7 +46,7 @@ public class HibernateCertificateDao implements CertificateDao {
         Certificate dbCertificate;
         try {
             dbCertificate = (Certificate) session.get(Certificate.class, certNum);
-        } catch (HibernateException ex) {
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при чтении сертификата с номером: " + certNum);
         }
