@@ -137,8 +137,9 @@ public class AuditInfo {
                 ", empId=" + empId +
                 ", ipAddr='" + ipAddr + '\'' +
                 ", requestObject='" + requestObject + '\'' +
-                ", action='" + action + '\'' +
+                ", action=" + action +
                 ", requestDate=" + requestDate +
+                ", exceptionMessage='" + exceptionMessage + '\'' +
                 '}';
     }
 }

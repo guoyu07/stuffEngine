@@ -31,4 +31,12 @@ public class Position {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

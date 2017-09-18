@@ -34,7 +34,7 @@ public class DepartmentController {
         logger.info("Запрос на получение подотделов отдеал с ид "+ depId);
         List<Department> subDepts = departmentService.getSubDepts(depId);
         logger.info("Json ответ на получение подотделов"+ subDepts);
-        return new ResponseEntity<>(subDepts, HttpStatus.FOUND);
+        return new ResponseEntity<>(subDepts, HttpStatus.OK);
     }
 
     @RequestMapping(name = "7",value = "/{depId}", method = RequestMethod.GET,
@@ -43,7 +43,7 @@ public class DepartmentController {
         logger.info("Получение отдела по ид "+depId);
         Department dep = departmentService.getDepartment(depId);
         logger.info("Json ответ на получение отдела по id"+ dep);
-        return new ResponseEntity<>(dep, HttpStatus.FOUND);
+        return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
     @RequestMapping(name = "9",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

@@ -40,4 +40,12 @@ public class Action {
     public void setEvent(String event) {
         this.event = event;
     }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "id=" + id +
+                ", event='" + event + '\'' +
+                '}';
+    }
 }
