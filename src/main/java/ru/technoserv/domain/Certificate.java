@@ -1,14 +1,32 @@
 package ru.technoserv.domain;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Map;
+import java.util.Set;
 
+@Entity
+@Table(name = "CERTIFICATE")
 public class Certificate {
+
+    @Id
+    @Column(name = "CERT_NUMBER")
     private Integer number;
+
+    @Column(name = "EMPLOYEE_ID")
     private Integer ownerId;
+
+    @Column(name = "CERT_NAME")
     private String name;
+
+    @Column(name = "ISSUER_NAME")
     private String issuerName;
+
+    @Column(name = "ISSUE_DATE")
     private Date issueDate;
+
+    @OneToMany(mappedBy = "CERTIFICATE")
+    @MapKey(name = "PAGE")
     private Map<Integer, byte[]> pages;
 
     public Integer getNumber() {
