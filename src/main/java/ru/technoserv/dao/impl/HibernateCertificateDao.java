@@ -32,7 +32,7 @@ public class HibernateCertificateDao implements CertificateDao {
         Session session = getSession();
         try {
             session.save(certificate);
-        } catch (HibernateException ex) {
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при вставке сертификата в базу");
         }
@@ -58,7 +58,19 @@ public class HibernateCertificateDao implements CertificateDao {
 
     @Override
     public List<Certificate> readAllCertsByEmpID(int empID) {
-        throw new RuntimeException("Not implemented");
+        logger.info("Запрос к базе на чтеие всех сертификатов сотрудника с id: " + empID);
+        Session session = getSession();
+        List<Certificate> allCerts;
+        try{
+            allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
+        }catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new RuntimeException("Jшибка при чтении сертификатов сотрудника с id: " +empID);
+        }
+        if (allCerts==null) {
+            throw new RuntimeException("Не найдены сертификаты для сотрудника с id: " + empID);
+        }
+        return allCerts;
     }
 
     @Override

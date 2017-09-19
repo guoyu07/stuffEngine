@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
 import ru.technoserv.services.CertificateService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping (value="/certificate",  produces = {"application/json; charset=UTF-8"})
 public class CertificateController {
@@ -19,10 +21,20 @@ public class CertificateController {
 
     @RequestMapping(value = "/{certNum}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> readCertByNum(@PathVariable (name = "certNum") Integer certNum) {
-        logger.info("Request на получение сортификата с номером: " + certNum);
+        logger.info("Request на получение сертификата с номером: " + certNum);
         Certificate certificate = certificateService.readCertByNum(certNum);
         String json = GsonUtility.toJson(certificate);
-        logger.info("JSON ответ на получение сертификата по ID");
+        logger.info("JSON ответ на получение сертификата по номеру: " + json);
         return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "allByEmp/{empID}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<?> readAllCertsByEmpID(@PathVariable (name = "empID") Integer empID) {
+        logger.info("Request на получение всех сертификатов сотрудника с id: " + empID);
+        List<Certificate> allCerts = certificateService.readAllCertsByEmpID(empID);
+        String json = GsonUtility.toJson(allCerts);
+        logger.info("JSON ответ на получение всех сертификатов сотрудника: " + json);
+        return new ResponseEntity<Object>(json, HttpStatus.OK);
+    }
+
 }

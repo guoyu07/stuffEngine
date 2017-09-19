@@ -19,20 +19,22 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public void create(Certificate certificate) {
-        logger.info("Создаем сертификат");
+        logger.info("Создание сертификата");
         certificateDao.create(certificate);
     }
 
     @Override
     public Certificate readCertByNum(int certNum) {
-        logger.info("Читаем сертификат");
+        logger.info("Чтение сертификата c номером: " + certNum);
         Certificate certificate = certificateDao.readCertByNum(certNum);
         return certificate;
     }
 
     @Override
     public List<Certificate> readAllCertsByEmpID(int empID) {
-        throw new RuntimeException("Not implemented");
+        logger.info("Чтение всех сертификатов сотрудника с ID: " + empID);
+        List<Certificate> allCerts = certificateDao.readAllCertsByEmpID(empID);
+        return allCerts;
     }
 
     @Override
