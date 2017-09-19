@@ -1,7 +1,6 @@
 package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
 
 import java.util.List;
+
+//TODO Исключения
 
 @Repository
 @Transactional
@@ -23,7 +24,6 @@ public class HibernateCertificateDao implements CertificateDao {
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
-
     }
 
     @Override
@@ -36,24 +36,23 @@ public class HibernateCertificateDao implements CertificateDao {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при вставке сертификата в базу");
         }
-
     }
 
     @Override
     public Certificate readCertByNum(int certNum) {
         logger.info("Запрос к базе на чтение сертификата с номером: " + certNum);
         Session session = getSession();
-        Certificate dbCertificate;
+        Certificate certificate;
         try {
-            dbCertificate = (Certificate) session.get(Certificate.class, certNum);
+            certificate = (Certificate) session.get(Certificate.class, certNum);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при чтении сертификата с номером: " + certNum);
         }
-        if (dbCertificate == null) {
-            throw new RuntimeException("Сертификат с номером " + certNum + " не найден");
+        if (certificate == null) {
+            throw new RuntimeException("Не найден сертификат с номеромЖ:" + certNum);
         }
-        return dbCertificate;
+        return certificate;
     }
 
     @Override
@@ -65,7 +64,7 @@ public class HibernateCertificateDao implements CertificateDao {
             allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
         }catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Jшибка при чтении сертификатов сотрудника с id: " +empID);
+            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " +empID);
         }
         if (allCerts==null) {
             throw new RuntimeException("Не найдены сертификаты для сотрудника с id: " + empID);
@@ -74,12 +73,28 @@ public class HibernateCertificateDao implements CertificateDao {
     }
 
     @Override
-    public void deleteCertByNum(int certId) {
-        throw new RuntimeException("Not implemented");
+    public void deleteCertByNum(int certNum) {
+        logger.info("Запрос к базе на удаление сертификата с номером: " + certNum);
+        Session session = getSession();
+        try {
+            session.createQuery("DELETE Certificate C where C.number = "
+                    + certNum).executeUpdate();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new RuntimeException("Ошибка во время удаления сертификата с номером: " + certNum);
+        }
     }
 
     @Override
     public void deleteAllCertsByEmpID(int empID) {
-        throw new RuntimeException("Not implemented");
+        logger.info("Запрос к базе на удаление всех сертификатов сотрудника с id: " + empID);
+        Session session = getSession();
+        try {
+            session.createQuery("DELETE Certificate C where C.ownerId = "
+                    + empID).executeUpdate();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new RuntimeException("Ошибка во время удаления всех сертификатов сотрудника с id: " + empID);
+        }
     }
 }

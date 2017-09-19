@@ -38,12 +38,14 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public void deleteCertByNum(int certId) {
-        throw new RuntimeException("Not implemented");
+    public void deleteCertByNum(int certNum) {
+        logger.info("Удаление сертификата с номером: " + certNum);
+        certificateDao.deleteCertByNum(certNum);
     }
 
     @Override
     public void deleteAllCertsByEmpID(int empID) {
-        throw new RuntimeException("Not implemented");
+        logger.info("Удаление всех сертификатов сотрудника с id: " + empID);
+        certificateDao.deleteAllCertsByEmpID(empID);
     }
 }

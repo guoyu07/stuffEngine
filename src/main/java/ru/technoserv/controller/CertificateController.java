@@ -19,8 +19,8 @@ public class CertificateController {
     @Autowired
     CertificateService certificateService;
 
-    @RequestMapping(value = "/{certNum}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<?> readCertByNum(@PathVariable (name = "certNum") Integer certNum) {
+    @RequestMapping(value = "num/{certNum}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum) {
         logger.info("Request на получение сертификата с номером: " + certNum);
         Certificate certificate = certificateService.readCertByNum(certNum);
         String json = GsonUtility.toJson(certificate);
@@ -28,13 +28,27 @@ public class CertificateController {
         return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "allByEmp/{empID}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<?> readAllCertsByEmpID(@PathVariable (name = "empID") Integer empID) {
+    @RequestMapping(value = "empid/{empID}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<?> readAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
         logger.info("Request на получение всех сертификатов сотрудника с id: " + empID);
         List<Certificate> allCerts = certificateService.readAllCertsByEmpID(empID);
         String json = GsonUtility.toJson(allCerts);
         logger.info("JSON ответ на получение всех сертификатов сотрудника: " + json);
         return new ResponseEntity<Object>(json, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "num/{certNum}", method = RequestMethod.DELETE)
+    public String deleteCertByNum(@PathVariable(name = "certNum") int certNum) {
+        logger.info("Request на удаление сертификата по номеру: " + certNum);
+        certificateService.deleteCertByNum(certNum);
+        return "deleted";
+    }
+
+    @RequestMapping(value = "empid/{empID}", method = RequestMethod.DELETE)
+    public String deleteAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
+        logger.info("Request на удаление всех сертификатов сотрудника с id: " + empID);
+        certificateService.deleteAllCertsByEmpID(empID);
+        return "deleted";
     }
 
 }

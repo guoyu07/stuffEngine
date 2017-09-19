@@ -12,7 +12,7 @@ public interface CertificateService {
 
     List<Certificate> readAllCertsByEmpID(int empID);
 
-    void deleteCertByNum(int certId);
+    void deleteCertByNum(int certNum);
 
     void deleteAllCertsByEmpID(int empID);
 }
