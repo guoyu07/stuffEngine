@@ -8,11 +8,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.exceptions.CertificateException;
+import ru.technoserv.exceptions.CertificateNotFoundException;
+import ru.technoserv.exceptions.EmpCertificatesNotFoundException;
 
 import java.util.List;
 
 //TODO Исключения
-//TODO Вставка сертификата целиком
 
 @Repository
 @Transactional
@@ -35,7 +37,7 @@ public class HibernateCertificateDao implements CertificateDao {
             session.save( certificate);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка при вставке сертификата в базу");
+            throw new CertificateException(certificate.getNumber());
         }
     }
 
@@ -51,7 +53,7 @@ public class HibernateCertificateDao implements CertificateDao {
             throw new RuntimeException("Ошибка при чтении сертификата с номером: " + certNum);
         }
         if (certificate == null) {
-            throw new RuntimeException("Не найден сертификат с номеромЖ:" + certNum);
+            throw new CertificateNotFoundException(certNum);
         }
         return certificate;
     }
@@ -68,7 +70,7 @@ public class HibernateCertificateDao implements CertificateDao {
             throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " +empID);
         }
         if (allCerts==null) {
-            throw new RuntimeException("Не найдены сертификаты для сотрудника с id: " + empID);
+            throw new EmpCertificatesNotFoundException(empID);
         }
         return allCerts;
     }
