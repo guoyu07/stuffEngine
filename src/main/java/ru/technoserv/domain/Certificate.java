@@ -27,7 +27,7 @@ public class Certificate {
     @Column(name = "ISSUE_DATE")
     private Date issueDate;
 
-    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "CERT_NUMBER")
     private Set<Page> pages;
 

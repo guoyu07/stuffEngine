@@ -34,7 +34,7 @@ public class HibernateCertificateDao implements CertificateDao {
         logger.info("Запрос к базе на создание сертификата");
         Session session = getSession();
         try {
-            session.save( certificate);
+            session.save(certificate);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new CertificateException(certificate.getNumber());
@@ -63,13 +63,13 @@ public class HibernateCertificateDao implements CertificateDao {
         logger.info("Запрос к базе на чтеие всех сертификатов сотрудника с id: " + empID);
         Session session = getSession();
         List<Certificate> allCerts;
-        try{
+        try {
             allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " +empID);
+            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " + empID);
         }
-        if (allCerts==null) {
+        if (allCerts == null) {
             throw new EmpCertificatesNotFoundException(empID);
         }
         return allCerts;

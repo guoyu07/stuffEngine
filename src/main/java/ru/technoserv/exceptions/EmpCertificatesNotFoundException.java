@@ -6,7 +6,7 @@ public class EmpCertificatesNotFoundException extends RuntimeException {
     private int empID;
 
     public EmpCertificatesNotFoundException(int empID) {
-       this.empID = empID;
+        this.empID = empID;
     }
 
     public int getErrorId() {
