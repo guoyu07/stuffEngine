@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.exceptions.*;
 import ru.technoserv.services.CertificateService;
 
 import java.util.List;
@@ -61,6 +62,24 @@ public class CertificateController {
         logger.info("Request на удаление всех сертификатов сотрудника с id: " + empID);
         certificateService.deleteAllCertsByEmpID(empID);
         return "deleted";
+    }
+
+    @ExceptionHandler(CertificateNotFoundException.class)
+    public ResponseEntity<CommonError> certNotFound(CertificateNotFoundException ex) {
+        logger.error(ex.getShortMessage());
+        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmpCertificatesNotFoundException.class)
+    public ResponseEntity<CommonError> certsNotFound(EmpCertificatesNotFoundException ex) {
+        logger.error(ex.getShortMessage());
+        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CertificateException.class)
+    private ResponseEntity<CommonError> certException(CertificateException ex) {
+        logger.error(ex.getShortMessage());
+        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.BAD_REQUEST);
     }
 
 }
