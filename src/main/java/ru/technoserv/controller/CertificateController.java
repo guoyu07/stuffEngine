@@ -9,7 +9,7 @@ import ru.technoserv.domain.Certificate;
 import ru.technoserv.services.CertificateService;
 
 @RestController
-@RequestMapping (value="/certificate", produces={"application/json; charset=UTF-8"})
+@RequestMapping (value="/certificate",  produces = {"application/json; charset=UTF-8"})
 public class CertificateController {
 
     private static final Logger logger = Logger.getLogger(CertificateController.class);
