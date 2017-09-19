@@ -1,5 +1,7 @@
 package ru.technoserv.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Blob;
 
@@ -12,6 +14,19 @@ public class Page {
     }
 
     @Id
+    @GeneratedValue (
+            strategy = GenerationType.SEQUENCE,
+            generator = "page_generator"
+    )
+    @GenericGenerator(
+            name = "page_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "CERT_PAGES_SEQ"),
+//                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     @Column (name = "ID")
     Integer id;
 
@@ -23,14 +38,6 @@ public class Page {
 
     @Column(name = "IMAGE")
     byte[] image;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getNumber() {
         return number;
