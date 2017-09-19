@@ -47,7 +47,7 @@ public class CertificateController {
         return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "num/{certNum}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "certnum/{certNum}", method = RequestMethod.DELETE)
     public String deleteCertByNum(@PathVariable(name = "certNum") int certNum) {
         logger.info("Request на удаление сертификата по номеру: " + certNum);
         certificateService.deleteCertByNum(certNum);
