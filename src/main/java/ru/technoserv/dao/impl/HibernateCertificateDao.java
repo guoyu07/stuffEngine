@@ -12,6 +12,7 @@ import ru.technoserv.domain.Certificate;
 import java.util.List;
 
 //TODO Исключения
+//TODO Вставка сертификата целиком
 
 @Repository
 @Transactional
@@ -31,7 +32,7 @@ public class HibernateCertificateDao implements CertificateDao {
         logger.info("Запрос к базе на создание сертификата");
         Session session = getSession();
         try {
-            session.save(certificate);
+            session.save( certificate);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при вставке сертификата в базу");

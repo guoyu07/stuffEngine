@@ -27,7 +27,7 @@ public class Certificate {
     @Column(name = "ISSUE_DATE")
     private Date issueDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinColumn(name = "CERT_NUMBER")
     private Set<Page> pages;
 
@@ -77,6 +77,18 @@ public class Certificate {
 
     public void setPages(Set<Page> pages) {
         this.pages = pages;
+    }
+
+    @Override
+    public String toString() {
+        return "Certificate{" +
+                "number=" + number +
+                ", ownerId=" + ownerId +
+                ", name='" + name + '\'' +
+                ", issuerName='" + issuerName + '\'' +
+                ", issueDate=" + issueDate +
+                ", pages=" + pages +
+                '}';
     }
 }
 

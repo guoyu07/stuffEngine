@@ -3,6 +3,7 @@ package ru.technoserv.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
@@ -19,7 +20,16 @@ public class CertificateController {
     @Autowired
     CertificateService certificateService;
 
-    @RequestMapping(value = "num/{certNum}", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String createCertificate(@RequestBody Certificate certificate) {
+        logger.info("Request на создание сертификата");
+        logger.info("создаваемый сертификат:");
+        logger.info(certificate.toString());
+        certificateService.create(certificate);
+        return "created";
+    }
+
+    @RequestMapping(value = "certnum/{certNum}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum) {
         logger.info("Request на получение сертификата с номером: " + certNum);
         Certificate certificate = certificateService.readCertByNum(certNum);
