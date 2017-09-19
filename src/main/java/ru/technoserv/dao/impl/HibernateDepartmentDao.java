@@ -17,6 +17,7 @@ import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
