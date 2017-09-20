@@ -2,7 +2,7 @@ package ru.technoserv.exceptions;
 
 public class EmpCertificatesNotFoundException extends RuntimeException {
     private final static int ERROR_ID = 4;
-    private final static String SHORT_MESSAGE = "Сертификат c таким номером не найден";
+    private final static String SHORT_MESSAGE = "Не найдены сертификаты сотрудника с таким id";
     private int empID;
 
     public EmpCertificatesNotFoundException(int empID) {

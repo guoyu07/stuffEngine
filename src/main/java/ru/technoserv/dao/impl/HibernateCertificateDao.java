@@ -69,7 +69,7 @@ public class HibernateCertificateDao implements CertificateDao {
             logger.error(ex.getMessage());
             throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " + empID);
         }
-        if (allCerts == null) {
+        if (allCerts.isEmpty()) {
             throw new EmpCertificatesNotFoundException(empID);
         }
         return allCerts;
