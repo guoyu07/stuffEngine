@@ -2,6 +2,7 @@ package ru.technoserv.dao;
 
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface DepartmentDao {
      * @param department подразделение, которое должно быть
      *                   создано
      */
-    void create(Department department);
+    Integer create(Department department);
 
     /**
      * Поиск отдела по id
@@ -45,7 +46,7 @@ public interface DepartmentDao {
      *              поиск руководителя отдела
      * @return      руководитель отдела с id, равным depId
      */
-    Employee getDeptHead(Integer depId);
+    EmployeeHistory getDeptHead(Integer depId);
 
     /**
      * Поиск всех отделов

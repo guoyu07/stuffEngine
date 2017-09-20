@@ -1,19 +1,23 @@
 package ru.technoserv.dao;
 
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 
 import java.util.List;
 
 public interface EmployeeDao {
 
-    void create(Employee employee);
+    Integer create(EmployeeHistory employee);
 
-    Employee read(int empID);
+    EmployeeHistory read(int empID);
 
     void delete(int empID);
 
-    List<Employee> getAllFromDept(int deptID);
+    List<EmployeeHistory> getAllFromDept(int deptID);
 
-    Employee updateEmployee(Employee employee);
+    List<EmployeeHistory> getEmployeeStory(int empID);
+
+    EmployeeHistory updateEmployee(EmployeeHistory employee);
+
 }
 

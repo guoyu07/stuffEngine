@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.*;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,13 +35,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee createEmployee(Employee employee) {
      //   log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         logger.info("Создаем сотрудника");
-        employeeDao.create(employee);
-        return employeeDao.read(employee.getEmpID());
+
+        EmployeeHistory eh = new EmployeeHistory(employee);
+        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
+        Integer id = employeeDao.create(eh);
+        Employee createdEmployee = new Employee(employeeDao.read(id));
+
+        return createdEmployee;
     }
 
     @Override
-    public void getEmployeeStory(Employee employee) {
-        throw new NotImplementedException();
+    public List<EmployeeHistory> getEmployeeStory(int id) {
+        List<EmployeeHistory> employeeHistoryList = employeeDao.getEmployeeStory(id);
+
+        return employeeHistoryList;
     }
 
     @Override
@@ -51,24 +60,54 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee changeEmployee(Employee employee) {
         logger.info("Меняем параметры сотрудника");
-        Employee dbEmployee = employeeDao.read(employee.getEmpID());
+        Employee dbEmployee = new Employee(employeeDao.read(employee.getEmpID()));
+        employee.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
         if(!employee.getDepartment().equals(dbEmployee.getDepartment())){
-            if(employee.getEmpID().equals(dbEmployee.getDepartment().getDeptHeadId())) throw new EmployeeTheHeadOfDepartment(employee.getEmpID());
+            if(dbEmployee.getEmpID()
+                    .equals(dbEmployee.getDepartment()
+                            .getDeptHeadId()))
+                throw new EmployeeTheHeadOfDepartment(employee.getEmpID());
         }
-        return employeeDao.updateEmployee(employee);
+
+        EmployeeHistory eh = new EmployeeHistory(employee);
+        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
+
+        EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
+        Employee updatedEmployee = new Employee(updatedEmpH);
+
+        return updatedEmployee;
     }
 
     public List<Employee> getEmployees(int depID){
         logger.info("Получаем сотрудников по отделу");
       //  log.info("Посылаем запрос dao на получение сотрудников отдела с ИД "+depID);
-        return employeeDao.getAllFromDept(depID);
+        List<EmployeeHistory> allEmpsHistory = employeeDao.getAllFromDept(depID);
+        for(EmployeeHistory eh : allEmpsHistory) {
+            eh.setDepartment(departmentDao.readById(depID));
+        }
+        List<Employee> allEmps = buildEmpsList(allEmpsHistory);
+
+        return allEmps;
     }
 
     @Override
     @Transactional
     public Employee getEmployee(int id) {
         logger.info("Получаем сотрудника по ид");
-        return employeeDao.read(id);
+        EmployeeHistory eh = employeeDao.read(id);
+        Employee employee = new Employee(eh);
+
+        return employee;
+    }
+
+    private List<Employee> buildEmpsList(List<EmployeeHistory> empHList) {
+        List<Employee> emps = new ArrayList<>();
+
+        for(EmployeeHistory eh : empHList) {
+            emps.add(new Employee(eh));
+        }
+
+        return emps;
     }
 }
 

@@ -8,6 +8,12 @@ public class DepartmentNotEmpty extends DepartmentException{
         super(deptId);
     }
 
+    public int getErrorId() {
+        return ERROR_ID;
+    }
 
+    public String getShortMessage() {
+        return SHORT_MESSAGE;
+    }
 
 }
