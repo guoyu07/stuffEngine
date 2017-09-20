@@ -10,6 +10,7 @@ import ru.technoserv.domain.Certificate;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.CertificateService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -21,43 +22,41 @@ public class CertificateController {
     @Autowired
     CertificateService certificateService;
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
     public String createCertificate(@RequestBody Certificate certificate) {
         logger.info("Request на создание сертификата");
-        logger.info("создаваемый сертификат:");
+        logger.info("Cоздаваемый сертификат:");
         logger.info(certificate.toString());
         certificateService.create(certificate);
         return "created";
     }
 
-    @RequestMapping(value = "certnum/{certNum}", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum) {
+    @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.GET)
+    public ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum) {
         logger.info("Request на получение сертификата с номером: " + certNum);
         Certificate certificate = certificateService.readCertByNum(certNum);
-        String json = GsonUtility.toJson(certificate);
-        logger.info("JSON ответ на получение сертификата по номеру: " + json);
-        return new ResponseEntity<Object>(json, HttpStatus.OK);
+        logger.info("Возвращаемый сертификат:");
+        logger.info(certificate.toString());
+        return new ResponseEntity<>(certificate, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "empid/{empID}", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<?> readAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
+    @RequestMapping(value = "/empid/{empID}", method = RequestMethod.GET)
+    public ResponseEntity<?> readAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
         logger.info("Request на получение всех сертификатов сотрудника с id: " + empID);
         List<Certificate> allCerts = certificateService.readAllCertsByEmpID(empID);
-        String json = GsonUtility.toJson(allCerts);
-        logger.info("JSON ответ на получение всех сертификатов сотрудника: " + json);
-        return new ResponseEntity<Object>(json, HttpStatus.OK);
+        logger.info("Возвращаемые сертификаты сотрудника:");
+        for (Certificate cert : allCerts) logger.info(cert.toString());
+        return new ResponseEntity<>(allCerts, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "certnum/{certNum}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.DELETE)
     public String deleteCertByNum(@PathVariable(name = "certNum") int certNum) {
         logger.info("Request на удаление сертификата по номеру: " + certNum);
         certificateService.deleteCertByNum(certNum);
         return "deleted";
     }
 
-    @RequestMapping(value = "empid/{empID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/empid/{empID}", method = RequestMethod.DELETE)
     public String deleteAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
         logger.info("Request на удаление всех сертификатов сотрудника с id: " + empID);
         certificateService.deleteAllCertsByEmpID(empID);
