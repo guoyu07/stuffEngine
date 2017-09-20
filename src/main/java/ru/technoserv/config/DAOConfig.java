@@ -24,6 +24,7 @@ import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcesso
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.technoserv.audit.AuditHandler;
+import ru.technoserv.dao.interceptor.PreInsertUpdateInterceptor;
 
 import javax.annotation.Resource;
 import javax.ejb.Local;
@@ -70,6 +71,7 @@ public class DAOConfig {
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setPackagesToScan(environment.getProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
         sessionFactoryBean.setHibernateProperties(hibProperties());
+        sessionFactoryBean.setEntityInterceptor(preInsertUpdateInterceptor());
         return sessionFactoryBean;
     }
 
@@ -87,5 +89,10 @@ public class DAOConfig {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public PreInsertUpdateInterceptor preInsertUpdateInterceptor() {
+        return new PreInsertUpdateInterceptor();
     }
 }
