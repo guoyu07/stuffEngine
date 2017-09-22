@@ -6,6 +6,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
@@ -20,12 +23,16 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
+
+    @Autowired
+    CacheManager cacheManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -58,6 +65,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "department", key = "#depId")
     public Department readById(Integer depId) {
         logger.info("Запрос к базе на получение отдела");
         Department department;

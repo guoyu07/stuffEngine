@@ -1,7 +1,5 @@
 package ru.technoserv.config;
 
-
-
 import org.springframework.cache.annotation.EnableCaching;
 import net.sf.ehcache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -26,6 +24,4 @@ public class CachingConfig {
         ehCacheManagerFactoryBean.setShared(true);
         return ehCacheManagerFactoryBean;
     }
-
-
 }

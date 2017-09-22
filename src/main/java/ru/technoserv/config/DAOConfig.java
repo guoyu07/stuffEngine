@@ -68,19 +68,22 @@ public class DAOConfig {
     @Bean
     public LocalSessionFactoryBean sessionFactory(){
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setPackagesToScan(environment.getProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
         sessionFactoryBean.setHibernateProperties(hibProperties());
         sessionFactoryBean.setEntityInterceptor(preInsertUpdateInterceptor());
+
         return sessionFactoryBean;
     }
 
     private Properties hibProperties(){
         Properties properties = new Properties();
+
         properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, environment.getProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, environment.getProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
-        //TODO перевести настройки в файл ресурсов
         properties.put(PROPERTY_NAME_CURRENT_SESSION_CONTEXT, environment.getProperty(PROPERTY_NAME_CURRENT_SESSION_CONTEXT));
+
         return properties;
     }
 
