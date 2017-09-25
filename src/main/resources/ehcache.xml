@@ -7,19 +7,25 @@
                      overflowToDisk="false"/>
 
        <cache name="department"
-              maxElementsInMemory="500"
+              maxElementsInMemory="100"
               eternal="true"
               overflowToDisk="false"/>
 
        <cache name="subdepts"
-              maxElementsInMemory="500"
+              maxElementsInMemory="100"
               eternal="true"
               overflowToDisk="false"/>
 
        <cache name="employee"
-              maxElementsInMemory="500"
+              maxElementsInMemory="100"
               eternal="true"
               overflowToDisk="false"/>
+
+       <cache name="employeeStory"
+              maxElementsInMemory="100"
+              eternal="true"
+              overflowToDisk="false"/>
+
 
 
 </ehcache>

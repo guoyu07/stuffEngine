@@ -102,7 +102,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     @Caching(evict = {@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true),
-            @CacheEvict(cacheNames = "department", key = "#depId")})
+            @CacheEvict(cacheNames = "department", key = "#depId", beforeInvocation = true)})
     public void delete(Integer depId) {
         logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
