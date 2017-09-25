@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,8 +94,8 @@ public class HibernateDepartmentDao implements DepartmentDao {
         return readById(department.getId());
     }
 
-
     @Override
+    @CacheEvict(cacheNames = "department", key = "#depId")
     public void delete(Integer depId) {
         logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
