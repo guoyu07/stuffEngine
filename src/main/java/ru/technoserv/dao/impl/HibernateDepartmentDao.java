@@ -52,7 +52,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
     @Override
-    @CacheEvict(cacheNames = "subdepts")
+    @CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)
     public Integer create(Department department) {
         logger.info("Запрос к базе на создание отдела");
         Serializable id;
@@ -80,11 +80,13 @@ public class HibernateDepartmentDao implements DepartmentDao {
             throw new DepartmentException(depId);
         }
         if(department==null) throw new DepartmentNotFoundException(depId);
+
         return department;
     }
 
     @Override
-    @Caching(evict ={@CacheEvict(cacheNames = "subdepts")}, put = {@CachePut(cacheNames = "department", key = "#department.id")})
+    @Caching(evict ={@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)},
+            put = {@CachePut(cacheNames = "department", key = "#department.id")})
     public Department updateDept(Department department) {
         logger.info("Запрос к базе на изменение отдела");
         Session session = getSession();
@@ -94,11 +96,13 @@ public class HibernateDepartmentDao implements DepartmentDao {
             logger.error(e.getMessage());
             throw new DepartmentException(department.getId());
         }
+
         return readById(department.getId());
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(cacheNames = "subdepts"), @CacheEvict(cacheNames = "department", key = "#depId")})
+    @Caching(evict = {@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true),
+            @CacheEvict(cacheNames = "department", key = "#depId")})
     public void delete(Integer depId) {
         logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
@@ -148,6 +152,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             logger.error(e.getMessage());
             throw new DepartmentException(0);
         }
+
         return departments;
     }
 
