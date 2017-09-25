@@ -52,6 +52,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
     @Override
+    @CacheEvict(cacheNames = "subdepts")
     public Integer create(Department department) {
         logger.info("Запрос к базе на создание отдела");
         Serializable id;
@@ -109,7 +110,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             throw new DepartmentNotEmpty(depId);
         }
     }
-
+    //TODO Cвязать с кэшем "Employee"?
     @Override
     public EmployeeHistory getDeptHead(Integer depId) {
         logger.info("Запрос к базе на получение начальника отдела");
