@@ -10,6 +10,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
@@ -82,6 +83,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    @Caching(evict ={@CacheEvict(cacheNames = "subdepts")}, put = {@CachePut(cacheNames = "department", key = "#department.id")})
     public Department updateDept(Department department) {
         logger.info("Запрос к базе на изменение отдела");
         Session session = getSession();
@@ -95,7 +97,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
-    @CacheEvict(cacheNames = "department", key = "#depId")
+    @Caching(evict = {@CacheEvict(cacheNames = "subdepts"), @CacheEvict(cacheNames = "department", key = "#depId")})
     public void delete(Integer depId) {
         logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
@@ -134,6 +136,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "subdepts", key = "#depId")
     public List<Department> getAllSubDepts(Integer depId) {
         logger.info("Запрос к базе на получение подотделов");
         List<Department> departments;
