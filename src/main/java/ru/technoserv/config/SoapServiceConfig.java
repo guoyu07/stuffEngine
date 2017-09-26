@@ -21,7 +21,7 @@ public class SoapServiceConfig extends WsConfigurerAdapter {
         definition.setSchema(employeeSchema);
 
         definition.setPortTypeName("EmployeesPort");
-        definition.setLocationUri("/employeews/");
+        definition.setLocationUri("/employee/ws/");
         definition.setTargetNamespace("http://tscintern.ru/employees");
 
         return definition;

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping(value = "api/department", produces={"application/json; charset=UTF-8"})
+@RequestMapping(value = "department", produces={"application/json; charset=UTF-8"})
 public class DepartmentController {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);

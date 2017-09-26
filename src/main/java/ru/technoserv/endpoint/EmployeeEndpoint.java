@@ -13,12 +13,9 @@ import ru.technoserv.services.EmployeeService;
 public class EmployeeEndpoint {
     private static final String NAMESPACE_URI = "http://tscintern.ru/employees";
 
+    @Autowired
     private EmployeeService employeeService;
 
-    @Autowired
-    public EmployeeEndpoint(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getEmployeeRequest")
     @ResponsePayload
