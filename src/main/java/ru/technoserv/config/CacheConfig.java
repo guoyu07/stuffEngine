@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @EnableCaching
-public class CachingConfig {
+public class CacheConfig {
 
     @Bean
     public EhCacheCacheManager cacheManager(CacheManager cacheManager) {

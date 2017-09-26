@@ -26,6 +26,9 @@
               eternal="true"
               overflowToDisk="false"/>
 
-
+       <cache name="empCertificates"
+              maxElementsInMemory="100"
+              eternal="true"
+              overflowToDisk="false"/>
 
 </ehcache>

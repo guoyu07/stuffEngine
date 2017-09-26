@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.CertificateDao;
@@ -23,6 +27,9 @@ public class HibernateCertificateDao implements CertificateDao {
     private static final Logger logger = Logger.getLogger(HibernateCertificateDao.class);
 
     @Autowired
+    EhCacheCacheManager cacheManager;
+
+    @Autowired
     SessionFactory sessionFactory;
 
     private Session getSession() {
@@ -30,6 +37,8 @@ public class HibernateCertificateDao implements CertificateDao {
     }
 
     @Override
+
+    @Caching(evict = {@CacheEvict(cacheNames = "empCertificates", key = "#certificate.ownerId", beforeInvocation = true)})
     public void create(Certificate certificate) {
         logger.info("Запрос к базе на создание сертификата");
         Session session = getSession();
@@ -59,6 +68,7 @@ public class HibernateCertificateDao implements CertificateDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "empCertificates", key = "#empID")
     public List<Certificate> readAllCertsByEmpID(int empID) {
         logger.info("Запрос к базе на чтеие всех сертификатов сотрудника с id: " + empID);
         Session session = getSession();
@@ -76,6 +86,7 @@ public class HibernateCertificateDao implements CertificateDao {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(cacheNames = "empCertificates", allEntries = true, beforeInvocation = true)})
     public void deleteCertByNum(int certNum) {
         logger.info("Запрос к базе на удаление сертификата с номером: " + certNum);
         Session session = getSession();
@@ -89,6 +100,7 @@ public class HibernateCertificateDao implements CertificateDao {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(cacheNames = "empCertificates", key = "#empID", beforeInvocation = true)})
     public void deleteAllCertsByEmpID(int empID) {
         logger.info("Запрос к базе на удаление всех сертификатов сотрудника с id: " + empID);
         Session session = getSession();

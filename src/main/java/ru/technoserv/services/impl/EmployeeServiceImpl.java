@@ -34,7 +34,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createEmployee(Employee employee) {
-     //   log.info("Посылаем запрос dao на создание сотрудника: "+employee);
         logger.info("Создаем сотрудника");
 
         EmployeeHistory eh = new EmployeeHistory(employee);
@@ -88,7 +87,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public List<Employee> getEmployees(int depID){
         logger.info("Получаем сотрудников по отделу");
-      //  log.info("Посылаем запрос dao на получение сотрудников отдела с ИД "+depID);
         List<EmployeeHistory> allEmpsHistory = employeeDao.getAllFromDept(depID);
         for(EmployeeHistory eh : allEmpsHistory) {
             eh.setDepartment(departmentDao.readById(depID));
