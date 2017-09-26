@@ -6,12 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name="POSITION")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "position", propOrder = {
+        "id",
+        "title"
+})
 public class Position {
 
     private int id;
+    @XmlElement(required = true)
     private String title;
 
     @Id
