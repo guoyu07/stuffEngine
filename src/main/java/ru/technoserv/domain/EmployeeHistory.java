@@ -73,7 +73,7 @@ public class EmployeeHistory {
 
     @NotNull(message = "Укажите ваш пол")
     @Column(name = "GENDER")
-    private Character gender;
+    private String gender;
 
     @Column(name = "BIRTHDAY")
     private Date birthday;
@@ -195,11 +195,11 @@ public class EmployeeHistory {
         this.patrName = patrName;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
