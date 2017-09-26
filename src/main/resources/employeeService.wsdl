@@ -1,0 +1,13 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://technoserv.ru/domain/schemas"
+                  xmlns:tns="http://technoserv.ru/domain/definitions"
+                  targetNamespace="http://technoserv.ru/domain/definitions">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://technoserv.ru/domain/schemas" schemaLocation="employee.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="EmployeeChangeRequest">
+        <wsdl:part element="schema:HolidayRequest" name="HolidayRequest"/>
+    </wsdl:message>
