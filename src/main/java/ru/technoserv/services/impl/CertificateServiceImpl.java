@@ -45,7 +45,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public void deleteAllCertsByEmpID(int empID) {
-        logger.info("Удаление всех сертификатов сотрудника с id: " + empID);
+        logger.info("Удаление всех сертификатов сотрудника с ID: " + empID);
         certificateDao.deleteAllCertsByEmpID(empID);
     }
 }
