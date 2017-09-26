@@ -29,4 +29,8 @@ public class RestInitializer extends AbstractAnnotationConfigDispatcherServletIn
         return new String[] { "/api" };
     }
 
+    @Override
+    protected String getServletName() {
+        return "rest";
+    }
 }

@@ -90,4 +90,10 @@ public class DepartmentController {
         logger.error(e.getShortMessage());
         return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(DepartmentHasSubDeptsException.class)
+    public ResponseEntity<CommonError> hasSubDepts(DepartmentHasSubDeptsException e) {
+        logger.error(e.getShortMessage());
+        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.FORBIDDEN);
+    }
 }
