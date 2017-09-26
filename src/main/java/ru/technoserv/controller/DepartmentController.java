@@ -31,45 +31,45 @@ public class DepartmentController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getSubDepts(@PathVariable Integer depId, HttpServletRequest request) throws IOException {
         System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
-        logger.info("Запрос на получение подотделов отдеал с ид "+ depId);
+        logger.info("Получен request на чтение подразделений отдела с ID: " + depId);
         List<Department> subDepts = departmentService.getSubDepts(depId);
-        logger.info("Json ответ на получение подотделов"+ subDepts);
+        logger.info("Возвращаемые подразделения: "+ subDepts);
         return new ResponseEntity<>(subDepts, HttpStatus.OK);
     }
 
     @RequestMapping(name = "7",value = "/{depId}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody  ResponseEntity<?> getDept(@PathVariable Integer depId, HttpServletRequest request) {
-        logger.info("Получение отдела по ид "+depId);
+        logger.info("Получен request на чтение отдела по ID: " + depId);
         Department dep = departmentService.getDepartment(depId);
-        logger.info("Json ответ на получение отдела по id"+ dep);
+        logger.info("Возвращаемый отдел: " + dep);
         return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
     @RequestMapping(name = "9",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createDepartment(@RequestBody Department department, HttpServletRequest request) {
-        logger.info("Запрос на создание отдела"+department);
+        logger.info("Получен request на создание отдела: " + department);
         Department dep = departmentService.createDepartment(department);
-        logger.info("Json ответ на создание отдела"+ dep);
+        logger.info("Созданный отдел: " + dep);
         return new ResponseEntity<>(dep, HttpStatus.CREATED);
     }
 
     @RequestMapping(name = "10",value = "/{depId}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> closeDepartment(@PathVariable Integer depId, HttpServletRequest request) {
-        logger.info("Закрытие отдела с ид "+depId);
+        logger.info("Получен request на удаление отдела с ID: " + depId);
         Department dep = departmentService.deleteDepartment(depId);
-        logger.info("Json ответ на закрытие отдела"+dep);
+        logger.info("Удаленный отдел: " + dep);
         return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
     @RequestMapping(name = "8",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> updateDept(@RequestBody Department department, HttpServletRequest request) {
-        logger.info("Запрос на изменение отдела"+department);
+        logger.info("Получен request на изменение отдела: " + department);
         Department dep = departmentService.updateDept(department);
-        logger.info("Ответ на изменение отдела"+dep);
+        logger.info("Измененный отдел: " + dep);
         return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
