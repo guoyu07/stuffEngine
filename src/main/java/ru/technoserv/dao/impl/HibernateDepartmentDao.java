@@ -6,6 +6,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
@@ -20,12 +25,16 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
+
+    @Autowired
+    CacheManager cacheManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -43,6 +52,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
     @Override
+    @CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)
     public Integer create(Department department) {
         logger.info("Запрос к базе на создание отдела");
         Serializable id;
@@ -58,6 +68,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "department", key = "#depId")
     public Department readById(Integer depId) {
         logger.info("Запрос к базе на получение отдела");
         Department department;
@@ -69,10 +80,13 @@ public class HibernateDepartmentDao implements DepartmentDao {
             throw new DepartmentException(depId);
         }
         if(department==null) throw new DepartmentNotFoundException(depId);
+
         return department;
     }
 
     @Override
+    @Caching(evict ={@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)},
+            put = {@CachePut(cacheNames = "department", key = "#department.id")})
     public Department updateDept(Department department) {
         logger.info("Запрос к базе на изменение отдела");
         Session session = getSession();
@@ -82,11 +96,13 @@ public class HibernateDepartmentDao implements DepartmentDao {
             logger.error(e.getMessage());
             throw new DepartmentException(department.getId());
         }
+
         return readById(department.getId());
     }
 
-
     @Override
+    @Caching(evict = {@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true),
+            @CacheEvict(cacheNames = "department", key = "#depId", beforeInvocation = true)})
     public void delete(Integer depId) {
         logger.info("Запрос к базе на удаление отдела");
         Department department = readById(depId);
@@ -98,7 +114,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             throw new DepartmentNotEmpty(depId);
         }
     }
-
+    //TODO Cвязать с кэшем "Employee"?
     @Override
     public EmployeeHistory getDeptHead(Integer depId) {
         logger.info("Запрос к базе на получение начальника отдела");
@@ -125,6 +141,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "subdepts", key = "#depId")
     public List<Department> getAllSubDepts(Integer depId) {
         logger.info("Запрос к базе на получение подотделов");
         List<Department> departments;
@@ -135,6 +152,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             logger.error(e.getMessage());
             throw new DepartmentException(0);
         }
+
         return departments;
     }
 

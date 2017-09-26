@@ -5,6 +5,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
@@ -26,6 +30,9 @@ import java.util.List;
 public class HibernateEmployeeDao implements EmployeeDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -50,6 +57,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "employee", key = "#empID")
     public EmployeeHistory read(int empID) {
         logger.info("Запрос к базе на получение сотрудника");
         EmployeeHistory empHistory;
@@ -70,6 +78,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "#empID", beforeInvocation = true),
+            @CacheEvict(cacheNames = "employeeStory", key = "#empID", beforeInvocation = true)})
     public void delete(int empID) {
         logger.info("Запрос к базе на удаление сотрудника");
         String hql =
@@ -91,6 +101,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    //TODO Добавить еще один кэш "deptEmployees"?
     public List<EmployeeHistory> getAllFromDept(int deptID) {
         logger.info("Запрос к базе на получение всех сотрудников из отдела");
         List<EmployeeHistory> empListHistory;
@@ -129,6 +140,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "employeeStory", key = "#empID")
     public List<EmployeeHistory> getEmployeeStory(int empID) {
         logger.info("Запрос к базе на получение истории изменений сотрудника");
         String hql = "from EmployeeHistory E where (E.empID = :empId)";
@@ -148,6 +160,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "employee.empID", beforeInvocation = true),
+            @CacheEvict(cacheNames = "employeeStory", key = "#employee.empID", beforeInvocation = true)})
     public EmployeeHistory updateEmployee(EmployeeHistory employee) {
         logger.info("Запрос к базе на изменение сотрудника");
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
