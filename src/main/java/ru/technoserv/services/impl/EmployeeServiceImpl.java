@@ -91,6 +91,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<Employee> getAllEmployees() {
+        return buildEmpsList(employeeDao.getAllEmployees());
+    }
+
+    @Override
     @Transactional
     public Employee getEmployee(int id) {
         logger.info("Получаем сотрудника по ид");

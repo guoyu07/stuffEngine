@@ -110,6 +110,25 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    public List<EmployeeHistory> getAllEmployees() {
+        logger.info("Запрос к базе на получение всех сотрудников");
+        List<EmployeeHistory> empListHistory;
+        String hql = "from EmployeeHistory E where (E.isActive = true)";
+
+        Session session = getSession();
+
+        try {
+            empListHistory = (List<EmployeeHistory>) session.createQuery(hql)
+                    .list();
+        } catch (HibernateException e) {
+            logger.error(e.getMessage());
+            throw new EmployeeException(0);
+        }
+
+        return empListHistory;
+    }
+
+    @Override
     public List<EmployeeHistory> getEmployeeStory(int empID) {
         logger.info("Запрос к базе на получение истории изменений сотрудника");
         String hql = "from EmployeeHistory E where (E.empID = :empId)";

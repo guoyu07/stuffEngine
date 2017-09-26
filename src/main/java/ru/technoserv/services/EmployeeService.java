@@ -17,6 +17,8 @@ public interface EmployeeService {
 
     List<Employee> getEmployees(int depId);
 
+    List<Employee> getAllEmployees();
+
     Employee getEmployee(int id);
 
 }

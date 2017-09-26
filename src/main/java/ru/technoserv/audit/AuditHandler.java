@@ -18,6 +18,7 @@ import ru.technoserv.exceptions.CommonException;
 import ru.technoserv.services.AuditService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Aspect
 @Component
@@ -148,4 +149,12 @@ public class AuditHandler {
         auditService.createRecord(auditRecord);
     }
 
+    @AfterReturning(pointcut = "empController() && args(request,..)", returning = "result")
+    public void handleAfterGetAllEmployees(JoinPoint joinPoint, HttpServletRequest request, Object result) {
+        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+                .getMethod()).getAnnotation(RequestMapping.class).name());
+        ResponseEntity<List<Employee>> re = (ResponseEntity<List<Employee>>)result;
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
+        auditService.createRecord(auditRecord);
+    }
 }

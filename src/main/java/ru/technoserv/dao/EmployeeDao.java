@@ -15,6 +15,8 @@ public interface EmployeeDao {
 
     List<EmployeeHistory> getAllFromDept(int deptID);
 
+    List<EmployeeHistory> getAllEmployees();
+
     List<EmployeeHistory> getEmployeeStory(int empID);
 
     EmployeeHistory updateEmployee(EmployeeHistory employee);

@@ -101,6 +101,14 @@ public class EmployeeController {
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
+    @RequestMapping(name = "12", value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllEmployees(HttpServletRequest request) {
+        logger.info("Запрос на получения всех сорудников");
+        List<Employee> employees = employeeService.getAllEmployees();
+        logger.info("Json отдаваемый на запрос получения всех сотрудников"+employees);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+
     @ExceptionHandler(CommonException.class)
     public ResponseEntity<CommonError> commonException(CommonException e){
         logger.error(e.getShortMessage());
