@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
@@ -24,13 +25,14 @@ import java.util.stream.Collectors;
  * сотрудниками.
  */
 @RestController
-@RequestMapping(value="/employee", produces={"application/json; charset=UTF-8"})
+@RequestMapping(value="api/employee", produces={"application/json; charset=UTF-8"})
 public class EmployeeController {
 
     private static final Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeService employeeService;
+
 
     /**
      * Запрос на получение всех сотрудников по ИД отдела
@@ -56,6 +58,7 @@ public class EmployeeController {
         System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
         Employee employee = employeeService.getEmployee(id);
         logger.info("Json ответ на получение сотрудника по ид"+ employee);
+
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 

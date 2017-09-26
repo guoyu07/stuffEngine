@@ -1,0 +1,35 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://technoserv.ru/domain/schemas"
+           xmlns:de="http://technoserv.ru/domain/schemas">
+<xs:element name="ChangeEmployeeRequest">
+    <xs:complexType>
+        <xs:all>
+            <xs:element ref="de:Employee"/>
+        </xs:all>
+    </xs:complexType>
+</xs:element>
+
+    <xs:element name="ChangeEmployeeResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="de:Employee"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+<xs:element name="Employee">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="de:Number"/>
+            <xs:element ref="de:Position"/>
+            <xs:element ref="de:Grade"/>
+            <xs:element ref="de:Salary"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+<xs:element name="Number" type="xs:integer"/>
+<xs:element name="Position" type="xs:integer"/>
+<xs:element name="Grade" type="xs:integer"/>
+<xs:element name="Salary" type="xs:decimal"/>
+</xs:schema>
