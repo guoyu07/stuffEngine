@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.*;
@@ -33,6 +34,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+
     /**
      * Запрос на получение всех сотрудников по ИД отдела
      * @param departmentID ИД отдела
@@ -40,9 +42,9 @@ public class EmployeeController {
      */
     @RequestMapping(name = "1", value = "/all/{departmentID}", method = RequestMethod.GET)
     public ResponseEntity<?> getDepartmentStuff(@PathVariable int departmentID, HttpServletRequest request){
-        logger.info("Получен request на чтение всех сотрудников отдела с ID: " + departmentID);
+        logger.info("Запрос на получения списка отдела по ид"+ departmentID);
         List<Employee> employeeList = employeeService.getEmployees(departmentID);
-        logger.info("Возвращаемый список сотрудников отдела: " + employeeList);
+        logger.info("Json отдаваемый на запрос получения списка сотрудников"+employeeList);
         return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
@@ -53,10 +55,11 @@ public class EmployeeController {
      */
     @RequestMapping(name = "2", value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request)throws IOException{
-        logger.info("Получен request на чтение сотрудника по ID: " + id);
+        logger.info("Запрос на получение сотрудника по ид"+ id);
         System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
         Employee employee = employeeService.getEmployee(id);
-        logger.info("Возвращаемый сотрудник: " + employee);
+        logger.info("Json ответ на получение сотрудника по ид"+ employee);
+
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
@@ -67,17 +70,17 @@ public class EmployeeController {
      */
     @RequestMapping(name ="4", method = RequestMethod.POST, consumes = {"application/json"} )
     public  ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request){
-        logger.info("Получен request на создание сотрудника: " + employee);
+        logger.info("Запрос на создание сотрудника"+ employee);
         Employee emp = employeeService.createEmployee(employee);
-        logger.info("Созданный сотрудник: " + emp);
+        logger.info("Json ответ на запрос создания сотрудника"+ emp);
         return new ResponseEntity<>( emp, HttpStatus.CREATED);
     }
 
     @RequestMapping(name = "3", method = RequestMethod.PUT, consumes = {"application/json"} )
     public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request)throws IOException{
-        logger.info("Получен request на изменение сотрудника: " + employee);
+        logger.info("Запрос на изменение сотрудника"+employee);
         Employee emp = employeeService.changeEmployee(employee);
-        logger.info("Измененный сотрудник: " + emp);
+        logger.info("Json твет на изменение сотрудника"+emp);
         return new ResponseEntity<>(emp , HttpStatus.OK);
     }
     /**
@@ -87,17 +90,17 @@ public class EmployeeController {
      */
     @RequestMapping(name = "5", value = "/{id}", method = RequestMethod.DELETE)
     public String employeeDelete(@PathVariable int id, HttpServletRequest request){
-        logger.info("Получен request на удаление сотрудника по ID: "+id);
+        logger.info("Запрос на удаление сотрудника по ид"+id);
         employeeService.removeEmployee(id);
-        logger.info("Сотрудник с ID " + id  + " удален");
+        logger.info("Успешное удаление сотрудника");
         return "delete";
     }
 
     @RequestMapping(name = "11", value = "/{id}/history", method = RequestMethod.GET)
     public ResponseEntity<?> employeeHistory(@PathVariable int id, HttpServletRequest request) {
-        logger.info("Получен request на чтение истории изменений сотрудника с ID: " + id);
+        logger.info("Запрос на получения истории изменений сотрудника с ид"+ id);
         List<EmployeeHistory> history = employeeService.getEmployeeStory(id);
-        logger.info("Возврщаемая история изменений: " + history);
+        logger.info("Json отдаваемый на запрос получения истории изменнеий"+history);
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
