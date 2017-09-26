@@ -70,14 +70,14 @@ public class HibernateCertificateDao implements CertificateDao {
     @Override
     @Cacheable(cacheNames = "empCertificates", key = "#empID")
     public List<Certificate> readAllCertsByEmpID(int empID) {
-        logger.info("Запрос к базе на чтеие всех сертификатов сотрудника с id: " + empID);
+        logger.info("Запрос к базе на чтение всех сертификатов сотрудника с ID: " + empID);
         Session session = getSession();
         List<Certificate> allCerts;
         try {
             allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с id: " + empID);
+            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с ID: " + empID);
         }
         if (allCerts.isEmpty()) {
             throw new EmpCertificatesNotFoundException(empID);
@@ -102,14 +102,14 @@ public class HibernateCertificateDao implements CertificateDao {
     @Override
     @Caching(evict = {@CacheEvict(cacheNames = "empCertificates", key = "#empID", beforeInvocation = true)})
     public void deleteAllCertsByEmpID(int empID) {
-        logger.info("Запрос к базе на удаление всех сертификатов сотрудника с id: " + empID);
+        logger.info("Запрос к базе на удаление всех сертификатов сотрудника с ID: " + empID);
         Session session = getSession();
         try {
             session.createQuery("DELETE Certificate C where C.ownerId = "
                     + empID).executeUpdate();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка во время удаления всех сертификатов сотрудника с id: " + empID);
+            throw new RuntimeException("Ошибка во время удаления всех сертификатов сотрудника с ID: " + empID);
         }
     }
 }

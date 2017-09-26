@@ -88,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public List<Employee> getEmployees(int depID){
-        logger.info("Получение сотрудников отдела с ID: " + depID);
+        logger.info("Чтение сотрудников отдела с ID: " + depID);
         List<EmployeeHistory> allEmpsHistory = employeeDao.getAllFromDept(depID);
         for(EmployeeHistory eh : allEmpsHistory) {
             eh.setDepartment(departmentDao.readById(depID));
@@ -106,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public Employee getEmployee(int id) {
-        logger.info("Получение сотрудника с ID:" + id);
+        logger.info("Чтение сотрудника с ID:" + id);
         EmployeeHistory eh = employeeDao.read(id);
         Employee employee = new Employee(eh);
 

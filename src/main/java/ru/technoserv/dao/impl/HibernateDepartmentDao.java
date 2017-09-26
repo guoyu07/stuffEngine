@@ -70,7 +70,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Override
     @Cacheable(cacheNames = "department", key = "#depId")
     public Department readById(Integer depId) {
-        logger.info("Запрос к базе на получение отдела");
+        logger.info("Запрос к базе на получение отдела c ID: " + depId);
         Department department;
         Session session = getSession();
         try{
@@ -88,7 +88,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Caching(evict ={@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)},
             put = {@CachePut(cacheNames = "department", key = "#department.id")})
     public Department updateDept(Department department) {
-        logger.info("Запрос к базе на изменение отдела");
+        logger.info("Запрос к базе на изменение отдела c ID: " + department.getId());
         Session session = getSession();
         try{
             session.update(department);
@@ -104,7 +104,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Caching(evict = {@CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true),
             @CacheEvict(cacheNames = "department", key = "#depId", beforeInvocation = true)})
     public void delete(Integer depId) {
-        logger.info("Запрос к базе на удаление отдела");
+        logger.info("Запрос к базе на удаление отдела c ID: " + depId);
         Department department = readById(depId);
         Session session = getSession();
         try{
@@ -117,14 +117,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
     //TODO Cвязать с кэшем "Employee"?
     @Override
     public EmployeeHistory getDeptHead(Integer depId) {
-        logger.info("Запрос к базе на получение начальника отдела");
+        logger.info("Запрос к базе на чтение начальника отдела c ID: " + depId);
         Department department = readById(depId);
         return employeeDao.read(department.getDeptHeadId());
     }
 
     @Override
     public List<Department> getDepartmentsList() {
-        logger.info("Запрос к базе на получение списка отделов отдела");
+        logger.info("Запрос к базе на чтение списка всех отделов");
         List<Department> dhList;
 
         Session session = getSession();
@@ -143,7 +143,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Override
     @Cacheable(cacheNames = "subdepts", key = "#depId")
     public List<Department> getAllSubDepts(Integer depId) {
-        logger.info("Запрос к базе на получение подотделов");
+        logger.info("Запрос к базе на чтение подразделений отдела с ID: " + depId);
         List<Department> departments;
         Session session = getSession();
         try{

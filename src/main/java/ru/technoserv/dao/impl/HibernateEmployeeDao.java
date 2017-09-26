@@ -59,7 +59,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Override
     @Cacheable(cacheNames = "employee", key = "#empID")
     public EmployeeHistory read(int empID) {
-        logger.info("Запрос к базе на получение сотрудника");
+        logger.info("Запрос к базе на чтение сотрудника с ID: " + empID);
         EmployeeHistory empHistory;
         String hql = "from EmployeeHistory E where (E.empID = :empId) and (E.isActive = :state)";
 
@@ -81,7 +81,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "#empID", beforeInvocation = true),
             @CacheEvict(cacheNames = "employeeStory", key = "#empID", beforeInvocation = true)})
     public void delete(int empID) {
-        logger.info("Запрос к базе на удаление сотрудника");
+        logger.info("Запрос к базе на удаление сотрудника с ID: " + empID);
         String hql =
                 "update EmployeeHistory E set E.isActive = false, " +
                         "E.endDate = :currentTimestamp, E.isDeleted = true" +
@@ -103,7 +103,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Override
     //TODO Добавить еще один кэш "deptEmployees"?
     public List<EmployeeHistory> getAllFromDept(int deptID) {
-        logger.info("Запрос к базе на получение всех сотрудников из отдела");
+        logger.info("Запрос к базе на чтение всех сотрудников отдела c ID: " + deptID);
         List<EmployeeHistory> empListHistory;
         String hql = "from EmployeeHistory E where (E.isActive = true) and (E.department.id = :depId)";
 
@@ -122,7 +122,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     public List<EmployeeHistory> getAllEmployees() {
-        logger.info("Запрос к базе на получение всех сотрудников");
+        logger.info("Запрос к базе на чтение всех сотрудников");
         List<EmployeeHistory> empListHistory;
         String hql = "from EmployeeHistory E where (E.isActive = true)";
 
@@ -142,7 +142,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Override
     @Cacheable(cacheNames = "employeeStory", key = "#empID")
     public List<EmployeeHistory> getEmployeeStory(int empID) {
-        logger.info("Запрос к базе на получение истории изменений сотрудника");
+        logger.info("Запрос к базе на чтение истории изменений сотрудника с ID: " + empID);
         String hql = "from EmployeeHistory E where (E.empID = :empId)";
         List<EmployeeHistory> employeeHistoryList;
 
@@ -163,7 +163,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "employee.empID", beforeInvocation = true),
             @CacheEvict(cacheNames = "employeeStory", key = "#employee.empID", beforeInvocation = true)})
     public EmployeeHistory updateEmployee(EmployeeHistory employee) {
-        logger.info("Запрос к базе на изменение сотрудника");
+        logger.info("Запрос к базе на изменение сотрудника с ID: " + employee.getEmpID());
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
         String hql = "update EmployeeHistory E set E.isActive = false, E.endDate = :currentTimestamp " +
                 "where (E.empID = :empId) and (E.isActive = :state)";
