@@ -1,13 +1,11 @@
 package ru.technoserv.domain;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.context.annotation.Configuration;
 
-import javax.ejb.Local;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
+
 @Entity
 @Table(name="AUDIT_INFO")
 public class AuditInfo {

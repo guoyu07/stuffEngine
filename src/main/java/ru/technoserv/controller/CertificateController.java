@@ -3,14 +3,12 @@ package ru.technoserv.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.CertificateService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

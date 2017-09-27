@@ -1,12 +1,9 @@
 package ru.technoserv.config;
 
-import java.util.Arrays;
-
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
 
 @Configuration
 public class MessagingConfiguration {
@@ -19,7 +16,6 @@ public class MessagingConfiguration {
     public ActiveMQConnectionFactory connectionFactory(){
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-        connectionFactory.setTrustedPackages(Arrays.asList("ru"));
         return connectionFactory;
     }
 

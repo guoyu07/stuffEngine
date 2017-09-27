@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Department;
-import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.DepartmentException;
 import ru.technoserv.exceptions.DepartmentNotEmpty;
