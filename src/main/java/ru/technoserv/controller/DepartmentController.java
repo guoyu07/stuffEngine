@@ -37,9 +37,10 @@ public class DepartmentController {
         return new ResponseEntity<>(subDepts, HttpStatus.OK);
     }
 
+
     @RequestMapping(name = "7",value = "/{depId}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody  ResponseEntity<?> getDept(@PathVariable Integer depId, HttpServletRequest request) {
+    public @ResponseBody  ResponseEntity<?> getDept(@PathVariable Integer depId, HttpServletRequest request) throws Exception{
         logger.info("Получение отдела по ид "+depId);
         Department dep = departmentService.getDepartment(depId);
         logger.info("Json ответ на получение отдела по id"+ dep);

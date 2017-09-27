@@ -1,16 +1,5 @@
 package ru.technoserv.dao.impl;
 
-import org.apache.log4j.Logger;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.stereotype.Repository;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
 /*
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao {

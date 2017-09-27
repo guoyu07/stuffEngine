@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.technoserv.controller.GsonUtility;
 import ru.technoserv.domain.AuditInfo;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;

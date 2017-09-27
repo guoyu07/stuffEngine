@@ -1,7 +1,5 @@
 package ru.technoserv.domain;
 
-import com.sun.javafx.beans.IDProperty;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

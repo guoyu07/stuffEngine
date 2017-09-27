@@ -1,6 +1,5 @@
 package ru.technoserv.dao;
 
-import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 
 import java.util.List;

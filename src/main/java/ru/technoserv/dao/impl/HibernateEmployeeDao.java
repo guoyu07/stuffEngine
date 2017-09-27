@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
-import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.DepartmentNotFoundException;
 import ru.technoserv.exceptions.EmployeeException;
 import ru.technoserv.exceptions.EmployeeNotFoundException;
-import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 
 
 import java.io.Serializable;
