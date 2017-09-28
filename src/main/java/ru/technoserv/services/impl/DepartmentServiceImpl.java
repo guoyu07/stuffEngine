@@ -25,42 +25,42 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department createDepartment(Department department) {
-        logger.info("Создаем отдел");
+        logger.info("Создание отдела");
         Integer id = departmentDao.create(department);
         return departmentDao.readById(id);
     }
 
     @Override
     public Department getDepartment(int deptID) {
-        logger.info("Получаем отдел по ид");
+        logger.info("Чтение отдела с ID" + deptID);
         Department dep = departmentDao.readById(deptID);
         return dep;
     }
 
     @Override
     public List<Department> getAllDepartments() {
-        logger.info("Получаем все отделы");
+        logger.info("Чтение всех отделов");
         List<Department> allDeps = departmentDao.getDepartmentsList();
         return allDeps;
     }
 
     @Override
     public List<Department> getSubDepts(int deptId) {
-        logger.info("Получаем подотделы");
+        logger.info("Чтение подотделов отдела с ID: " + deptId);
         List<Department> subDepts = departmentDao.getAllSubDepts(deptId);
         return subDepts;
     }
 
     @Override
     public Department updateDept(Department department) {
-        logger.info("Меняем параметры отдела");
+        logger.info("Изменение отдела с ID: " + department.getId());
         departmentDao.readById(department.getId());
         return departmentDao.updateDept(department);
     }
 
     @Override
     public Department deleteDepartment(int deptID) {
-        logger.info("Удаляем отдел");
+        logger.info("Удаление отдела с ID: " + deptID);
         if (!departmentDao.getAllSubDepts(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: у отдела есть дочерние отделы!");
             throw new DepartmentHasSubDeptsException(deptID);
