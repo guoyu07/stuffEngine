@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * сотрудниками.
  */
 @RestController
-@RequestMapping(value="/employee", produces={"application/json; charset=UTF-8"})
+@RequestMapping(value="employee", produces={"application/json; charset=UTF-8"})
 public class EmployeeController {
 
     private static final Logger logger = Logger.getLogger(EmployeeController.class);
