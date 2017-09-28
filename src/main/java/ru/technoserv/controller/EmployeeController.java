@@ -13,7 +13,7 @@ import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
-import ru.technoserv.ws.HelloWorldImpl;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -58,9 +58,6 @@ public class EmployeeController {
     @RequestMapping(name = "2", value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request)throws IOException{
         logger.info("Запрос на получение сотрудника по ид"+ id);
-        Endpoint.publish("http://localhost:8080/ws", new HelloWorldImpl());
-        System.out.println("Let's begin");
-        System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
         Employee employee = employeeService.getEmployee(id);
         logger.info("Json ответ на получение сотрудника по ид"+ employee);
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://ws.technoserv.ru/" xmlns:tns="http://ws.technoserv.ru/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="changeGrade" type="tns:changeGrade"/>
+
+  <xs:element name="changeGradeResponse" type="tns:changeGradeResponse"/>
+
+  <xs:element name="changePosition" type="tns:changePosition"/>
+
+  <xs:element name="changePositionResponse" type="tns:changePositionResponse"/>
+
+  <xs:element name="changeSalary" type="tns:changeSalary"/>
+
+  <xs:element name="changeSalaryResponse" type="tns:changeSalaryResponse"/>
+
+  <xs:complexType name="changePosition">
+    <xs:sequence>
+      <xs:element name="employeeId" type="xs:int"/>
+      <xs:element name="PositionId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="changePositionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="changeSalary">
+    <xs:sequence>
+      <xs:element name="employeeId" type="xs:int"/>
+      <xs:element name="Salary" type="xs:decimal" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="changeSalaryResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="changeGrade">
+    <xs:sequence>
+      <xs:element name="employeeId" type="xs:int"/>
+      <xs:element name="GradeId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="changeGradeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>
+

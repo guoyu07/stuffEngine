@@ -2,17 +2,24 @@ package ru.technoserv.services.impl;
 
 
 
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.technoserv.dao.*;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
+import ru.technoserv.ws.EmployeeWebService;
+import ru.technoserv.ws.EmployeeWebServiceImpl;
 
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +27,8 @@ import java.util.List;
 /**
  * Управление информацией о сотрудниках
  */
-@Service
-public class EmployeeServiceImpl implements EmployeeService {
+@Service("EmployeeService")
+public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
@@ -30,6 +37,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private DepartmentDao departmentDao;
+
+
 
     @Override
     public Employee createEmployee(Employee employee) {
