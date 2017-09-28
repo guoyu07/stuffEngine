@@ -22,7 +22,7 @@ public class MyMessageReceiver {
 
 
 
-    @JmsListener(destination = "test")
+   // @JmsListener(destination = "test")
     public void receiveMessage(final Message<String> message) throws JMSException {
         LOG.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
         MessageHeaders headers =  message.getHeaders();
