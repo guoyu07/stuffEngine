@@ -4,6 +4,9 @@ package controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.BindingResult;
@@ -13,8 +16,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.technoserv.controller.EmployeeController;
+import ru.technoserv.dao.DepartmentDao;
+import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.dao.impl.HibernateDepartmentDao;
+import ru.technoserv.dao.impl.HibernateEmployeeDao;
+import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
+import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
+import ru.technoserv.services.impl.EmployeeServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -25,104 +36,38 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
+    @Mock
+    EmployeeDao employeeDao;
 
-    @Configuration
-    static class LoginControllerTestConfiguration {
+    @Mock
+    DepartmentDao departmentDao;
 
-        @Bean
-        public EmployeeService employeeService() {
-            return mock(EmployeeService.class);
-        }
+    @InjectMocks
+    private EmployeeService employeeService = new EmployeeServiceImpl();
 
-        @Bean
-        public EmployeeController employeeController() {
-            return new EmployeeController();
-        }
+    @Test(expected = EmployeeTheHeadOfDepartment.class)
+    public void changeEmployeeTheHead(){
+        Employee sendEmployee = new Employee();
+        Department sendDepartment = new Department();
+        sendDepartment.setId(1);
+        sendEmployee.setEmpID(1);
+        sendEmployee.setDepartment(sendDepartment);
 
-        @Bean
-        public BindingResult bindingResult(){
-            return mock(BindingResult.class);
-        }
 
-    }
+        EmployeeHistory dbEmployee = new EmployeeHistory();
+        dbEmployee.setEmpID(1);
+        Department dbDepartment = new Department();
+        dbDepartment.setDeptHeadId(1);
+        dbDepartment.setId(1);
+        dbEmployee.setDepartment(dbDepartment);
 
-    @Autowired
-    private EmployeeController employeeController;
+        when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
+        when(departmentDao.readById(anyInt())).thenReturn(sendDepartment);
 
-    @Autowired
-    private EmployeeService employeeService;
-
-    @Autowired
-    private BindingResult binding;
-
-    private MockMvc mockMvc;
-
-    private Employee emp;
-
-    @Before
-    public void setup() throws Exception {
-        emp = new Employee();
-        emp.setEmpID(1);
-        emp.setLastName("Ivanov");
-        emp.setFirstName("Ivan");
-       /* emp.setDepartment("Помещения");
-        emp.setGender('М');
-        emp.setGrade("E");*/
-        emp.setSalary(new BigDecimal(20000));
-        mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-    }
-
-    @Test
-    public void testGetStuffFromDept() throws Exception {
-        Employee emp1 = new Employee();
-        emp1.setEmpID(1);
-        emp1.setLastName("Ivanov");
-        Employee emp2 = new Employee();
-        emp2.setEmpID(2);
-        emp2.setLastName("Petrov");
-        when(employeeService.getEmployees(1)).thenReturn(Arrays.asList(emp1, emp2));
-        mockMvc.perform(get("/employee/all/1")).andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].empID",is(1)))
-                .andExpect(jsonPath("$[0].lastName",is("Ivanov")))
-                .andExpect(jsonPath("$[1].empID",is(2)))
-                .andExpect(jsonPath("$[1].lastName",is("Petrov")));
-    }
-
-    @Test
-    public void testGetEmployee() throws Exception {
-        when(employeeService.getEmployee(1)).thenReturn(emp);
-        mockMvc.perform(get("/employee/1")).andExpect(status().isOk())
-                .andExpect(jsonPath("empID", is(1)))
-                .andExpect(jsonPath("lastName", is("Ivanov")));
-    }
-
-   /* @Test
-    public void testCreateEmployee() throws  Exception{
-        @SuppressWarnings("unchecked") ResponseEntity responseEntity = new ResponseEntity(emp, HttpStatus.CREATED);
-        when(employeeService.createEmployee(emp)).thenReturn(emp);
-        when(binding.hasErrors()).thenReturn(false);
-        Assert.assertEquals(responseEntity, employeeController.createEmployee(emp));
-    }*/
-    /*
-    @Test
-    public void testWrongParamCreateEmployee() throws Exception {
-        Employee employee = new Employee();
-        employee.setLastName("Ivanov");
-        Gson gson = new Gson();
-        String json = gson.toJson(employee);
-        mockMvc.perform(post("/employee/").contentType(MediaType.APPLICATION_JSON).content(json))
-        .andExpect(status().isBadRequest());
-    }        */
-
-    @Test
-    public void  testEmployeeRemove() throws Exception {
-        doNothing().when(employeeService).removeEmployee(1);
-        mockMvc.perform(delete("/employee/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("delete"));
+        employeeService.changeEmployee(sendEmployee);
 
     }
+
 }

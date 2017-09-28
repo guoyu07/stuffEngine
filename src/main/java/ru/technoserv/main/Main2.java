@@ -21,7 +21,7 @@ public class Main2 {
         factory.setServiceClass(EmployeeWebService.class);
         factory.setAddress(address);
         EmployeeWebService client = (EmployeeWebService)factory.create();
-        client.changeGrade(33,1);
+        client.changeSalary(33, new BigDecimal(99999));
         System.out.println("changed");
         System.exit(0);
     }
