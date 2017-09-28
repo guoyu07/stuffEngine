@@ -55,7 +55,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    @Cacheable(cacheNames = "employee", key = "#empID")
     public EmployeeHistory read(int empID) {
         logger.info("Запрос к базе на чтение сотрудника с ID: " + empID);
         EmployeeHistory empHistory;
@@ -76,8 +75,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "#empID", beforeInvocation = true),
-            @CacheEvict(cacheNames = "employeeStory", key = "#empID", beforeInvocation = true)})
     public void delete(int empID) {
         logger.info("Запрос к базе на удаление сотрудника с ID: " + empID);
         String hql =
@@ -99,7 +96,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    //TODO Добавить еще один кэш "deptEmployees"?
     public List<EmployeeHistory> getAllFromDept(int deptID) {
         logger.info("Запрос к базе на чтение всех сотрудников отдела c ID: " + deptID);
         List<EmployeeHistory> empListHistory;
@@ -138,7 +134,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    @Cacheable(cacheNames = "employeeStory", key = "#empID")
     public List<EmployeeHistory> getEmployeeStory(int empID) {
         logger.info("Запрос к базе на чтение истории изменений сотрудника с ID: " + empID);
         String hql = "from EmployeeHistory E where (E.empID = :empId)";
@@ -158,8 +153,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "employee.empID", beforeInvocation = true),
-            @CacheEvict(cacheNames = "employeeStory", key = "#employee.empID", beforeInvocation = true)})
     public EmployeeHistory updateEmployee(EmployeeHistory employee) {
         logger.info("Запрос к базе на изменение сотрудника с ID: " + employee.getEmpID());
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());

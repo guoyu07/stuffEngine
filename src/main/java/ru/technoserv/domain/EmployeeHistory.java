@@ -79,7 +79,7 @@ public class EmployeeHistory {
     private Date birthday;
 
     @NotNull(message = "Укажите зарплату")
-    @Min(value = 0, message = "Не все сотрудники работают за еду")
+    @Min(value = 0, message = "Работники не платят за работу")
     @Column(name = "SALARY")
     private BigDecimal salary;
 
