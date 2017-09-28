@@ -1,6 +1,7 @@
 package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,12 +12,15 @@ import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.DepartmentException;
 import ru.technoserv.exceptions.DepartmentNotEmpty;
 import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.Serializable;
 import java.util.List;
+
 @Repository
 @Transactional
 public class HibernateDepartmentDao implements DepartmentDao {
@@ -39,15 +43,18 @@ public class HibernateDepartmentDao implements DepartmentDao {
             "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
     @Override
-    public void create(Department department) {
+    public Integer create(Department department) {
         logger.info("Запрос к базе на создание отдела");
+        Serializable id;
         Session session = getSession();
         try{
-            session.save(department);
+            id = session.save(department);
         }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new DepartmentException(0);
         }
+
+        return (Integer) id;
     }
 
     @Override
@@ -93,7 +100,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     }
 
     @Override
-    public Employee getDeptHead(Integer depId) {
+    public EmployeeHistory getDeptHead(Integer depId) {
         logger.info("Запрос к базе на получение начальника отдела");
         Department department = readById(depId);
         return employeeDao.read(department.getDeptHeadId());
@@ -102,21 +109,25 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Override
     public List<Department> getDepartmentsList() {
         logger.info("Запрос к базе на получение списка отделов отдела");
-        List departments;
+        List<Department> dhList;
+
         Session session = getSession();
         try{
-            departments = session.createQuery("from Department ").list();
+            Criteria crit = session.
+                    createCriteria(Department.class);
+            dhList = crit.list();
         }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new DepartmentException(0);
         }
-        return departments;
+
+        return dhList;
     }
 
     @Override
     public List<Department> getAllSubDepts(Integer depId) {
         logger.info("Запрос к базе на получение подотделов");
-        List departments;
+        List<Department> departments;
         Session session = getSession();
         try{
             departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();

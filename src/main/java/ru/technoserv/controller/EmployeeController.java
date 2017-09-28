@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
 
@@ -72,7 +73,7 @@ public class EmployeeController {
         return new ResponseEntity<>( emp, HttpStatus.CREATED);
     }
 
-    @RequestMapping(name = "3",method = RequestMethod.PUT, consumes = {"application/json"} )
+    @RequestMapping(name = "3", method = RequestMethod.PUT, consumes = {"application/json"} )
     public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request)throws IOException{
         logger.info("Запрос на изменение сотрудника"+employee);
         Employee emp = employeeService.changeEmployee(employee);
@@ -90,6 +91,22 @@ public class EmployeeController {
         employeeService.removeEmployee(id);
         logger.info("Успешное удаление сотрудника");
         return "delete";
+    }
+
+    @RequestMapping(name = "11", value = "/{id}/history", method = RequestMethod.GET)
+    public ResponseEntity<?> employeeHistory(@PathVariable int id, HttpServletRequest request) {
+        logger.info("Запрос на получения истории изменений сотрудника с ид"+ id);
+        List<EmployeeHistory> history = employeeService.getEmployeeStory(id);
+        logger.info("Json отдаваемый на запрос получения истории изменнеий"+history);
+        return new ResponseEntity<>(history, HttpStatus.OK);
+    }
+
+    @RequestMapping(name = "12", value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllEmployees(HttpServletRequest request) {
+        logger.info("Запрос на получения всех сорудников");
+        List<Employee> employees = employeeService.getAllEmployees();
+        logger.info("Json отдаваемый на запрос получения всех сотрудников"+employees);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
     @ExceptionHandler(CommonException.class)

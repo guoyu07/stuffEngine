@@ -9,12 +9,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.DepartmentNotFoundException;
 import ru.technoserv.exceptions.EmployeeException;
 import ru.technoserv.exceptions.EmployeeNotFoundException;
 import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -31,84 +35,139 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void create(Employee employee) {
+    public Integer create(EmployeeHistory employee) {
         logger.info("Запрос к базе на создание сотрудника");
+        Serializable empID;
         Session session = getSession();
         try{
-            session.save(employee);
+            empID = session.save(employee);
         }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new EmployeeException(0);
         }
+
+        return (Integer) empID;
     }
 
     @Override
-    public Employee read(int empID) {
+    public EmployeeHistory read(int empID) {
         logger.info("Запрос к базе на получение сотрудника");
-        Employee dbEmployee;
+        EmployeeHistory empHistory;
+        String hql = "from EmployeeHistory E where (E.empID = :empId) and (E.isActive = :state)";
+
         Session session = getSession();
         try {
-            dbEmployee = (Employee) session.get(Employee.class, empID);
-        } catch (HibernateException e) {
+            empHistory = (EmployeeHistory) session.createQuery(hql)
+                    .setInteger("empId", empID)
+                    .setBoolean("state", true).uniqueResult();
+        } catch (HibernateException e){
             logger.error(e.getMessage());
             throw new EmployeeException(empID);
         }
-        if(dbEmployee ==null) throw new EmployeeNotFoundException(empID);
-        return dbEmployee;
+        if(empHistory==null) throw new EmployeeNotFoundException(empID);
+
+        return empHistory;
     }
 
     @Override
     public void delete(int empID) {
         logger.info("Запрос к базе на удаление сотрудника");
+        String hql =
+                "update EmployeeHistory E set E.isActive = false, " +
+                        "E.endDate = :currentTimestamp, E.isDeleted = true" +
+                        " where (E.empID = :empID) and (E.isActive = :state)";
+        Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
         Session session = getSession();
         try{
-            session.delete( session.get(Employee.class, empID));
+            session.createQuery(hql)
+                    .setTimestamp("currentTimestamp", currentTime)
+                    .setInteger("empID", empID)
+                    .setBoolean("state", true)
+                    .executeUpdate();
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeTheHeadOfDepartment(empID);
+            throw new EmployeeException(empID);
         }
     }
 
     @Override
-    public List<Employee> getAllFromDept(int deptID) {
+    public List<EmployeeHistory> getAllFromDept(int deptID) {
         logger.info("Запрос к базе на получение всех сотрудников из отдела");
+        List<EmployeeHistory> empListHistory;
+        String hql = "from EmployeeHistory E where (E.isActive = true) and (E.department.id = :depId)";
+
         Session session = getSession();
-        List<Employee> employees;
-        try{
-            employees = session.createQuery("from Employee E where E.department ="+deptID).list();
-        }catch (HibernateException e){
+
+        try {
+            empListHistory = (List<EmployeeHistory>) session.createQuery(hql)
+                    .setInteger("depId", deptID).list();
+        } catch (HibernateException e) {
             logger.error(e.getMessage());
-            session.getTransaction().rollback();
             throw new DepartmentNotFoundException(deptID);
         }
-        return employees;
+
+        return empListHistory;
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
-        logger.info("Запрос к базе на изменение сотрудника");
-        Session session = getSession();
-        try{
-            session.update(employee);
-        }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new EmployeeException(employee.getEmpID());
-        }
-        return read(employee.getEmpID());
-    }
-
-    public List<Employee> getAllEmployees(){
+    public List<EmployeeHistory> getAllEmployees() {
         logger.info("Запрос к базе на получение всех сотрудников");
+        List<EmployeeHistory> empListHistory;
+        String hql = "from EmployeeHistory E where (E.isActive = true)";
+
         Session session = getSession();
-        List<Employee> employees;
-        try{
-            employees = session.createQuery("from Employee").list();
-        }catch (HibernateException e){
+
+        try {
+            empListHistory = (List<EmployeeHistory>) session.createQuery(hql)
+                    .list();
+        } catch (HibernateException e) {
             logger.error(e.getMessage());
             throw new EmployeeException(0);
         }
-        return employees;
+
+        return empListHistory;
     }
 
+    @Override
+    public List<EmployeeHistory> getEmployeeStory(int empID) {
+        logger.info("Запрос к базе на получение истории изменений сотрудника");
+        String hql = "from EmployeeHistory E where (E.empID = :empId)";
+        List<EmployeeHistory> employeeHistoryList;
+
+        Session session = getSession();
+        try {
+            employeeHistoryList = (List<EmployeeHistory>) session.createQuery(hql)
+                    .setInteger("empId", empID)
+                    .list();
+        } catch (HibernateException e) {
+            logger.error(e.getMessage());
+            throw new EmployeeException(0);
+        }
+
+        return employeeHistoryList;
+    }
+
+    @Override
+    public EmployeeHistory updateEmployee(EmployeeHistory employee) {
+        logger.info("Запрос к базе на изменение сотрудника");
+        Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
+        String hql = "update EmployeeHistory E set E.isActive = false, E.endDate = :currentTimestamp " +
+                "where (E.empID = :empId) and (E.isActive = :state)";
+
+        Session session = getSession();
+        try {
+            session.createQuery(hql)
+                    .setTimestamp("currentTimestamp", currentTime)
+                    .setInteger("empId", employee.getEmpID())
+                    .setBoolean("state", true).executeUpdate();
+            employee.setStartDate(currentTime);
+            session.save(employee);
+        } catch (HibernateException e){
+            logger.error(e.getMessage());
+            throw new EmployeeException(employee.getEmpID());
+        }
+
+        return read(employee.getEmpID());
+    }
 
 }
