@@ -11,14 +11,14 @@ import ru.technoserv.domain.AuditInfo;
 
 import java.sql.Date;
 import java.util.List;
-@Repository
-@Transactional
+//@Repository
+//@Transactional
 public class HibernateAuditDao implements AuditDao {
 
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
-    @Autowired
+  //  @Autowired
     private SessionFactory sessionFactory;
 
     private Session getSession(){

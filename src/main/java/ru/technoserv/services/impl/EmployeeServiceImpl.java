@@ -13,7 +13,6 @@ import ru.technoserv.dao.*;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
 import ru.technoserv.ws.EmployeeWebService;
 import ru.technoserv.ws.EmployeeWebServiceImpl;
@@ -67,7 +66,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
 
         if (empDeptHeadID == id) {
             logger.info("Удаление сотрудника невозможно: сотрудник является начальником отдела!");
-            throw new EmployeeTheHeadOfDepartment(id);
+            throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+id+" является главой отдела");
         }
         employeeDao.delete(id);
     }
@@ -82,7 +81,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {
                 logger.info("Изменение сотрудника невозможно: начальник отдела не может быть переведен в другой!");
-                throw new EmployeeTheHeadOfDepartment(employee.getEmpID());
+                throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+dbEmployee.getEmpID()+" является главой отдела");
             }
         }
 

@@ -23,7 +23,6 @@ import ru.technoserv.dao.impl.HibernateEmployeeDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
 import ru.technoserv.services.impl.EmployeeServiceImpl;
 
@@ -47,7 +46,7 @@ public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeService employeeService = new EmployeeServiceImpl();
 
-    @Test(expected = EmployeeTheHeadOfDepartment.class)
+    @Test(expected = RuntimeException.class)
     public void changeEmployeeTheHead(){
         Employee sendEmployee = new Employee();
         Department sendDepartment = new Department();

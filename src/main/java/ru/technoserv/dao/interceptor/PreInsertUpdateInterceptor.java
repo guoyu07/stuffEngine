@@ -17,7 +17,7 @@ public class PreInsertUpdateInterceptor extends EmptyInterceptor {
             Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
 
             if(eh.getEmpID() == null)
-                eh.setEmpID(eh.getId());
+              //  eh.setEmpID(eh.getId());
 
             if(eh.getStartDate() == null)
                 eh.setStartDate(currentTime);

@@ -114,27 +114,11 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @ExceptionHandler(CommonException.class)
-    public ResponseEntity<CommonError> commonException(CommonException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<CommonError>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler(EmployeeException.class)
-    public ResponseEntity<CommonError> employeeException(EmployeeException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<CommonError> commonException(RuntimeException e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<CommonError>(new CommonError( e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<CommonError> notFound(EmployeeNotFoundException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EmployeeTheHeadOfDepartment.class)
-    public ResponseEntity<CommonError> headException(EmployeeTheHeadOfDepartment e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.METHOD_NOT_ALLOWED);
-    }
 
 }

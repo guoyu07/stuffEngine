@@ -17,9 +17,6 @@ import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.DepartmentException;
-import ru.technoserv.exceptions.DepartmentNotEmpty;
-import ru.technoserv.exceptions.DepartmentNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
@@ -60,7 +57,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             id = session.save(department);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return (Integer) id;
@@ -76,9 +73,9 @@ public class HibernateDepartmentDao implements DepartmentDao {
             department = (Department) session.get(Department.class, depId);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentException(depId);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-        if(department==null) throw new DepartmentNotFoundException(depId);
+        if(department==null) throw new RuntimeException("5 - отдел не найден");
 
         return department;
     }
@@ -93,7 +90,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.update(department);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentException(department.getId());
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return readById(department.getId());
@@ -110,7 +107,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             session.delete(department);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentNotEmpty(depId);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
     }
     //TODO Cвязать с кэшем "Employee"?
@@ -133,7 +130,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             dhList = crit.list();
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return dhList;
@@ -149,7 +146,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new DepartmentException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return departments;

@@ -13,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.DepartmentNotFoundException;
-import ru.technoserv.exceptions.EmployeeException;
-import ru.technoserv.exceptions.EmployeeNotFoundException;
+
 
 
 import java.io.Serializable;
@@ -48,7 +46,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             empID = session.save(employee);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return (Integer) empID;
@@ -67,9 +65,9 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setBoolean("state", true).uniqueResult();
         } catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-        if(empHistory==null) throw new EmployeeNotFoundException(empID);
+        if(empHistory==null) throw new RuntimeException("5 - запрашиваемый объект не найден");
 
         return empHistory;
     }
@@ -91,7 +89,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .executeUpdate();
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
     }
 
@@ -108,7 +106,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setInteger("depId", deptID).list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new DepartmentNotFoundException(deptID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return empListHistory;
@@ -127,7 +125,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return empListHistory;
@@ -146,7 +144,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return employeeHistoryList;
@@ -169,7 +167,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.save(employee);
         } catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(employee.getEmpID());
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return read(employee.getEmpID());

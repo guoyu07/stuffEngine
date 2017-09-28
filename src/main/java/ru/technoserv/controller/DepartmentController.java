@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Department;
-import ru.technoserv.exceptions.*;
 import ru.technoserv.services.DepartmentService;
 import ru.technoserv.services.impl.EmployeeServiceImpl;
 
@@ -73,27 +72,4 @@ public class DepartmentController {
         return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
-    @ExceptionHandler(CommonException.class)
-    public ResponseEntity<CommonError> commonException(CommonException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(DepartmentException.class)
-    public ResponseEntity<CommonError> departmnetException(DepartmentException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(DepartmentNotFoundException.class)
-    public ResponseEntity<CommonError> notFound(DepartmentNotFoundException e){
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(DepartmentHasSubDeptsException.class)
-    public ResponseEntity<CommonError> hasSubDepts(DepartmentHasSubDeptsException e) {
-        logger.error(e.getShortMessage());
-        return new ResponseEntity<>(new CommonError(e.getErrorId(), e.getShortMessage()), HttpStatus.FORBIDDEN);
-    }
 }
