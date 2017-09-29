@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.technoserv.exceptions.CommonError;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,16 @@ public class GlobalExceptionHandlerController {
         List<CommonError> myErrors = new ArrayList<>();
         for (ObjectError err: errors
                 ) {
-            myErrors.add(new CommonError(7, err.getDefaultMessage()));
+            myErrors.add(new CommonError(err.getDefaultMessage()));
         }
 
         return new ResponseEntity<>(myErrors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> validationProblem(RuntimeException e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

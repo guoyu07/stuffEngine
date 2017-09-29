@@ -17,7 +17,7 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         employee.setFirstName((String) resultSet.getObject("FIRST_NAME"));
         employee.setLastName((String) resultSet.getObject("LAST_NAME"));
         employee.setPatrName((String) resultSet.getObject("PATR_NAME"));
-        employee.setGender(resultSet.getString("GENDER").toCharArray()[0]);
+        employee.setGender(resultSet.getString("GENDER"));
         employee.setBirthday(resultSet.getDate("BIRTHDAY"));
         employee.setSalary((BigDecimal) resultSet.getObject("SALARY") );
         return employee;

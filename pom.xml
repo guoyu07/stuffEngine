@@ -16,7 +16,7 @@
     <jackson.library>2.7.5</jackson.library>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
 
@@ -64,6 +64,30 @@
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-jpa</artifactId>
         <version>1.11.6.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-ws-core</artifactId>
+      <version>2.4.0.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>wsdl4j</groupId>
+      <artifactId>wsdl4j</artifactId>
+      <version>1.6.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-ws-support</artifactId>
+      <version>2.4.0.RELEASE</version>
     </dependency>
 
     <!-- Hibernate -->
@@ -176,6 +200,54 @@
     <version>1.7.22</version>
   </dependency>
 
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>2.4.0.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>1.5.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-transports-http-jetty</artifactId>
+          <version>3.2.0</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-transports-jms</artifactId>
+          <version>RELEASE</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-frontend-jaxws</artifactId>
+          <version>3.2.0</version>
+      </dependency>
+
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache</artifactId>
@@ -185,6 +257,26 @@
 
   <build>
     <finalName>stuffEngine</finalName>
+    <!--<plugins>-->
+      <!--<plugin>-->
+        <!--<groupId>org.codehaus.mojo</groupId>-->
+        <!--<artifactId>jaxb2-maven-plugin</artifactId>-->
+        <!--<version>1.6</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>xjc</id>-->
+            <!--<goals>-->
+              <!--<goal>xjc</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+        <!--<configuration>-->
+          <!--<schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>-->
+          <!--<outputDirectory>${project.basedir}/src/main/java/ru/technoserv/ws</outputDirectory>-->
+          <!--<clearOutputDir>false</clearOutputDir>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+    <!--</plugins>-->
   </build>
 
   </project>

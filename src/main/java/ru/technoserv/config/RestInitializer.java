@@ -5,6 +5,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class RestInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] { RootConfig.class};
@@ -20,4 +21,8 @@ public class RestInitializer extends AbstractAnnotationConfigDispatcherServletIn
         return new String[] { "/" };
     }
 
+    @Override
+    protected String getServletName() {
+        return "rest";
+    }
 }

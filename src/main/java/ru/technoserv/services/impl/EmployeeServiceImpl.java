@@ -2,18 +2,23 @@ package ru.technoserv.services.impl;
 
 
 
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.technoserv.dao.*;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
 import ru.technoserv.services.EmployeeService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ru.technoserv.ws.EmployeeWebService;
+import ru.technoserv.ws.EmployeeWebServiceImpl;
 
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +26,8 @@ import java.util.List;
 /**
  * Управление информацией о сотрудниках
  */
-@Service
-public class EmployeeServiceImpl implements EmployeeService {
+@Service("EmployeeService")
+public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
@@ -37,7 +42,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("Создание сотрудника");
 
         EmployeeHistory eh = new EmployeeHistory(employee);
-        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
         Integer id = employeeDao.create(eh);
         Employee createdEmployee = new Employee(employeeDao.read(id));
 
@@ -59,31 +63,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (empDeptHeadID == id) {
             logger.info("Удаление сотрудника невозможно: сотрудник является начальником отдела!");
-            throw new EmployeeTheHeadOfDepartment(id);
+            throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+id+" является главой отдела");
         }
         employeeDao.delete(id);
+
     }
 
     @Override
     public Employee changeEmployee(Employee employee) {
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
         Employee dbEmployee = new Employee(employeeDao.read(employee.getEmpID()));
-        employee.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
-        if(!employee.getDepartment().equals(dbEmployee.getDepartment())){
+        if(!(employee.getDepartment().getId() == dbEmployee.getDepartment().getId())){
             if(dbEmployee.getEmpID()
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {
                 logger.info("Изменение сотрудника невозможно: начальник отдела не может быть переведен в другой!");
-                throw new EmployeeTheHeadOfDepartment(employee.getEmpID());
+                throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+dbEmployee.getEmpID()+" является главой отдела");
             }
         }
 
         EmployeeHistory eh = new EmployeeHistory(employee);
-        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
-
         EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
+        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         Employee updatedEmployee = new Employee(updatedEmpH);
-
+        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         return updatedEmployee;
     }
 

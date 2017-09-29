@@ -3,7 +3,6 @@ package ru.technoserv.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Table(name = "CERT_PAGES")

@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.technoserv.controller.GsonUtility;
 import ru.technoserv.domain.AuditInfo;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
-import ru.technoserv.exceptions.CommonException;
 import ru.technoserv.services.AuditService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,20 +66,29 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "deptController() && anyMethod() && args(depId,..,request)", throwing = "e")
-    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint,  Integer depId, HttpServletRequest request, CommonException e) {
+    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint,  Integer depId, HttpServletRequest request, RuntimeException e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getShortMessage()  );
+        AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getMessage()  );
         auditService.createRecord(auditRecord);
     }
 
     @AfterThrowing(pointcut = "deptController() && anyMethod() " +
             "&& args(department, request)", throwing = "e")
     public void handleAfterCreateDepartment(JoinPoint joinPoint,
-                                            Department department, HttpServletRequest request, CommonException e) {
+                                            Department department, HttpServletRequest request, RuntimeException e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(department.getId(), null, request.getRemoteAddr(), department.toString(), action, e.getShortMessage());
+        AuditInfo auditRecord = new AuditInfo(department.getId(), null, request.getRemoteAddr(), department.toString(), action, e.getMessage());
+        auditService.createRecord(auditRecord);
+    }
+
+    @AfterReturning(pointcut = "deptController() && args(request,..)", returning = "result")
+    public void handleAfterGetAllDeps(JoinPoint joinPoint, HttpServletRequest request, Object result) {
+        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+                .getMethod()).getAnnotation(RequestMapping.class).name());
+        ResponseEntity<List<Department>> re = (ResponseEntity<List<Department>>)result;
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
         auditService.createRecord(auditRecord);
     }
 
@@ -106,20 +113,20 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(empId,..,request)  && !getStuff()", throwing = "e")
-    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint, CommonException e,  Integer empId, HttpServletRequest request) {
+    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint, RuntimeException e,  Integer empId, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(null, empId, request.getRemoteAddr(), "Id: "+empId, action, e.getShortMessage()  );
+        AuditInfo auditRecord = new AuditInfo(null, empId, request.getRemoteAddr(), "Id: "+empId, action, e.getMessage()  );
         auditService.createRecord(auditRecord);
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod()  && !getStuff() " +
             "&& args(employee, request)", throwing = "e")
     public void handleAfterCreateDepartment(JoinPoint joinPoint,
-                                            Employee employee, HttpServletRequest request, CommonException e) {
+                                            Employee employee, HttpServletRequest request, RuntimeException e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(null, employee.getEmpID(), request.getRemoteAddr(), employee.toString(), action, e.getShortMessage());
+        AuditInfo auditRecord = new AuditInfo(null, employee.getEmpID(), request.getRemoteAddr(), employee.toString(), action, e.getMessage());
         auditService.createRecord(auditRecord);
     }
 
@@ -134,18 +141,18 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "getStuff() && args(depId,.., request)", throwing = "e")
-    public void handleAfterMethodWithDepIdRequestParams( JoinPoint joinPoint, CommonException e,HttpServletRequest request,   Integer depId) {
+    public void handleAfterMethodWithDepIdRequestParams( JoinPoint joinPoint, RuntimeException e,HttpServletRequest request,   Integer depId) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getShortMessage()  );
+        AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getMessage()  );
         auditService.createRecord(auditRecord);
     }
 
     @AfterThrowing(pointcut = "allControllers() && args(request,..)", throwing = "e")
-    public void handleAfterUnknownError(JoinPoint joinPoint, CommonException e,HttpServletRequest request) {
+    public void handleAfterUnknownError(JoinPoint joinPoint, RuntimeException e,HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "unknown", action, e.getShortMessage()  );
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "unknown", action, e.getMessage()  );
         auditService.createRecord(auditRecord);
     }
 

@@ -12,9 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
-import ru.technoserv.exceptions.CertificateException;
-import ru.technoserv.exceptions.CertificateNotFoundException;
-import ru.technoserv.exceptions.EmpCertificatesNotFoundException;
+
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class HibernateCertificateDao implements CertificateDao {
             session.save(certificate);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new CertificateException(certificate.getNumber());
+            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
         }
     }
 
@@ -59,10 +57,10 @@ public class HibernateCertificateDao implements CertificateDao {
             certificate = (Certificate) session.get(Certificate.class, certNum);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка при чтении сертификата с номером: " + certNum);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
         }
         if (certificate == null) {
-            throw new CertificateNotFoundException(certNum);
+            throw new RuntimeException("5 - сертификат не найден");
         }
         return certificate;
     }
@@ -77,10 +75,10 @@ public class HibernateCertificateDao implements CertificateDao {
             allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка при чтении сертификатов сотрудника с ID: " + empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
         }
         if (allCerts.isEmpty()) {
-            throw new EmpCertificatesNotFoundException(empID);
+            throw new RuntimeException("5 - сертификаты не найдены");
         }
         return allCerts;
     }
@@ -95,7 +93,7 @@ public class HibernateCertificateDao implements CertificateDao {
                     + certNum).executeUpdate();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка во время удаления сертификата с номером: " + certNum);
+            throw new RuntimeException("1 - неудачный запрос данных из базы", ex);
         }
     }
 
@@ -109,7 +107,7 @@ public class HibernateCertificateDao implements CertificateDao {
                     + empID).executeUpdate();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("Ошибка во время удаления всех сертификатов сотрудника с ID: " + empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы", ex);
         }
     }
 }

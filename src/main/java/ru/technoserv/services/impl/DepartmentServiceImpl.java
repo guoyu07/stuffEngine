@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
-import ru.technoserv.exceptions.DepartmentHasSubDeptsException;
-import ru.technoserv.exceptions.DepartmentNotEmpty;
 import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
@@ -63,12 +61,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         logger.info("Удаление отдела с ID: " + deptID);
         if (!departmentDao.getAllSubDepts(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: у отдела есть дочерние отделы!");
-            throw new DepartmentHasSubDeptsException(deptID);
+            throw new RuntimeException("4 - Удаление невозможно. Отделу подчинены подотделы");
         }
 
         if(!employeeDao.getAllFromDept(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: в отделе есть сотрудники!");
-            throw new DepartmentNotEmpty(deptID);
+            throw new RuntimeException("3 - Удаление невозможно. В отделе работают сотрудники");
         }
 
         Department deletedDept = departmentDao.readById(deptID);

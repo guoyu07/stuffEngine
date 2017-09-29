@@ -1,21 +1,45 @@
 package ru.technoserv.domain;
 
 
+import javax.xml.bind.annotation.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "employee", propOrder = {
+        "empID",
+        "position",
+        "grade",
+        "department",
+        "lastName",
+        "firstName",
+        "patrName",
+        "gender",
+        "birthday",
+        "salary"
+})
 public class Employee {
 
-    private Integer empID;
-    private Position position;
-    private Grade grade;
-    private Department department;
-    private String lastName;
-    private String firstName;
-    private String patrName;
-    private Character gender;
-    private Date birthday;
-    private BigDecimal salary;
+    protected Integer empID;
+    @XmlElement(required = true)
+    protected Position position;
+    @XmlElement(required = true)
+    protected Grade grade;
+    @XmlElement(required = true)
+    protected Department department;
+    @XmlElement(required = true)
+    protected String lastName;
+    @XmlElement(required = true)
+    protected String firstName;
+    @XmlElement(required = true)
+    protected String patrName;
+    @XmlElement(required = true)
+    protected String gender;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    protected Date birthday;
+    @XmlElement(required = true)
+    protected BigDecimal salary;
 
     public Employee() {
     }
@@ -37,7 +61,7 @@ public class Employee {
         return empID;
     }
 
-    public void setEmpID(int empID) {
+    public void setEmpID(Integer empID) {
         this.empID = empID;
     }
 
@@ -89,11 +113,11 @@ public class Employee {
         this.patrName = patrName;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

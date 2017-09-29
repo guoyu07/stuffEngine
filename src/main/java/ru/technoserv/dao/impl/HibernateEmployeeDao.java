@@ -12,12 +12,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
-import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.DepartmentNotFoundException;
-import ru.technoserv.exceptions.EmployeeException;
-import ru.technoserv.exceptions.EmployeeNotFoundException;
-import ru.technoserv.exceptions.EmployeeTheHeadOfDepartment;
+
 
 
 import java.io.Serializable;
@@ -30,9 +26,6 @@ import java.util.List;
 public class HibernateEmployeeDao implements EmployeeDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
-
-    @Autowired
-    private CacheManager cacheManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -50,7 +43,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
             empID = session.save(employee);
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return (Integer) empID;
@@ -70,16 +63,15 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setBoolean("state", true).uniqueResult();
         } catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-        if(empHistory==null) throw new EmployeeNotFoundException(empID);
+        if(empHistory==null) throw new RuntimeException("5 - запрашиваемый объект не найден");
 
         return empHistory;
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "#empID", beforeInvocation = true),
-            @CacheEvict(cacheNames = "employeeStory", key = "#empID", beforeInvocation = true)})
+    @CacheEvict(cacheNames = "employee", key = "#empID")
     public void delete(int empID) {
         logger.info("Запрос к базе на удаление сотрудника с ID: " + empID);
         String hql =
@@ -96,12 +88,11 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .executeUpdate();
         }catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(empID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
     }
 
     @Override
-    //TODO Добавить еще один кэш "deptEmployees"?
     public List<EmployeeHistory> getAllFromDept(int deptID) {
         logger.info("Запрос к базе на чтение всех сотрудников отдела c ID: " + deptID);
         List<EmployeeHistory> empListHistory;
@@ -114,7 +105,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setInteger("depId", deptID).list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new DepartmentNotFoundException(deptID);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return empListHistory;
@@ -133,14 +124,13 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return empListHistory;
     }
 
     @Override
-    @Cacheable(cacheNames = "employeeStory", key = "#empID")
     public List<EmployeeHistory> getEmployeeStory(int empID) {
         logger.info("Запрос к базе на чтение истории изменений сотрудника с ID: " + empID);
         String hql = "from EmployeeHistory E where (E.empID = :empId)";
@@ -153,15 +143,14 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new EmployeeException(0);
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
         return employeeHistoryList;
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(cacheNames = "employee", key = "employee.empID", beforeInvocation = true),
-            @CacheEvict(cacheNames = "employeeStory", key = "#employee.empID", beforeInvocation = true)})
+    @CacheEvict(cacheNames = "employee", key = "#employee.empID", beforeInvocation = true)
     public EmployeeHistory updateEmployee(EmployeeHistory employee) {
         logger.info("Запрос к базе на изменение сотрудника с ID: " + employee.getEmpID());
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
@@ -178,9 +167,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
             session.save(employee);
         } catch (HibernateException e){
             logger.error(e.getMessage());
-            throw new EmployeeException(employee.getEmpID());
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-
         return read(employee.getEmpID());
     }
 

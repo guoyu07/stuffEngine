@@ -3,14 +3,11 @@ package ru.technoserv.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
-import ru.technoserv.exceptions.*;
 import ru.technoserv.services.CertificateService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -23,11 +20,11 @@ public class CertificateController {
     CertificateService certificateService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
-    public String createCertificate(@RequestBody Certificate certificate) {
+    public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate) {
         logger.info("Получен request на создание сертификата");
         logger.info("Cоздаваемый сертификат: " + certificate.toString());
-        certificateService.create(certificate);
-        return "created";
+        Certificate certificate1 = certificateService.create(certificate);
+        return new ResponseEntity<Object>(certificate1, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.GET)
@@ -63,22 +60,5 @@ public class CertificateController {
         return "deleted";
     }
 
-    @ExceptionHandler(CertificateNotFoundException.class)
-    public ResponseEntity<CommonError> certNotFound(CertificateNotFoundException ex) {
-        logger.error(ex.getShortMessage());
-        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EmpCertificatesNotFoundException.class)
-    public ResponseEntity<CommonError> certsNotFound(EmpCertificatesNotFoundException ex) {
-        logger.error(ex.getShortMessage());
-        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(CertificateException.class)
-    private ResponseEntity<CommonError> certException(CertificateException ex) {
-        logger.error(ex.getShortMessage());
-        return new ResponseEntity<>(new CommonError(ex.getErrorId(), ex.getShortMessage()), HttpStatus.BAD_REQUEST);
-    }
 
 }
