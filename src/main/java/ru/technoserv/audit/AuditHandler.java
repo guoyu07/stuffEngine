@@ -83,6 +83,15 @@ public class AuditHandler {
         auditService.createRecord(auditRecord);
     }
 
+    @AfterReturning(pointcut = "deptController() && args(request,..)", returning = "result")
+    public void handleAfterGetAllDeps(JoinPoint joinPoint, HttpServletRequest request, Object result) {
+        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+                .getMethod()).getAnnotation(RequestMapping.class).name());
+        ResponseEntity<List<Department>> re = (ResponseEntity<List<Department>>)result;
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
+        auditService.createRecord(auditRecord);
+    }
+
     @AfterReturning(pointcut = "empController() && anyMethod() && args(empId,..,request)  &&  !getStuff()", returning = "result")
     public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint,  Integer empId,Object result, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())

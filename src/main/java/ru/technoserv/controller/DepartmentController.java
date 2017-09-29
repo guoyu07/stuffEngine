@@ -72,4 +72,13 @@ public class DepartmentController {
         return new ResponseEntity<>(dep, HttpStatus.OK);
     }
 
+    @RequestMapping(name = "13", value = "/all", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getAllDeps(HttpServletRequest request) {
+        logger.info("Получен request на получение списка всех отделов");
+        List<Department> allDeps = departmentService.getAllDepartments();
+        logger.info("Список всех отделов" + allDeps);
+        return new ResponseEntity<>(allDeps, HttpStatus.OK);
+    }
+
 }

@@ -70,7 +70,7 @@ public class DepartmentControllerTest {
     public void testGetSubDepts() throws Exception {
         List<Department> subDepts = generateSubDepList();
         when(departmentService.getSubDepts(1)).thenReturn(subDepts);
-        mockMvc.perform(get("/department/1/subdepts")).andExpect(status().isFound())
+        mockMvc.perform(get("/department/1/subdepts")).andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_UTF8))
                 .andExpect(jsonPath("$[0].id", is(2)))
                 .andExpect(jsonPath("$[0].parentDeptId", is(1)))
@@ -87,7 +87,7 @@ public class DepartmentControllerTest {
     @Test
     public void testGetDept() throws Exception {
         when(departmentService.getDepartment(1)).thenReturn(department);
-        mockMvc.perform(get("/department/1")).andExpect(status().isFound())
+        mockMvc.perform(get("/department/1")).andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_UTF8))
                 .andExpect(jsonPath("id", is(1)))
                 .andExpect(jsonPath("deptName", is("Головной")))
