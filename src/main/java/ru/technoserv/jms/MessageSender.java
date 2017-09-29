@@ -11,7 +11,7 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
 
-@Component
+//@Component
 public class MessageSender {
 
     @Autowired

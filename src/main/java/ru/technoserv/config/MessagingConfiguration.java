@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 
-@Configuration
+//@Configuration
 public class MessagingConfiguration {
 
     private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";

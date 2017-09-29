@@ -19,9 +19,9 @@ import ru.technoserv.endpoint.EmployeeEndpoint;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-@EnableJms
-@ComponentScan("ru")
+//@Configuration
+//@EnableJms
+//@ComponentScan("ru")
 public class MessagingListnerConfiguration {
 
     @Autowired
