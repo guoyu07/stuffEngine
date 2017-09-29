@@ -92,8 +92,9 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
 
         EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
+        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         Employee updatedEmployee = new Employee(updatedEmpH);
-
+        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         return updatedEmployee;
     }
 

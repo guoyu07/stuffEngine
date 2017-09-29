@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CertificateService {
 
-    void create(Certificate certificate);
+    Certificate create(Certificate certificate);
 
     Certificate readCertByNum(int certNum);
 

@@ -56,11 +56,11 @@ public class DepartmentController {
 
     @RequestMapping(name = "10",value = "/{depId}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> closeDepartment(@PathVariable Integer depId, HttpServletRequest request) {
+    public String closeDepartment(@PathVariable Integer depId, HttpServletRequest request) {
         logger.info("Получен request на удаление отдела с ID: " + depId);
         Department dep = departmentService.deleteDepartment(depId);
         logger.info("Удаленный отдел: " + dep);
-        return new ResponseEntity<>(dep, HttpStatus.OK);
+        return "deleted";
     }
 
     @RequestMapping(name = "8",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

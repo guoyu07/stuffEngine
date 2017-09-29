@@ -20,11 +20,11 @@ public class CertificateController {
     CertificateService certificateService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
-    public String createCertificate(@RequestBody Certificate certificate) {
+    public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate) {
         logger.info("Получен request на создание сертификата");
         logger.info("Cоздаваемый сертификат: " + certificate.toString());
-        certificateService.create(certificate);
-        return "created";
+        Certificate certificate1 = certificateService.create(certificate);
+        return new ResponseEntity<Object>(certificate1, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.GET)

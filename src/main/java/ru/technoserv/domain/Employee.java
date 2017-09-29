@@ -20,7 +20,7 @@ import java.sql.Date;
 })
 public class Employee {
 
-    protected int empID;
+    protected Integer empID;
     @XmlElement(required = true)
     protected Position position;
     @XmlElement(required = true)
@@ -61,7 +61,7 @@ public class Employee {
         return empID;
     }
 
-    public void setEmpID(int empID) {
+    public void setEmpID(Integer empID) {
         this.empID = empID;
     }
 

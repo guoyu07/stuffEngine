@@ -18,11 +18,11 @@ import ru.technoserv.services.AuditService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class AuditHandler {
 
-    //@Autowired
+    @Autowired
     private AuditService auditService;
 
     @Pointcut("within(ru.technoserv.controller.DepartmentController)")

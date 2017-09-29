@@ -18,9 +18,10 @@ public class CertificateServiceImpl implements CertificateService {
     CertificateDao certificateDao;
 
     @Override
-    public void create(Certificate certificate) {
+    public Certificate create(Certificate certificate) {
         logger.info("Создание сертификата");
         certificateDao.create(certificate);
+        return  certificateDao.readCertByNum(certificate.getNumber());
     }
 
     @Override

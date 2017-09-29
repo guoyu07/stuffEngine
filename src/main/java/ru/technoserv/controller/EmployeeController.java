@@ -95,7 +95,7 @@ public class EmployeeController {
         logger.info("Запрос на удаление сотрудника по ид"+id);
         employeeService.removeEmployee(id);
         logger.info("Успешное удаление сотрудника");
-        return "delete";
+        return "deleted";
     }
 
     @RequestMapping(name = "11", value = "/{id}/history", method = RequestMethod.GET)
