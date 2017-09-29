@@ -114,11 +114,6 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<CommonError> commonException(RuntimeException e){
-        logger.error(e.getMessage());
-        return new ResponseEntity<CommonError>(new CommonError( e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
 
 
 }

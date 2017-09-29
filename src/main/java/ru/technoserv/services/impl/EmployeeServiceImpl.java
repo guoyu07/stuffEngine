@@ -69,6 +69,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
             throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+id+" является главой отдела");
         }
         employeeDao.delete(id);
+
     }
 
     @Override
