@@ -77,7 +77,9 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
         Employee dbEmployee = new Employee(employeeDao.read(employee.getEmpID()));
         employee.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
-        if(!employee.getDepartment().equals(dbEmployee.getDepartment())){
+        Department sendDepartment = employee.getDepartment();
+        Department dbDepartment = dbEmployee.getDepartment();
+        if(!sendDepartment.getId().equals(dbDepartment.getId())){
             if(dbEmployee.getEmpID()
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {

@@ -46,8 +46,9 @@ public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeService employeeService = new EmployeeServiceImpl();
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void changeEmployeeTheHead(){
+
         Employee sendEmployee = new Employee();
         Department sendDepartment = new Department();
         sendDepartment.setId(1);
@@ -62,9 +63,11 @@ public class EmployeeControllerTest {
         dbDepartment.setId(1);
         dbEmployee.setDepartment(dbDepartment);
 
-        when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
-        when(departmentDao.readById(anyInt())).thenReturn(sendDepartment);
+        EmployeeHistory eh = new EmployeeHistory(sendEmployee);
 
+        when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
+        when(departmentDao.readById(anyInt())).thenReturn(dbDepartment);
+        when(employeeDao.updateEmployee(anyObject())).thenReturn(eh);
         employeeService.changeEmployee(sendEmployee);
 
     }
