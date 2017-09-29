@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.technoserv.dao.*;
+import ru.technoserv.domain.Certificate;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
@@ -30,6 +31,9 @@ import java.util.List;
 public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
+
+    @Autowired
+    private CertificateDao certificateDao;
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -66,6 +70,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
             throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+id+" является главой отдела");
         }
         employeeDao.delete(id);
+        certificateDao.deleteAllCertsByEmpID(id);
 
     }
 
@@ -86,7 +91,6 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
         updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         Employee updatedEmployee = new Employee(updatedEmpH);
-        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         return updatedEmployee;
     }
 

@@ -36,7 +36,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-
     /**
      * Запрос на получение всех сотрудников по ИД отдела
      * @param departmentID ИД отдела
@@ -113,7 +112,5 @@ public class EmployeeController {
         logger.info("Возвращаемый список сотрудников: " + employees);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
-
-
 
 }

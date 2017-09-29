@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface AuditDao {
+
     void createRecord(AuditInfo auditInfo);
 
     List<AuditInfo> getRecordsOfPeriodForDepartment(Date fromDate, Date toDate, Integer depId);

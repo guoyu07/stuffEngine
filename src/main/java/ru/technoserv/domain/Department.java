@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Department {
 
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

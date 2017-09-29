@@ -17,7 +17,6 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandlerController {
 
-
     private static final Logger logger = Logger.getLogger(EmployeeController.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
