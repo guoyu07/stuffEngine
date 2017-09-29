@@ -18,11 +18,11 @@ import ru.technoserv.services.AuditService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class AuditHandler {
 
-    //@Autowired
+    @Autowired
     private AuditService auditService;
 
     @Pointcut("within(ru.technoserv.controller.DepartmentController)")
@@ -80,6 +80,15 @@ public class AuditHandler {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(department.getId(), null, request.getRemoteAddr(), department.toString(), action, e.getMessage());
+        auditService.createRecord(auditRecord);
+    }
+
+    @AfterReturning(pointcut = "deptController() && args(request,..)", returning = "result")
+    public void handleAfterGetAllDeps(JoinPoint joinPoint, HttpServletRequest request, Object result) {
+        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+                .getMethod()).getAnnotation(RequestMapping.class).name());
+        ResponseEntity<List<Department>> re = (ResponseEntity<List<Department>>)result;
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
         auditService.createRecord(auditRecord);
     }
 

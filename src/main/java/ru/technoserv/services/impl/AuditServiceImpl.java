@@ -9,10 +9,10 @@ import ru.technoserv.services.AuditService;
 import java.sql.Date;
 import java.util.List;
 
-//@Service
+@Service
 public class AuditServiceImpl implements AuditService {
 
-   // @Autowired
+    @Autowired
     private AuditDao auditDao;
 
     @Override
