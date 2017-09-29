@@ -37,14 +37,11 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     @Autowired
     private DepartmentDao departmentDao;
 
-
-
     @Override
     public Employee createEmployee(Employee employee) {
         logger.info("Создание сотрудника");
 
         EmployeeHistory eh = new EmployeeHistory(employee);
-        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
         Integer id = employeeDao.create(eh);
         Employee createdEmployee = new Employee(employeeDao.read(id));
 
@@ -76,10 +73,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     public Employee changeEmployee(Employee employee) {
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
         Employee dbEmployee = new Employee(employeeDao.read(employee.getEmpID()));
-        employee.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
-        Department sendDepartment = employee.getDepartment();
-        Department dbDepartment = dbEmployee.getDepartment();
-        if(!sendDepartment.getId().equals(dbDepartment.getId())){
+        if(!(employee.getDepartment().getId() == dbEmployee.getDepartment().getId())){
             if(dbEmployee.getEmpID()
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {
@@ -89,9 +83,8 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         }
 
         EmployeeHistory eh = new EmployeeHistory(employee);
-        eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
-
         EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
+        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
         Employee updatedEmployee = new Employee(updatedEmpH);
 
         return updatedEmployee;

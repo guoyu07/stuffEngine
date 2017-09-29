@@ -28,9 +28,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
     @Autowired
-    private CacheManager cacheManager;
-
-    @Autowired
     private SessionFactory sessionFactory;
 
     private Session getSession(){
@@ -53,6 +50,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "employee", key = "#empID")
     public EmployeeHistory read(int empID) {
         logger.info("Запрос к базе на чтение сотрудника с ID: " + empID);
         EmployeeHistory empHistory;
@@ -73,6 +71,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @CacheEvict(cacheNames = "employee", key = "#empID")
     public void delete(int empID) {
         logger.info("Запрос к базе на удаление сотрудника с ID: " + empID);
         String hql =
@@ -151,6 +150,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @CacheEvict(cacheNames = "employee", key = "#employee.empID", beforeInvocation = true)
     public EmployeeHistory updateEmployee(EmployeeHistory employee) {
         logger.info("Запрос к базе на изменение сотрудника с ID: " + employee.getEmpID());
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
@@ -169,7 +169,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-
         return read(employee.getEmpID());
     }
 
