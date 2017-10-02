@@ -37,6 +37,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Override
     public Integer create(EmployeeHistory employee) {
         logger.info("Запрос к базе на создание сотрудника");
+        employee.setEmpID(null); //предотвращение создания дубля, если прислали сотрудника с заранее заданным id
         Serializable empID;
         Session session = getSession();
         try{
