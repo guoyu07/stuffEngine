@@ -21,7 +21,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Repository
 @Transactional
@@ -92,7 +91,6 @@ public class HibernateDepartmentDao implements DepartmentDao {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-
         return readById(department.getId());
     }
 
@@ -110,6 +108,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
     }
+
     //TODO Cвязать с кэшем "Employee"?
     @Override
     public EmployeeHistory getDeptHead(Integer depId) {

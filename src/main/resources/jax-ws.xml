@@ -6,9 +6,8 @@
     <bean id="ConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616"/>
     </bean>
-    <jaxws:endpoint id="CustomerService"
+    <jaxws:endpoint id="EmployeeService"
                     address="jms:queue:EmployeeQueue?timeToLive=1000"
                     implementor="ru.technoserv.ws.EmployeeWebServiceImpl">
     </jaxws:endpoint>
-
 </beans>

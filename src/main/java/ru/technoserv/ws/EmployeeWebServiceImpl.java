@@ -27,7 +27,6 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
     @Autowired
     private EmployeeService employeeService;
 
-
     @Override
     public void changePosition(int id,  int positionId) {
         Employee employee = employeeService.getEmployee(id);

@@ -14,8 +14,7 @@ import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;
-import ru.technoserv.ws.EmployeeWebService;
-import ru.technoserv.ws.EmployeeWebServiceImpl;
+
 
 
 import javax.annotation.PostConstruct;
@@ -87,7 +86,6 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
                 throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+dbEmployee.getEmpID()+" является главой отдела");
             }
         }
-
         EmployeeHistory eh = new EmployeeHistory(employee);
         eh.setDepartment(departmentDao.readById(employee.getDepartment().getId()));
 
@@ -101,9 +99,6 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     public List<Employee> getEmployees(int depID){
         logger.info("Чтение сотрудников отдела с ID: " + depID);
         List<EmployeeHistory> allEmpsHistory = employeeDao.getAllFromDept(depID);
-        for(EmployeeHistory eh : allEmpsHistory) {
-            eh.setDepartment(departmentDao.readById(depID));
-        }
         List<Employee> allEmps = buildEmpsList(allEmpsHistory);
 
         return allEmps;
