@@ -30,7 +30,7 @@ public class EmployeeWebServiceImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/EmployeeWebServiceImplService.wsdl");
+            url = new URL("classpath://EmployeeWebServiceImplService.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
