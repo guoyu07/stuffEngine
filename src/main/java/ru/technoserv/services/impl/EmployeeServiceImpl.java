@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Управление информацией о сотрудниках
  */
-@Service("EmployeeService")
+@Service
 public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);

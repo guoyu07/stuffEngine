@@ -8,6 +8,6 @@
     </bean>
     <jaxws:endpoint id="EmployeeService"
                     address="jms:queue:EmployeeQueue?timeToLive=1000"
-                    implementor="ru.technoserv.ws.EmployeeWebServiceImpl">
+                    implementor="ru.technoserv.wss.EmployeeWebServiceImplService">
     </jaxws:endpoint>
 </beans>
