@@ -155,4 +155,21 @@ public class HibernateDepartmentDao implements DepartmentDao {
     public List<Department> getLevelBelowSubDepts(Integer depId) {
         throw new NotImplementedException();
     }
+
+    @Override
+    public List<EmployeeHistory> getDeptEmployees(Integer depId) {
+        logger.info("Запрос к базе на чтение сотрудников отедла с ID: " + depId);
+        List<EmployeeHistory> employeeHistories;
+        String hql = "from EmployeeHistory E where (E.isActive = true) and (E.department.id = :depId)";
+        Session session = getSession();
+        try{
+            employeeHistories = (List<EmployeeHistory>) session.createQuery(hql)
+                    .setInteger("depId", depId).list();
+        }catch (HibernateException e){
+            logger.error(e.getMessage());
+            throw new RuntimeException("1 - неудачный запрос данных из базы",e);
+        }
+
+        return employeeHistories;
+    }
 }

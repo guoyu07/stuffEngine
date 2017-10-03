@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.Employee;
+import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.DepartmentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> getAllDepartments() {
         logger.info("Чтение всех отделов");
         List<Department> allDeps = departmentDao.getDepartmentsList();
+        allDeps.sort(Department.DepartmentComparator);
         return allDeps;
     }
 
@@ -73,5 +77,20 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentDao.delete(deptID);
 
         return deletedDept;
+    }
+
+    @Override
+    public List<Employee> getDeptEmployees(Integer depId) {
+        return buildEmpsList(departmentDao.getDeptEmployees(depId));
+    }
+
+    private List<Employee> buildEmpsList(List<EmployeeHistory> empHList) {
+        List<Employee> emps = new ArrayList<>();
+
+        for(EmployeeHistory eh : empHList) {
+            emps.add(new Employee(eh));
+        }
+
+        return emps;
     }
 }

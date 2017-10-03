@@ -1,6 +1,7 @@
 package ru.technoserv.domain;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.*;
 
 @Entity
 @Table(name="DEPARTMENT")
@@ -95,4 +97,11 @@ public class Department {
                 ", deptHeadId=" + deptHeadId +
                 '}';
     }
+
+    public static Comparator<Department> DepartmentComparator = new Comparator<Department>() {
+        @Override
+        public int compare(Department o1, Department o2) {
+            return o1.getId().compareTo(o2.getId());
+        }
+    };
 }

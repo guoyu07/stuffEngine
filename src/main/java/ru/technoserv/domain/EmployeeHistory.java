@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 
 @Entity
@@ -239,4 +240,11 @@ public class EmployeeHistory {
                 ", salary=" + salary +
                 '}';
     }
+
+    public static Comparator<EmployeeHistory> HistoryComparator = new Comparator<EmployeeHistory>() {
+        @Override
+        public int compare(EmployeeHistory o1, EmployeeHistory o2) {
+            return o2.getId().compareTo(o1.getId());
+        }
+    };
 }

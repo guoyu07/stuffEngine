@@ -8,12 +8,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Department;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.services.DepartmentService;
 import ru.technoserv.services.impl.EmployeeServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -79,6 +81,13 @@ public class DepartmentController {
         List<Department> allDeps = departmentService.getAllDepartments();
         logger.info("Список всех отделов" + allDeps);
         return new ResponseEntity<>(allDeps, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{depId}/employees", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getDeptEmployees(@PathVariable int depId) {
+        List<Employee> employees = departmentService.getDeptEmployees(depId);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
 }

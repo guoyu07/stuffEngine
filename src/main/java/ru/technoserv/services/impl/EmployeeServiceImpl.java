@@ -50,6 +50,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     @Override
     public List<EmployeeHistory> getEmployeeStory(int id) {
         List<EmployeeHistory> employeeHistoryList = employeeDao.getEmployeeStory(id);
+        employeeHistoryList.sort(EmployeeHistory.HistoryComparator);
 
         return employeeHistoryList;
     }
