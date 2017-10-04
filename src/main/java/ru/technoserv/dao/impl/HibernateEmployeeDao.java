@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 
 
@@ -35,40 +36,39 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public Integer create(EmployeeHistory employee) {
+    public Integer create(Employee employee) {
         logger.info("Запрос к базе на создание сотрудника");
         employee.setEmpID(null); //предотвращение создания дубля, если прислали сотрудника с заранее заданным id
+        EmployeeHistory employeeHistory = new EmployeeHistory(employee);
         Serializable empID;
         Session session = getSession();
         try{
-            empID = session.save(employee);
+            empID = session.save(employeeHistory);
         }catch (HibernateException e){
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-
         return (Integer) empID;
     }
 
     @Override
     @Cacheable(cacheNames = "employee", key = "#empID")
-    public EmployeeHistory read(int empID) {
+    public Employee read(int empID) {
         logger.info("Запрос к базе на чтение сотрудника с ID: " + empID);
-        EmployeeHistory empHistory;
-        String hql = "from EmployeeHistory E where (E.empID = :empId) and (E.isActive = :state)";
-
+        Employee employee;
         Session session = getSession();
         try {
-            empHistory = (EmployeeHistory) session.createQuery(hql)
-                    .setInteger("empId", empID)
-                    .setBoolean("state", true).uniqueResult();
+
+            employee = (Employee) session.createSQLQuery("SELECT ID, CHRON_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, PATR_NAME, GENDER, BIRTHDAY, SALARY FROM EMPLOYEE2 WHERE CHRON_ID = " + empID+" AND IS_ACTIVE=1").addEntity(Employee.class).uniqueResult();
+                    //.setBoolean("state", true).uniqueResult();
         } catch (HibernateException e){
             logger.error(e.getMessage());
+
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-        if(empHistory==null) throw new RuntimeException("5 - запрашиваемый объект не найден");
+        if(employee==null) throw new RuntimeException("5 - запрашиваемый объект не найден");
 
-        return empHistory;
+        return employee;
     }
 
     @Override
@@ -94,41 +94,40 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public List<EmployeeHistory> getAllFromDept(int deptID) {
+    public List<Employee> getAllFromDept(int deptID) {
         logger.info("Запрос к базе на чтение всех сотрудников отдела c ID: " + deptID);
-        List<EmployeeHistory> empListHistory;
-        String hql = "from EmployeeHistory E where (E.isActive = true) and (E.department.id = :depId)";
+        List<Employee> empList;
+        String sql = "SELECT ID, CHRON_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, PATR_NAME, GENDER, BIRTHDAY, SALARY FROM EMPLOYEE2 WHERE IS_ACTIVE=1 AND DEPARTMENT_ID="+deptID;
 
         Session session = getSession();
 
         try {
-            empListHistory = (List<EmployeeHistory>) session.createQuery(hql)
-                    .setInteger("depId", deptID).list();
+            empList = (List<Employee>) session.createSQLQuery(sql).addEntity(Employee.class).list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
-        return empListHistory;
+        return empList;
     }
 
     @Override
-    public List<EmployeeHistory> getAllEmployees() {
+    public List<Employee> getAllEmployees() {
         logger.info("Запрос к базе на чтение всех сотрудников");
-        List<EmployeeHistory> empListHistory;
-        String hql = "from EmployeeHistory E where (E.isActive = true)";
+        List<Employee> empList;
+        String sql = "SELECT ID, CHRON_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, PATR_NAME, GENDER, BIRTHDAY, SALARY FROM EMPLOYEE2 WHERE IS_ACTIVE=1";
 
         Session session = getSession();
 
         try {
-            empListHistory = (List<EmployeeHistory>) session.createQuery(hql)
+            empList = (List<Employee>) session.createQuery(sql)
                     .list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
 
-        return empListHistory;
+        return empList;
     }
 
     @Override
@@ -146,13 +145,13 @@ public class HibernateEmployeeDao implements EmployeeDao {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
         }
-
         return employeeHistoryList;
     }
 
     @Override
     @CacheEvict(cacheNames = "employee", key = "#employee.empID", beforeInvocation = true)
-    public EmployeeHistory updateEmployee(EmployeeHistory employee) {
+    public Employee updateEmployee(Employee employee) {
+        EmployeeHistory employeeHistory = new EmployeeHistory(employee);
         logger.info("Запрос к базе на изменение сотрудника с ID: " + employee.getEmpID());
         Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
         String hql = "update EmployeeHistory E set E.isActive = false, E.endDate = :currentTimestamp " +
@@ -164,8 +163,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setTimestamp("currentTimestamp", currentTime)
                     .setInteger("empId", employee.getEmpID())
                     .setBoolean("state", true).executeUpdate();
-            employee.setStartDate(currentTime);
-            session.save(employee);
+            employeeHistory.setStartDate(currentTime);
+            session.save(employeeHistory);
         } catch (HibernateException e){
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
