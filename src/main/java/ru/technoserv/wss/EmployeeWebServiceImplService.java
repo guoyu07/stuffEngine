@@ -3,12 +3,16 @@ package ru.technoserv.wss;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.handler.*;
+import javax.xml.ws.*;
+
 
 
 /**
@@ -21,6 +25,8 @@ import javax.xml.ws.WebServiceFeature;
 public class EmployeeWebServiceImplService
     extends Service
 {
+    @Resource
+    private WebServiceContext context;
 
     private final static URL EMPLOYEEWEBSERVICEIMPLSERVICE_WSDL_LOCATION;
     private final static WebServiceException EMPLOYEEWEBSERVICEIMPLSERVICE_EXCEPTION;

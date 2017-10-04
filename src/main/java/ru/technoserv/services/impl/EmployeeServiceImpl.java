@@ -31,18 +31,15 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
 
     @Override
     public Employee createEmployee(Employee employee) {
-
         logger.info("Создание сотрудника");
         Integer id = employeeDao.create(employee);
         Employee createdEmployee = employeeDao.read(id);
-
         return createdEmployee;
     }
 
     @Override
     public List<EmployeeHistory> getEmployeeStory(int id) {
         List<EmployeeHistory> employeeHistoryList = employeeDao.getEmployeeStory(id);
-
         return employeeHistoryList;
     }
 
@@ -72,7 +69,6 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
                 throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+dbEmployee.getEmpID()+" является главой отдела");
             }
         }
-        EmployeeHistory eh = new EmployeeHistory(employee);
         Employee updatedEmpH = employeeDao.updateEmployee(employee);
         return updatedEmpH;
     }

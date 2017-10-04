@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.Employee;
 import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
@@ -52,8 +53,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department updateDept(Department department) {
         logger.info("Изменение отдела с ID: " + department.getId());
-        departmentDao.readById(department.getId());
-        return departmentDao.updateDept(department);
+        Department dbDepartment = departmentDao.readById(department.getId());
+        Department updatedDepartment = departmentDao.updateDept(department);
+        //При назначении сотрудника начальником, сотрудник переводиться в отдел, в котором он является начальником.
+        if(!dbDepartment.getDeptHeadId().equals(updatedDepartment.getDeptHeadId())){
+            Employee employee = employeeDao.read(department.getDeptHeadId());
+            employee.setDepartment(updatedDepartment);
+            employeeDao.updateEmployee(employee);
+        }
+        return updatedDepartment;
     }
 
     @Override
