@@ -79,7 +79,7 @@ angular.module('staffEngine').controller('DeptPageController',
     }
 
     function getDeptEmployees(id) {
-        DeptService.fetchDeptEmployees(id)
+        EmployeeService.fetchDeptEmployees(id)
             .then(
                 function (data) {
                     self.deptEmployees = data;

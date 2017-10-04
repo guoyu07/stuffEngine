@@ -19,5 +19,4 @@ public interface DepartmentService {
 
     Department deleteDepartment(int deptID);
 
-    List<Employee> getDeptEmployees(Integer depId);
 }

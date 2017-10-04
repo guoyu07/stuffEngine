@@ -5,8 +5,7 @@ angular.module('staffEngine').factory('DeptService', ['$http', '$q', function ($
 
     var factory = {
         fetchAllDepts: fetchAllDepts,
-        getDeptById: getDeptById,
-        fetchDeptEmployees: fetchDeptEmployees
+        getDeptById: getDeptById
     };
 
     return factory;
@@ -35,21 +34,6 @@ angular.module('staffEngine').factory('DeptService', ['$http', '$q', function ($
                 },
                 function (errResponse) {
                     console.error('Error while getting Dept by id = ' + id);
-                    deffered.reject(errResponse);
-                }
-            );
-        return deffered.promise;
-    }
-
-    function fetchDeptEmployees(id) {
-        var deffered = $q.defer();
-        $http.get(SERVICE_URI+id+"/employees")
-            .then(
-                function (response) {
-                    deffered.resolve(response.data);
-                },
-                function (errResponse) {
-                    console.error('Error while fetching all Depts');
                     deffered.reject(errResponse);
                 }
             );

@@ -77,6 +77,4 @@ public interface DepartmentDao {
      *              которого равняется depId
      */
     List<Department> getLevelBelowSubDepts(Integer depId);
-
-    List<EmployeeHistory> getDeptEmployees(Integer depId);
 }

@@ -83,11 +83,4 @@ public class DepartmentController {
         return new ResponseEntity<>(allDeps, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{depId}/employees", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getDeptEmployees(@PathVariable int depId) {
-        List<Employee> employees = departmentService.getDeptEmployees(depId);
-        return new ResponseEntity<>(employees, HttpStatus.OK);
-    }
-
 }
