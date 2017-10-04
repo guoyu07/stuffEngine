@@ -114,7 +114,7 @@ public class HibernateDepartmentDao implements DepartmentDao {
     public EmployeeHistory getDeptHead(Integer depId) {
         logger.info("Запрос к базе на чтение начальника отдела c ID: " + depId);
         Department department = readById(depId);
-        return employeeDao.read(department.getDeptHeadId());
+        return new EmployeeHistory();//employeeDao.read(department.getDeptHeadId());
     }
 
     @Override

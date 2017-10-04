@@ -59,6 +59,4 @@ public class CertificateController {
         logger.info("Сертификаты успешно удалены");
         return "deleted";
     }
-
-
 }

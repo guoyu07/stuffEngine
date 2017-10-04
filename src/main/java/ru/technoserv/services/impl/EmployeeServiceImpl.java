@@ -1,9 +1,5 @@
 package ru.technoserv.services.impl;
 
-
-
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +12,6 @@ import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;
 
 
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,11 +32,8 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     @Override
     public Employee createEmployee(Employee employee) {
         logger.info("Создание сотрудника");
-
-        EmployeeHistory eh = new EmployeeHistory(employee);
-        Integer id = employeeDao.create(eh);
-        Employee createdEmployee = new Employee(employeeDao.read(id));
-
+        Integer id = employeeDao.create(employee);
+        Employee createdEmployee = employeeDao.read(id);
         return createdEmployee;
     }
 
@@ -59,11 +49,12 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     public void removeEmployee(int id) {
         logger.info("Удаление сотрудника с ID: " + id);
         Department empDept = employeeDao.read(id).getDepartment();
-        int empDeptHeadID = empDept.getDeptHeadId();
-
-        if (empDeptHeadID == id) {
-            logger.info("Удаление сотрудника невозможно: сотрудник является начальником отдела!");
-            throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+id+" является главой отдела");
+        if(empDept.getDeptHeadId()!=null) {
+            int empDeptHeadID = empDept.getDeptHeadId();
+            if (empDeptHeadID == id) {
+                logger.info("Удаление сотрудника невозможно: сотрудник является начальником отдела!");
+                throw new RuntimeException("2 - Недопустимая операция. Сотрудник с " + id + " является главой отдела");
+            }
         }
         employeeDao.delete(id);
     }
@@ -71,8 +62,8 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     @Override
     public Employee changeEmployee(Employee employee) {
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
-        Employee dbEmployee = new Employee(employeeDao.read(employee.getEmpID()));
-        if(!(employee.getDepartment().getId() == dbEmployee.getDepartment().getId())){
+        Employee dbEmployee = employeeDao.read(employee.getEmpID());
+        if(!(employee.getDepartment().getId().equals(dbEmployee.getDepartment().getId()))){
             if(dbEmployee.getEmpID()
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {
@@ -80,45 +71,29 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
                 throw new RuntimeException("2 - Недопустимая операция. Сотрудник с "+dbEmployee.getEmpID()+" является главой отдела");
             }
         }
-        EmployeeHistory eh = new EmployeeHistory(employee);
-        EmployeeHistory updatedEmpH = employeeDao.updateEmployee(eh);
-        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
-        Employee updatedEmployee = new Employee(updatedEmpH);
-        updatedEmpH = employeeDao.read(updatedEmpH.getEmpID());
-        return updatedEmployee;
+        Employee updatedEmpH = employeeDao.updateEmployee(employee);
+        return updatedEmpH;
     }
 
     public List<Employee> getEmployees(int depID){
         logger.info("Чтение сотрудников отдела с ID: " + depID);
-        List<EmployeeHistory> allEmpsHistory = employeeDao.getAllFromDept(depID);
-        List<Employee> allEmps = buildEmpsList(allEmpsHistory);
-
+        List<Employee> allEmps = employeeDao.getAllFromDept(depID);
         return allEmps;
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return buildEmpsList(employeeDao.getAllEmployees());
+        return employeeDao.getAllEmployees();
     }
 
     @Override
     @Transactional
     public Employee getEmployee(int id) {
         logger.info("Чтение сотрудника с ID:" + id);
-        EmployeeHistory eh = employeeDao.read(id);
-        Employee employee = new Employee(eh);
-
-        return employee;
+        Employee e = employeeDao.read(id);
+        return e;
     }
 
-    private List<Employee> buildEmpsList(List<EmployeeHistory> empHList) {
-        List<Employee> emps = new ArrayList<>();
 
-        for(EmployeeHistory eh : empHList) {
-            emps.add(new Employee(eh));
-        }
-
-        return emps;
-    }
 }
 

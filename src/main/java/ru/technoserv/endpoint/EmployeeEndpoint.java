@@ -10,8 +10,6 @@ import ru.technoserv.domain.GetEmployeeRequest;
 import ru.technoserv.domain.GetEmployeeResponse;
 import ru.technoserv.services.EmployeeService;
 
-import javax.xml.ws.BindingType;
-
 @Endpoint
 @Component
 public class EmployeeEndpoint {

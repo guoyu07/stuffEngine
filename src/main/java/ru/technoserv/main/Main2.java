@@ -5,9 +5,6 @@ import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 
 import ru.technoserv.wss.EmployeeWebService;
 
-
-import java.math.BigDecimal;
-
 public class Main2 {
 
     public static void main(String[] args){
