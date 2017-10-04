@@ -3,6 +3,7 @@ package ru.technoserv.services.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
@@ -50,6 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return subDepts;
     }
 
+    @Transactional
     @Override
     public Department updateDept(Department department) {
         logger.info("Изменение отдела с ID: " + department.getId());
