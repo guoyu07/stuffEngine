@@ -1,9 +1,5 @@
 package ru.technoserv.services.impl;
 
-
-
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +12,6 @@ import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;
 
 
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -71,7 +64,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     public Employee changeEmployee(Employee employee) {
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
         Employee dbEmployee = employeeDao.read(employee.getEmpID());
-        if(!(employee.getDepartment().getId() == dbEmployee.getDepartment().getId())){
+        if(!(employee.getDepartment().getId().equals(dbEmployee.getDepartment().getId()))){
             if(dbEmployee.getEmpID()
                     .equals(dbEmployee.getDepartment()
                             .getDeptHeadId())) {

@@ -11,16 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
-import ru.technoserv.exceptions.*;
 import ru.technoserv.services.EmployeeService;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
