@@ -3,7 +3,7 @@ package ru.technoserv.config;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.core.JmsTemplate;
-
+@Deprecated
 //@Configuration
 public class MessagingConfiguration {
 

@@ -11,11 +11,11 @@ import org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMetho
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.soap.server.SoapMessageDispatcher;
 import org.springframework.ws.transport.jms.WebServiceMessageListener;
-import ru.technoserv.endpoint.EmployeeEndpoint;
+
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Deprecated
 //@Configuration
 //@EnableJms
 //@ComponentScan("ru")
@@ -56,7 +56,6 @@ public class MessagingListnerConfiguration {
         SoapMessageDispatcher dispatcher = new SoapMessageDispatcher();
         List<EndpointMapping> list = new ArrayList<>();
         PayloadRootAnnotationMethodEndpointMapping map = new PayloadRootAnnotationMethodEndpointMapping();
-        map.setDefaultEndpoint(new EmployeeEndpoint());
         list.add(map);
         dispatcher.setEndpointMappings(list);
 
