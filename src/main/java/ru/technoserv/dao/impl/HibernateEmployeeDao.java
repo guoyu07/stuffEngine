@@ -118,8 +118,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
 
         try {
-            empList = (List<Employee>) session.createQuery(sql)
-                    .list();
+            empList = (List<Employee>) session.createSQLQuery(sql).addEntity(Employee.class).list();
         } catch (HibernateException e) {
             logger.error(e.getMessage());
             throw new RuntimeException("1 - неудачный запрос данных из базы",e);
