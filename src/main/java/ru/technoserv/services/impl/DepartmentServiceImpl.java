@@ -8,6 +8,7 @@ import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.exceptions.StuffExceptions;
 import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
@@ -71,12 +72,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         logger.info("Удаление отдела с ID: " + deptID);
         if (!departmentDao.getAllSubDepts(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: у отдела есть дочерние отделы!");
-            throw new RuntimeException("4 - Удаление невозможно. Отделу подчинены подотделы");
+            throw new RuntimeException(StuffExceptions.SUBDEPTS_ERROR.toString());
         }
 
         if(!employeeDao.getAllFromDept(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: в отделе есть сотрудники!");
-            throw new RuntimeException("3 - Удаление невозможно. В отделе работают сотрудники");
+            throw new RuntimeException(StuffExceptions.EMPLOYEES_IN_DEPARTMENT.toString());
         }
 
         Department deletedDept = departmentDao.readById(deptID);
