@@ -10,12 +10,12 @@ import ru.technoserv.services.AuditService
 @RequestMapping(value="audit", produces = arrayOf("application/json"))
 open class AuditController (private val service : AuditService){
 
-    @RequestMapping(name="14", value="/getInfoEmp/{depId}", method = arrayOf(RequestMethod.POST))
+    @RequestMapping(name="14", value="/getInfoDep/{depId}", method = arrayOf(RequestMethod.POST))
     fun getDepAudit(@PathVariable depId: Int, @RequestBody searchDate: SearchDate) : List<AuditInfo>{
-        return service.getRecordsOfPeriodForEmployee(searchDate ,depId)
+        return service.getRecordsOfPeriodForDepartment(searchDate ,depId)
     }
 
-    @RequestMapping(name="15", value="/getInfoDep/{empId}", method = arrayOf(RequestMethod.POST))
+    @RequestMapping(name="15", value="/getInfoEmp/{empId}", method = arrayOf(RequestMethod.POST))
     fun getEmpAudit(@PathVariable empId: Int, @RequestBody searchDate: SearchDate) : List<AuditInfo>{
         return service.getRecordsOfPeriodForEmployee(searchDate ,empId)
     }
