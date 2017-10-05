@@ -11,12 +11,13 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <spring.version>4.3.10.RELEASE</spring.version>
+      <spring.version>4.3.10.RELEASE</spring.version>
       <hibernate.version>4.2.13.Final</hibernate.version>
     <jackson.library>2.7.5</jackson.library>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <kotlin.version>1.1.51</kotlin.version>
   </properties>
 
 
@@ -268,10 +269,68 @@
       </dependency>
 
     </dependencies>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-stdlib-jre8</artifactId>
+          <version>${kotlin.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-test</artifactId>
+          <version>${kotlin.version}</version>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
 
   <build>
     <finalName>stuffEngine</finalName>
-    <!--<plugins>-->
+      <plugins>
+          <plugin>
+              <groupId>org.jetbrains.kotlin</groupId>
+              <artifactId>kotlin-maven-plugin</artifactId>
+              <version>${kotlin.version}</version>
+              <executions>
+                  <execution>
+                      <id>compile</id>
+                      <phase>compile</phase>
+                      <goals>
+                          <goal>compile</goal>
+                      </goals>
+                  </execution>
+                  <execution>
+                      <id>test-compile</id>
+                      <phase>test-compile</phase>
+                      <goals>
+                          <goal>test-compile</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  <jvmTarget>1.8</jvmTarget>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>compile</id>
+                      <phase>compile</phase>
+                      <goals>
+                          <goal>compile</goal>
+                      </goals>
+                  </execution>
+                  <execution>
+                      <id>testCompile</id>
+                      <phase>test-compile</phase>
+                      <goals>
+                          <goal>testCompile</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+      </plugins>
+      <!--<plugins>-->
       <!--<plugin>-->
         <!--<groupId>org.codehaus.mojo</groupId>-->
         <!--<artifactId>jaxb2-maven-plugin</artifactId>-->

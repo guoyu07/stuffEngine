@@ -9,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.AuditDao;
 import ru.technoserv.domain.AuditInfo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
+/*
 @Repository
 @Transactional
 public class HibernateAuditDao implements AuditDao {
@@ -42,3 +43,4 @@ public class HibernateAuditDao implements AuditDao {
         return null;
     }
 }
+*/
