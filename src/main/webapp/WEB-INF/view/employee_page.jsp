@@ -41,5 +41,7 @@
 </div>
 <br/>
 <a href="/employees/{{empCtrl.employee.empID}}/history" target="_blank">Перейти к истории изменений</a>
+<br/>
+<a href="/employees/{{empCtrl.employee.empID}}/audit" target="_blank">Показать данные аудита по данному сотруднику</a>
 </body>
 </html>

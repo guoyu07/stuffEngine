@@ -18,7 +18,7 @@
         <tr>
             <th>Название отдела</th>
         </tr>
-        <tr ng-repeat="dept in bpCtrl.depts">
+        <tr ng-repeat="dept in bpCtrl.depts | orderBy:'parentDeptId':false">
             <td><a href="/dept/{{dept.id}}" target="_blank">{{dept.deptName}}</a></td>
         </tr>
     </table>

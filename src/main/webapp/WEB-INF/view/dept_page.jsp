@@ -29,6 +29,8 @@
         </tr>
     </table>
 </div>
+<a href="/dept/{{bpCtrl.dept.id}}/audit" target="_blank">Показать данные аудита по данному отделу</a>
+<br/>
 <div class="panel panel-default">
     <div class="panel-heading"><span class="lead">Список сотрудников </span></div>
     <table class="table table-hover">
@@ -41,7 +43,7 @@
             <th>Отдел</th>
             <th>Зарплата</th>
         </tr>
-        <tr ng-repeat="employee in bpCtrl.deptEmployees">
+        <tr ng-repeat="employee in bpCtrl.deptEmployees | orderBy:['lastName','firstName','patrName']:false">
             <td>
                 <a href="/employees/{{employee.empID}}" target="_blank">
                     <pre>{{employee.lastName}} {{employee.firstName}} {{employee.patrName}}</pre>

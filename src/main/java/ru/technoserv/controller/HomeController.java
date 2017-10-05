@@ -17,6 +17,11 @@ public class HomeController {
         return "dept_page";
     }
 
+    @RequestMapping(value = "/dept/{depId}/audit")
+    public String deptAudit(@PathVariable int depId) {
+        return "audit_dept";
+    }
+
     @RequestMapping(value = "/employees/{empId}")
     public String empPage(@PathVariable int empId) {
         return "employee_page";
@@ -25,5 +30,10 @@ public class HomeController {
     @RequestMapping(value = "/employees/{empId}/history")
     public String historyPage(@PathVariable int empId) {
         return "history";
+    }
+
+    @RequestMapping(value = "/employees/{empId}/audit")
+    public String empAudit(@PathVariable int empId) {
+        return "audit_emp";
     }
 }

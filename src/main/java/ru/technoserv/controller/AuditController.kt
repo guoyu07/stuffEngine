@@ -12,14 +12,14 @@ import java.util.*
 @RequestMapping(value="audit", produces = arrayOf("application/json"))
 open class AuditController (private val service : AuditService){
 
-    @RequestMapping(name="14", value="/getInfoEmp/{depId}", method = arrayOf(RequestMethod.GET))
-    fun getDepAudit(@PathVariable depId: Int) : List<AuditInfo>{
-        return service.getRecordsOfPeriodForEmployee(Date.from(Instant.now()), Date.from(Instant.now()),depId)
-    }
-
-    @RequestMapping(name="15", value="/getInfoDep/{empId}", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(name="14", value="/getInfoEmp/{empId}", method = arrayOf(RequestMethod.GET))
     fun getEmpAudit(@PathVariable empId: Int) : List<AuditInfo>{
         return service.getRecordsOfPeriodForEmployee(Date.from(Instant.now()), Date.from(Instant.now()),empId)
+    }
+
+    @RequestMapping(name="15", value="/getInfoDep/{depId}", method = arrayOf(RequestMethod.GET))
+    fun getDepAudit(@PathVariable depId: Int) : List<AuditInfo>{
+        return service.getRecordsOfPeriodForDepartment(Date.from(Instant.now()), Date.from(Instant.now()),depId)
     }
 
 }
