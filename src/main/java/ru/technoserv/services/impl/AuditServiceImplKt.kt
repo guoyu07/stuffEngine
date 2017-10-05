@@ -3,21 +3,30 @@ package ru.technoserv.services.impl
 import org.springframework.stereotype.Service
 import ru.technoserv.dao.AuditDao
 import ru.technoserv.domain.AuditInfo
+import ru.technoserv.domain.SearchDate
 import ru.technoserv.services.AuditService
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 @Service
 class AuditServiceImplKt(private val dao :AuditDao) : AuditService {
 
+    private var formatter : SimpleDateFormat = SimpleDateFormat("dd.mm.yyyy")
+
     override fun createRecord(auditInfo: AuditInfo?) {
         dao.createRecord(auditInfo)
     }
 
-    override fun getRecordsOfPeriodForDepartment(fromDate: Date?, toDate: Date?, depId: Int?): MutableList<AuditInfo> {
-        return dao.getRecordsOfPeriodForDepartment(fromDate, toDate, depId);
+    override fun getRecordsOfPeriodForDepartment(searchDate: SearchDate, depId: Int?): MutableList<AuditInfo> {
+        var from : Date = formatter.parse(searchDate.from)
+        var to : Date = formatter.parse(searchDate.to)
+        return dao.getRecordsOfPeriodForEmployee(from, to, depId);
     }
 
-    override fun getRecordsOfPeriodForEmployee(fromDate: Date?, toDate: Date?, empId: Int?): MutableList<AuditInfo> {
-       return dao.getRecordsOfPeriodForEmployee(fromDate, toDate, empId);
+    override fun getRecordsOfPeriodForEmployee(searchDate: SearchDate, empId: Int?): MutableList<AuditInfo> {
+       var from : Date = formatter.parse(searchDate.from)
+        var to : Date = formatter.parse(searchDate.to)
+       return dao.getRecordsOfPeriodForEmployee(from, to, empId);
     }
 }
