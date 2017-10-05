@@ -23,7 +23,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
-        Gson gson = new GsonBuilder().serializeNulls().setDateFormat("dd.MM.yyyy").create();
+        Gson gson = new GsonBuilder().disableHtmlEscaping().serializeNulls().setDateFormat("dd.MM.yyyy").create();
         GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
         converter.setGson(gson);
         converters.add(converter);
