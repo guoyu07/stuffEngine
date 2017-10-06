@@ -14,7 +14,7 @@ import javax.transaction.Transactional
 @Transactional
 open class AuditDaoImpl(private val sessionFactory: SessionFactory) : AuditDao {
     override fun getRecordsOfPeriodForDepartment(fromDate: Date?, toDate: Date?, depId: Int?): MutableList<AuditInfo> {
-        return getSession().createQuery("from AuditInfo A where A.depId =:id and A.requestDate>:since and A.requestDate < :to")
+        return getSession().createQuery("from AuditInfo A where A.deptId =:id and A.requestDate>:since and A.requestDate < :to")
                 .setParameter("id", depId)
                 .setTimestamp("since", fromDate)
                 .setTimestamp("to", toDate)
