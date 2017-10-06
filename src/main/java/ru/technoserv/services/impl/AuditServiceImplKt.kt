@@ -21,7 +21,7 @@ class AuditServiceImplKt(private val dao :AuditDao) : AuditService {
     override fun getRecordsOfPeriodForDepartment(searchDate: SearchDate, depId: Int?): MutableList<AuditInfo> {
         var from : Date = formatter.parse(searchDate.from)
         var to : Date = formatter.parse(searchDate.to)
-        return dao.getRecordsOfPeriodForEmployee(from, to, depId);
+        return dao.getRecordsOfPeriodForDepartment(from, to, depId);
     }
 
     override fun getRecordsOfPeriodForEmployee(searchDate: SearchDate, empId: Int?): MutableList<AuditInfo> {

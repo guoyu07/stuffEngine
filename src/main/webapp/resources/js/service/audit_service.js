@@ -10,9 +10,9 @@ angular.module('staffEngine').factory('AuditService', ['$http', '$q', function (
 
     return factory;
 
-    function fetchAuditInfoByDeptId(id) {
+    function fetchAuditInfoByDeptId(id, searchDate) {
         var deffered = $q.defer();
-        $http.get(SERVICE_URI+"getInfoDep/"+id)
+        $http.post(SERVICE_URI+"getInfoDep/"+id,searchDate)
             .then(
                 function (response) {
                     deffered.resolve(response.data);
@@ -25,9 +25,9 @@ angular.module('staffEngine').factory('AuditService', ['$http', '$q', function (
         return deffered.promise;
     }
 
-    function fetchAuditInfoByEmployeeId(id) {
+    function fetchAuditInfoByEmployeeId(id, searchDate) {
         var deffered = $q.defer();
-        $http.get(SERVICE_URI+"getInfoEmp/"+id)
+        $http.post(SERVICE_URI+"getInfoEmp/"+id, searchDate)
             .then(
                 function (response) {
                     deffered.resolve(response.data);

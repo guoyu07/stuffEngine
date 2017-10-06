@@ -11,6 +11,32 @@
     <script src="<c:url value="/resources/js/controller/audit_emp_cntrl.js"/>"></script>
 </head>
 <body ng-controller="AuditController as bpCtrl">
+<div class="formcontainer">
+    <form ng-submit="bpCtrl.submit()" name="dateForm" class="form-horizontal">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="fromDate" class="col-md-2 control-label">From</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.from" id="fromDate" placeholder="Enter the start date"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="toDate" class="col-md-2 control-label">To</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.to" id="toDate" placeholder="Enter the end date"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div align="center">
+                <input type="submit"  value="Get audit info" class="btn">
+                <button type="button" ng-click="bpCtrl.reset()" class="btn">Reset Form</button>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="panel panel-default">
     <div class="panel-heading"><span class="lead"> Аудит </span></div>
     <table class="table table-hover">
