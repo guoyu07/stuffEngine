@@ -32,6 +32,11 @@ public class DAOConfig {
     private String PROPERTY_NAME_CURRENT_SESSION_CONTEXT = "current_session_context_class";
     private String PROPERTY_NAME_ENCODING = "hibernate.connection.characterEncoding";
 
+    private String PROPERTY_NAME_C3P0_MIN_SIZE = "c3p0.min_size";
+    private String PROPERTY_NAME_C3P0_MAX_SIZE = "c3p0.max_size";
+    private String PROPERTY_NAME_C3P0_TIMEOUT = "c3p0.timeout";
+    private String PROPERTY_NAME_C3P0_MAX_STAEMENTS = "c3p0.max_statements";
+
 
 
     @Bean
@@ -62,6 +67,11 @@ public class DAOConfig {
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, environment.getProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
         properties.put(PROPERTY_NAME_CURRENT_SESSION_CONTEXT, environment.getProperty(PROPERTY_NAME_CURRENT_SESSION_CONTEXT));
         properties.put(PROPERTY_NAME_ENCODING, environment.getProperty(PROPERTY_NAME_ENCODING));
+
+        properties.put(PROPERTY_NAME_C3P0_MIN_SIZE, environment.getProperty(PROPERTY_NAME_C3P0_MIN_SIZE));
+        properties.put(PROPERTY_NAME_C3P0_MAX_SIZE, environment.getProperty(PROPERTY_NAME_C3P0_MAX_SIZE));
+        properties.put(PROPERTY_NAME_C3P0_TIMEOUT, environment.getProperty(PROPERTY_NAME_C3P0_TIMEOUT));
+        properties.put(PROPERTY_NAME_C3P0_MAX_STAEMENTS, environment.getProperty(PROPERTY_NAME_C3P0_MAX_STAEMENTS));
         return properties;
     }
 
