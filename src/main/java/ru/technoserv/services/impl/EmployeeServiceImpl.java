@@ -93,6 +93,17 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         return e;
     }
 
+    @Override
+    public List<Employee> getPartOfEmployeeList(int start, int num) {
+        List<Employee> employees = getAllEmployees();
+        if(start>=employees.size()) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+        if(start+num>=employees.size()) {
+            employees = employees.subList(start, employees.size()-1);
+        }else{
+            employees = employees.subList(start, start+num);
+        }
+        return employees;
+    }
 
 }
 
