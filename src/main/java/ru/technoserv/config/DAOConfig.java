@@ -5,12 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.technoserv.dao.interceptor.PreInsertUpdateInterceptor;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -36,14 +39,20 @@ public class DAOConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        try{
+        Context initContext = new InitialContext();
+        Context envContext = (Context)initContext.lookup("java:/comp/env");
+        DataSource dataSource = (DataSource)envContext.lookup("jdbc/myoracle");
 
-        dataSource.setDriverClassName(environment.getProperty(PROPERTY_NAME_DATABASE_DRIVER));
+        /*dataSource.setDriverClassName(environment.getProperty(PROPERTY_NAME_DATABASE_DRIVER));
         dataSource.setUrl(environment.getProperty(PROPERTY_NAME_DATABASE_URL));
         dataSource.setUsername(environment.getProperty(PROPERTY_NAME_DATABASE_USERNAME));
-        dataSource.setPassword(environment.getProperty(PROPERTY_NAME_DATABASE_PASSWORD));
-
+        dataSource.setPassword(environment.getProperty(PROPERTY_NAME_DATABASE_PASSWORD));*/
         return  dataSource;
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
