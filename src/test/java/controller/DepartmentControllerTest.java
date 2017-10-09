@@ -113,10 +113,7 @@ public class DepartmentControllerTest {
     public void testDeleteDept() throws Exception {
         when(departmentService.deleteDepartment(1)).thenReturn(department);
         mockMvc.perform(delete("/department/1")).andExpect(status().isOk())
-                .andExpect(content().contentType(JSON_UTF8))
-                .andExpect(jsonPath("id", is(1)))
-                .andExpect(jsonPath("deptName", is("Головной")))
-                .andExpect(jsonPath("deptHeadId", is(1)));
+                .andExpect(status().isOk());
     }
 
     @Test

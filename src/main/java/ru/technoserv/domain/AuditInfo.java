@@ -3,12 +3,13 @@ package ru.technoserv.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="AuditInfo")
 @Table(name="AUDIT_INFO")
-public class AuditInfo {
+public class AuditInfo implements Serializable {
 
     @Id
     @GeneratedValue(
@@ -42,7 +43,9 @@ public class AuditInfo {
     @Column(name="EXCEPTION_MESSAGE")
     private String exceptionMessage;
 
+    public AuditInfo(){
 
+    }
 
     public AuditInfo(Integer deptId, Integer empId, String ipAddr, String requestObject, int actionId) {
         this.deptId = deptId;

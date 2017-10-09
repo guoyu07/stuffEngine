@@ -34,6 +34,7 @@ public class Department {
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
+
     @Column(name="DEPT_ID")
     private Integer id;
 

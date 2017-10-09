@@ -1,61 +1,67 @@
 package ru.technoserv.domain;
 
 
-import javax.xml.bind.annotation.*;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "employee", propOrder = {
-        "empID",
-        "position",
-        "grade",
-        "department",
-        "lastName",
-        "firstName",
-        "patrName",
-        "gender",
-        "birthday",
-        "salary"
-})
+@Entity
+@Table(name ="EMPLOYEE2")
 public class Employee {
 
-    protected Integer empID;
-    @XmlElement(required = true)
-    protected Position position;
-    @XmlElement(required = true)
-    protected Grade grade;
-    @XmlElement(required = true)
-    protected Department department;
-    @XmlElement(required = true)
-    protected String lastName;
-    @XmlElement(required = true)
-    protected String firstName;
-    @XmlElement(required = true)
-    protected String patrName;
-    @XmlElement(required = true)
-    protected String gender;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "date")
-    protected Date birthday;
-    @XmlElement(required = true)
-    protected BigDecimal salary;
+//    @Id
+//    @Column(name = "ID")
+//    private Integer id;
+    @Id
+    @Column(name = "CHRON_ID")
+    private Integer empID;
 
-    public Employee() {
-    }
+    @OneToOne
+    @JoinColumn(name = "POSITION_ID")
+    private Position position;
 
-    public Employee(EmployeeHistory eh) {
-        this.empID = eh.getEmpID();
-        this.position = eh.getPosition();
-        this.grade = eh.getGrade();
-        this.lastName = eh.getLastName();
-        this.firstName = eh.getFirstName();
-        this.patrName = eh.getPatrName();
-        this.gender = eh.getGender();
-        this.birthday = eh.getBirthday();
-        this.salary = eh.getSalary();
-        this.department = eh.getDepartment();
-    }
+    @OneToOne
+    @JoinColumn(name = "GRADE_ID")
+    private Grade grade;
+
+    @NotNull(message = "Необходимо указать отдел в котором работает сотрудник")
+    @ManyToOne
+    @JoinColumn(name = "DEPARTMENT_ID")
+    private Department department;
+
+    @Size(min = 3, max = 50, message = "Фамилия должно быть от 3 до 50 символов")
+    @Column(name = "LAST_NAME")
+    private String lastName;
+
+    @Size(min = 3, max = 50, message = "Имя должно быть от 3 до 50 символов")
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+
+    @Column(name = "PATR_NAME")
+    private String patrName;
+
+    @NotNull(message = "Укажите ваш пол")
+    @Column(name = "GENDER")
+    private String gender;
+
+    @Column(name = "BIRTHDAY")
+    private Date birthday;
+
+    @NotNull(message = "Укажите зарплату")
+    @Min(value = 0, message = "Работники не платят за работу")
+    @Column(name = "SALARY")
+    private BigDecimal salary;
+
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
     public Integer getEmpID() {
         return empID;
@@ -137,17 +143,22 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(){
+
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
-                "empID=" + empID +
-                ", position='" + position + '\'' +
-                ", grade='" + grade + '\'' +
-                ", department='" + department + '\'' +
+                "id=" + //id +
+                ", empID=" + empID +
+                ", position=" + position +
+                ", grade=" + grade +
+                ", department=" + department +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", patrName='" + patrName + '\'' +
-                ", gender=" + gender +
+                ", gender='" + gender + '\'' +
                 ", birthday=" + birthday +
                 ", salary=" + salary +
                 '}';

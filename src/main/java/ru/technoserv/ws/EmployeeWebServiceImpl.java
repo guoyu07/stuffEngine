@@ -1,5 +1,5 @@
 package ru.technoserv.ws;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,6 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
     @Autowired
     private EmployeeService employeeService;
 
-
     @Override
     public void changePosition(int id,  int positionId) {
         Employee employee = employeeService.getEmployee(id);
@@ -52,4 +51,4 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
         employee.setSalary(salary);
         employeeService.changeEmployee(employee);
     }
-}
+}*/

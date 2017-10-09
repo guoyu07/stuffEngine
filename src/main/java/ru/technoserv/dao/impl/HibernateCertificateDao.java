@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.exceptions.StuffExceptions;
 
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class HibernateCertificateDao implements CertificateDao {
             session.save(certificate);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
+            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),ex);
         }
     }
 
@@ -57,10 +58,10 @@ public class HibernateCertificateDao implements CertificateDao {
             certificate = (Certificate) session.get(Certificate.class, certNum);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
+            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),ex);
         }
         if (certificate == null) {
-            throw new RuntimeException("5 - сертификат не найден");
+            throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
         }
         return certificate;
     }
@@ -78,7 +79,7 @@ public class HibernateCertificateDao implements CertificateDao {
             throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
         }
         if (allCerts.isEmpty()) {
-            throw new RuntimeException("5 - сертификаты не найдены");
+            throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
         }
         return allCerts;
     }
@@ -93,7 +94,7 @@ public class HibernateCertificateDao implements CertificateDao {
                     + certNum).executeUpdate();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("1 - неудачный запрос данных из базы", ex);
+            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(), ex);
         }
     }
 
@@ -107,7 +108,7 @@ public class HibernateCertificateDao implements CertificateDao {
                     + empID).executeUpdate();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new RuntimeException("1 - неудачный запрос данных из базы", ex);
+            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(), ex);
         }
     }
 }

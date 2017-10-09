@@ -164,4 +164,13 @@ public class AuditHandler {
         AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
         auditService.createRecord(auditRecord);
     }
+
+    @AfterReturning(pointcut = "deptController() && anyMethod() && args(start, num, request)", returning = "result")
+    public void handleAfterGetPartEmployee(JoinPoint joinPoint, Object result, int start, int num, HttpServletRequest request) {
+        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+                .getMethod()).getAnnotation(RequestMapping.class).name());
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "Employee range: start:action- "+start+":"+num, action);
+        auditService.createRecord(auditRecord);
+    }
+
 }

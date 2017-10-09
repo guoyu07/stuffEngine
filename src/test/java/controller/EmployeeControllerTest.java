@@ -1,39 +1,21 @@
 package controller;
 
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.BindingResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ru.technoserv.controller.EmployeeController;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
-import ru.technoserv.dao.impl.HibernateDepartmentDao;
-import ru.technoserv.dao.impl.HibernateEmployeeDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
-import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;
 import ru.technoserv.services.impl.EmployeeServiceImpl;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
@@ -47,7 +29,7 @@ public class EmployeeControllerTest {
     private EmployeeService employeeService = new EmployeeServiceImpl();
 
     @Test
-    public void changeEmployeeTheHead(){
+    public void changeEmployee(){
 
         Employee sendEmployee = new Employee();
         Department sendDepartment = new Department();
@@ -56,18 +38,41 @@ public class EmployeeControllerTest {
         sendEmployee.setDepartment(sendDepartment);
 
 
-        EmployeeHistory dbEmployee = new EmployeeHistory();
+        Employee dbEmployee = new Employee();
         dbEmployee.setEmpID(1);
         Department dbDepartment = new Department();
         dbDepartment.setDeptHeadId(1);
         dbDepartment.setId(1);
         dbEmployee.setDepartment(dbDepartment);
 
-        EmployeeHistory eh = new EmployeeHistory(sendEmployee);
+        when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
+        when(departmentDao.readById(anyInt())).thenReturn(dbDepartment);
+        when(employeeDao.updateEmployee(anyObject())).thenReturn(sendEmployee);
+        employeeService.changeEmployee(sendEmployee);
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void changeEmployeeTheHeadOfDepartment(){
+
+        Employee sendEmployee = new Employee();
+        Department sendDepartment = new Department();
+        sendDepartment.setId(2);
+        sendEmployee.setEmpID(1);
+        sendEmployee.setDepartment(sendDepartment);
+
+
+        Employee dbEmployee = new Employee();
+        dbEmployee.setEmpID(1);
+        Department dbDepartment = new Department();
+        dbDepartment.setDeptHeadId(1);
+        dbDepartment.setId(1);
+        dbEmployee.setDepartment(dbDepartment);
+
 
         when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
         when(departmentDao.readById(anyInt())).thenReturn(dbDepartment);
-        when(employeeDao.updateEmployee(anyObject())).thenReturn(eh);
+        when(employeeDao.updateEmployee(anyObject())).thenReturn(sendEmployee);
         employeeService.changeEmployee(sendEmployee);
 
     }
