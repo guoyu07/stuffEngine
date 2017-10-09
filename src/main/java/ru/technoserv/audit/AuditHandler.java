@@ -46,6 +46,9 @@ public class AuditHandler {
     @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getDepartmentStuff(..))")
     public void getStuff(){}
 
+    @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getPartEmployees(..))")
+    public void partEmployees(){}
+
     @AfterReturning(pointcut = "deptController() && anyMethod() && args(depId,..,request)", returning = "result")
     public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint, Object result, Integer depId, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
@@ -165,11 +168,11 @@ public class AuditHandler {
         auditService.createRecord(auditRecord);
     }
 
-    @AfterReturning(pointcut = "deptController() && anyMethod() && args(start, num, request)", returning = "result")
+    @AfterReturning(pointcut = "partEmployees() && anyMethod() && args(start, num, request)", returning = "result")
     public void handleAfterGetPartEmployee(JoinPoint joinPoint, Object result, int start, int num, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "Employee range: start:action- "+start+":"+num, action);
+        AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "Employee range: start:num- "+start+":"+num, action);
         auditService.createRecord(auditRecord);
     }
 
