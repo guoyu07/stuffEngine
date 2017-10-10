@@ -21,4 +21,6 @@ public interface EmployeeService {
 
     Employee getEmployee(int id);
 
+    List<Employee> getPartOfEmployeeList(int start, int num);
+
 }

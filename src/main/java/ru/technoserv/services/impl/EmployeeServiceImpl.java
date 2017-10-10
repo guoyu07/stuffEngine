@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.technoserv.dao.*;
+import ru.technoserv.domain.Certificate;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.StuffExceptions;
 import ru.technoserv.services.EmployeeService;
-
 
 import java.util.List;
 
@@ -23,6 +23,9 @@ import java.util.List;
 public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
+
+    @Autowired
+    private CertificateDao certificateDao;
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -58,6 +61,8 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
             }
         }
         employeeDao.delete(id);
+        certificateDao.deleteAllCertsByEmpID(id);
+
     }
 
     @Override
@@ -95,6 +100,17 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
         return e;
     }
 
+    @Override
+    public List<Employee> getPartOfEmployeeList(int start, int num) {
+        List<Employee> employees = getAllEmployees();
+        if(start>=employees.size()) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+        if(start+num>=employees.size()) {
+            employees = employees.subList(start, employees.size()-1);
+        }else{
+            employees = employees.subList(start, start+num);
+        }
+        return employees;
+    }
 
 }
 

@@ -22,7 +22,6 @@ import java.util.*;
 })
 public class Department {
 
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

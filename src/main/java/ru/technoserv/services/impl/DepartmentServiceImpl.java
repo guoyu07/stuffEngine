@@ -24,7 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentDao departmentDao;
     @Autowired
     EmployeeDao employeeDao;
-    private boolean isIDLoaded = false;
+
 
     @Override
     public Department createDepartment(Department department) {

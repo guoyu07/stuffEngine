@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;
@@ -32,7 +33,6 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-
 
     /**
      * Запрос на получение всех сотрудников по ИД отдела
@@ -111,6 +111,13 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
+    @RequestMapping(name = "16", value = "/part/{start}/{num}", method = RequestMethod.GET)
+    public ResponseEntity<?> getPartEmployees(@PathVariable int start, @PathVariable int num, HttpServletRequest request){
+        logger.info("Получен запрос на чтение части сотрудников");
+        List<Employee> employees = employeeService.getPartOfEmployeeList(start, num);
+        logger.info("Возвращаемый список сотрудников: " + employees);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
 
 
 }
