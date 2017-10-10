@@ -10,6 +10,7 @@
     <script src="<c:url value="/resources/js/app.js"/>"></script>
     <script src="<c:url value="/resources/js/service/dept_service.js"/>"></script>
     <script src="<c:url value="/resources/js/controller/dept_controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/controller/tree.js"/>"></script>
 </head>
 <body ng-controller="DeptController as bpCtrl">
 <div class="panel panel-default">
@@ -18,10 +19,15 @@
         <tr>
             <th>Название отдела</th>
         </tr>
-        <tr ng-repeat="dept in bpCtrl.depts | orderBy:'parentDeptId':false">
-            <td><a href="/dept/{{dept.id}}" target="_blank">{{dept.deptName}}</a></td>
+        <tr ng-repeat="node in bpCtrl.tree">
+            <td>
+                <tree family="node">
+
+                </tree>
+            </td>
         </tr>
     </table>
+
 </div>
 
 </body>

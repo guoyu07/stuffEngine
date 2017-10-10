@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.technoserv.domain.DepWithChildren;
 import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
@@ -11,6 +12,7 @@ import ru.technoserv.domain.Employee;
 import ru.technoserv.exceptions.StuffExceptions;
 import ru.technoserv.services.DepartmentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -84,5 +86,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentDao.delete(deptID);
 
         return deletedDept;
+    }
+
+    @Override
+    public List<DepWithChildren> getHierarchy() {
+        List<DepWithChildren> hierarchy = departmentDao.getHierarchy();
+
+        return hierarchy;
     }
 }

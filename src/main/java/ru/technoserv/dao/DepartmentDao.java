@@ -1,5 +1,6 @@
 package ru.technoserv.dao;
 
+import ru.technoserv.domain.DepWithChildren;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.EmployeeHistory;
 
@@ -77,4 +78,6 @@ public interface DepartmentDao {
      *              которого равняется depId
      */
     List<Department> getLevelBelowSubDepts(Integer depId);
+
+    List<DepWithChildren> getHierarchy();
 }

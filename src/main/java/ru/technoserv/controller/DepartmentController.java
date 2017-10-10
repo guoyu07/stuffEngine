@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.technoserv.domain.DepWithChildren;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.services.DepartmentService;
@@ -82,5 +83,13 @@ public class DepartmentController {
         logger.info("Список всех отделов" + allDeps);
         return new ResponseEntity<>(allDeps, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/hierarchy", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getHierarchy() {
+        List<DepWithChildren> hierarchy = departmentService.getHierarchy();
+        return new ResponseEntity<>(hierarchy, HttpStatus.OK);
+    }
+
 
 }

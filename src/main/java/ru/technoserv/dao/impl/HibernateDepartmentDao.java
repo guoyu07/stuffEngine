@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.domain.DepWithChildren;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.exceptions.StuffExceptions;
@@ -155,6 +156,21 @@ public class HibernateDepartmentDao implements DepartmentDao {
     @Override
     public List<Department> getLevelBelowSubDepts(Integer depId) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public List<DepWithChildren> getHierarchy() {
+        List<DepWithChildren> departments;
+        String sql = "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT WHERE PARENT_DEPT_ID IS NULL";
+        Session session = getSession();
+        try{
+            departments = session.createSQLQuery(sql).addEntity(DepWithChildren.class).list();
+        }catch (HibernateException e){
+            logger.error(e.getMessage());
+            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+        }
+
+        return departments;
     }
 
 }

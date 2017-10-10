@@ -120,7 +120,7 @@ public class DepartmentControllerTest {
     public void testUpdateDept() throws Exception {
         Department updatedDep = getNewDep(2, 1, "Закупки", null);
         when(departmentService.updateDept(any(Department.class))).thenReturn(updatedDep);
-//        when(departmentService.getDepartment(2)).thenReturn(dep);
+//        when(departmentService.getParentDept(2)).thenReturn(dep);
         mockMvc.perform(put("/department")
                 .contentType(JSON_UTF8)
                 .content(convertObjectToJsonBytes(updatedDep))

@@ -36,7 +36,7 @@ public class OracleEmployeeDao implements EmployeeDao {
         String sql = "SELECT d.DEPT_ID, p.POS_ID, g.GRD_ID FROM " +
                 "DEPARTMENT d, POSITION p, GRADE g " +
                 "WHERE d.DEPT_NAME = ? AND p.TITLE = ? AND g.DESCRIPTION = ?";
-        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, employee.getDepartment(),
+        SqlRowSet set = jdbcTemplate.queryForRowSet(sql, employee.getParentDept(),
                 employee.getPosition(), employee.getGrade());
         set.first();
         int deptID = set.getInt("DEPT_ID");

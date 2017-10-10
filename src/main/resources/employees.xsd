@@ -22,7 +22,7 @@
             <xs:element name="empID" type="xs:int"/>
             <xs:element name="position" type="tns:position"/>
             <xs:element name="grade" type="tns:grade"/>
-            <xs:element name="department" type="tns:department"/>
+            <xs:element name="parentDept" type="tns:parentDept"/>
             <xs:element name="lastName" type="xs:string"/>
             <xs:element name="firstName" type="xs:string"/>
             <xs:element name="patrName" type="xs:string"/>
@@ -46,7 +46,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="department">
+    <xs:complexType name="parentDept">
         <xs:sequence>
             <xs:element name="id" type="xs:int"/>
             <xs:element name="parentDeptId" type="xs:int"/>
