@@ -13,11 +13,13 @@
     <script src="<c:url value="/resources/js/controller/tree.js"/>"></script>
 </head>
 <body ng-controller="DeptController as bpCtrl">
-<div class="panel-heading"><span class="lead"> Структура отделов </span></div>
+<div class="panel panel-default">
+<div class="panel-header"><span class="lead"> Структура отделов </span></div>
     <div class="tree-cell" ng-repeat="node in bpCtrl.tree">
         <tree family="node">
 
         </tree>
     </div>
+</div>
 </body>
 </html>
