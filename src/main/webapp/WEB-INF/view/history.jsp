@@ -45,7 +45,7 @@
             <td>{{empl.birthday}}</td>
             <td>{{empl.position.title}}</td>
             <td>{{empl.grade.description}}</td>
-            <td>{{empl.parentDept.deptName}}</td>
+            <td>{{empl.department.deptName}}</td>
             <td>{{empl.salary}}&nbsp;руб.</td>
         </tr>
     </table>

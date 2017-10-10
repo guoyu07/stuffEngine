@@ -17,7 +17,7 @@
             <div class="form-group col-md-12">
                 <label for="fromDate" class="col-md-2 control-label">From</label>
                 <div class="col-md-7">
-                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.from" id="fromDate" placeholder="Enter the start date"/>
+                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.from" id="fromDate" placeholder="Enter the start date yyyy.MM.dd HH:mm"/>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="form-group col-md-12">
                 <label for="toDate" class="col-md-2 control-label">To</label>
                 <div class="col-md-7">
-                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.to" id="toDate" placeholder="Enter the end date"/>
+                    <input type="text" class="form-control input-sm" ng-model="bpCtrl.searchDate.to" id="toDate" placeholder="Enter the end date  yyyy.MM.dd HH:mm"/>
                 </div>
             </div>
         </div>
