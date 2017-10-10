@@ -27,6 +27,7 @@ open class AuditDaoImpl(private val sessionFactory: SessionFactory) : AuditDao {
                 .setTimestamp("since", fromDate)
                 .setTimestamp("to", toDate)
                 .list() as MutableList<AuditInfo>;
+
     }
 
     fun getSession() :Session = sessionFactory.currentSession;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
 import ru.technoserv.services.CertificateService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,24 +20,24 @@ public class CertificateController {
     @Autowired
     CertificateService certificateService;
 
-    @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
-    public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate) {
+    @RequestMapping(name ="17", value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
+    public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate, HttpServletRequest request) {
         logger.info("Получен request на создание сертификата");
         logger.info("Cоздаваемый сертификат: " + certificate.toString());
         Certificate certificate1 = certificateService.create(certificate);
         return new ResponseEntity<Object>(certificate1, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.GET)
-    public ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum) {
+    @RequestMapping(name ="18",value = "/certnum/{certNum}", method = RequestMethod.GET)
+    public ResponseEntity<?> readCertByNum(@PathVariable(name = "certNum") int certNum,  HttpServletRequest request) {
         logger.info("Получен request на чтение сертификата с номером: " + certNum);
         Certificate certificate = certificateService.readCertByNum(certNum);
         logger.info("Возвращаемый сертификат: " + certificate.toString());
         return new ResponseEntity<>(certificate, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/empid/{empID}", method = RequestMethod.GET)
-    public ResponseEntity<?> readAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
+    @RequestMapping(name ="19",value = "/empid/{empID}", method = RequestMethod.GET)
+    public ResponseEntity<?> readAllCertsByEmpID(@PathVariable(name = "empID") int empID,  HttpServletRequest request) {
         logger.info("Получен request на чтение всех сертификатов сотрудника с ID: " + empID);
         List<Certificate> allCerts = certificateService.readAllCertsByEmpID(empID);
         logger.info("Возвращаемые сертификаты сотрудника: " + allCerts);
@@ -44,15 +45,15 @@ public class CertificateController {
         return new ResponseEntity<>(allCerts, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/certnum/{certNum}", method = RequestMethod.DELETE)
-    public String deleteCertByNum(@PathVariable(name = "certNum") int certNum) {
+    @RequestMapping(name ="20",value = "/certnum/{certNum}", method = RequestMethod.DELETE)
+    public String deleteCertByNum(@PathVariable(name = "certNum") int certNum,  HttpServletRequest request) {
         logger.info("Получен request на удаление сертификата по номеру: " + certNum);
         certificateService.deleteCertByNum(certNum);
         logger.info("Сертификат успешно удален");
         return "deleted";
     }
 
-    @RequestMapping(value = "/empid/{empID}", method = RequestMethod.DELETE)
+    @RequestMapping(name ="21",value = "/empid/{empID}", method = RequestMethod.DELETE)
     public String deleteAllCertsByEmpID(@PathVariable(name = "empID") int empID) {
         logger.info("Request на удаление всех сертификатов сотрудника с ID: " + empID);
         certificateService.deleteAllCertsByEmpID(empID);
