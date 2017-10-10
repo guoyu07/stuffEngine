@@ -6,10 +6,10 @@ angular.module('staffEngine').directive('tree', function($compile) {
         transclude: true,
         scope: {family: '='},
         template:
-            '<ul style="margin-left: 0; padding-left: 0">' +
+            '<ul>' +
             '<li ng-transclude style="list-style-type: none;"></li>' +
             '<a href="/dept/{{family.id}}" target="_blank">{{ family.deptName }}</a>' +
-            '<li ng-repeat="child in family.children" style="list-style-type: none; margin-left: 10px">' +
+            '<li ng-repeat="child in family.children" style="list-style-type: none;">' +
             '<tree family="child"></tree>' +
             '</li>' +
             '</ul>',

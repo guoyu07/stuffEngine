@@ -25,6 +25,7 @@ public class DepWithChildren {
     private Integer deptHeadId;
 
     @OneToMany(mappedBy = "parentDept", fetch = FetchType.EAGER)
+    @OrderBy(value = "deptName")
     private Set<DepWithChildren> children = new HashSet<>();
 
     public Integer getId() {
