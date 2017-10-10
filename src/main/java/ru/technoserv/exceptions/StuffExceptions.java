@@ -14,7 +14,6 @@ public enum StuffExceptions {
     private String message;
 
     private StuffExceptions(int code, String message){
-
         this.code = code;
         this.message = message;
 
@@ -30,6 +29,6 @@ public enum StuffExceptions {
 
     @Override
     public String toString() {
-        return code+":"+message;
+        return code+"!@#"+message;
     }
 }

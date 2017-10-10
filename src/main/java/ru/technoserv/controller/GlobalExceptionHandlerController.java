@@ -35,7 +35,16 @@ public class GlobalExceptionHandlerController {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> validationProblem(RuntimeException e){
         logger.error(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        CommonError error = new CommonError(e.getMessage());
+        try{
+            String[] errorMessage = e.getMessage().split("!@#");
+            String id = errorMessage[0].trim();
+            error.setId(new Integer(id));
+            error.setMessage(errorMessage[1]);
+        }catch (Exception ex){
+            logger.info(ex);
+        }
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
