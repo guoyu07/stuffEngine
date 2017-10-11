@@ -28,7 +28,6 @@ public class GlobalExceptionHandlerController {
                 ) {
             myErrors.add(new CommonError(err.getDefaultMessage()));
         }
-
         return new ResponseEntity<>(myErrors, HttpStatus.BAD_REQUEST);
     }
 

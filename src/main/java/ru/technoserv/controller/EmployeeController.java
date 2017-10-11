@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
 import ru.technoserv.services.EmployeeService;

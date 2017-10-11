@@ -91,7 +91,7 @@ public class AuditHandler {
              list.getBody()) {
             AuditInfo auditRecord = new AuditInfo(null, e.getEmpID(), request.getRemoteAddr(), "Get all emp", action);
             auditService.createRecord(auditRecord);
-        };
+        }
 
     }
 
@@ -113,7 +113,7 @@ public class AuditHandler {
                 list.getBody()) {
             AuditInfo auditRecord = new AuditInfo(null, e.getEmpID(), request.getRemoteAddr(), "Start:num - " +start +":"+num, action);
             auditService.createRecord(auditRecord);
-        };
+        }
 
     }
 
