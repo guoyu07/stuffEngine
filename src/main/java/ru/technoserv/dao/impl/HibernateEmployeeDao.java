@@ -61,7 +61,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     //.setBoolean("state", true).uniqueResult();
         } catch (HibernateException e){
             logger.error(e.getMessage());
-
             throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
         }
         if(employee==null) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());

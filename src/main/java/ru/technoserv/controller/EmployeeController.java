@@ -57,8 +57,6 @@ public class EmployeeController {
         logger.info("Запрос на получение сотрудника по ид"+ id);
         Employee employee = employeeService.getEmployee(id);
         logger.info("Json ответ на получение сотрудника по ид"+ employee);
-
-
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
@@ -118,6 +116,5 @@ public class EmployeeController {
         logger.info("Возвращаемый список сотрудников: " + employees);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
-
 
 }

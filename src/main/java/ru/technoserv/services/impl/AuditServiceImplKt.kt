@@ -12,7 +12,7 @@ import java.util.Date
 @Service
 class AuditServiceImplKt(private val dao :AuditDao) : AuditService {
 
-    private var formatter : SimpleDateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm")
+    private var formatter : SimpleDateFormat = SimpleDateFormat("yyyy.MM.dd")
 
     override fun createRecord(auditInfo: AuditInfo?) {
         dao.createRecord(auditInfo)
