@@ -9,7 +9,7 @@
 
     <jaxws:endpoint id="EmployeeService"
                     address="jms:queue:EmployeeQueue?timeToLive=1000"
-                    implementor="ru.technoserv.wss.EmployeeWebServiceImplService">
+                    implementor="ru.technoserv.ws.EmployeeWebServiceImpl">
     </jaxws:endpoint>
 
 </beans>

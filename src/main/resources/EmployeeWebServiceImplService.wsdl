@@ -6,17 +6,17 @@
       <xsd:import namespace="http://ws.technoserv.ru/" schemaLocation="EmployeeWebServiceImplService_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="changeGrade">
-    <part name="parameters" element="tns:changeGrade"/>
-  </message>
-  <message name="changeGradeResponse">
-    <part name="parameters" element="tns:changeGradeResponse"/>
-  </message>
   <message name="changePosition">
     <part name="parameters" element="tns:changePosition"/>
   </message>
   <message name="changePositionResponse">
     <part name="parameters" element="tns:changePositionResponse"/>
+  </message>
+  <message name="changeGrade">
+    <part name="parameters" element="tns:changeGrade"/>
+  </message>
+  <message name="changeGradeResponse">
+    <part name="parameters" element="tns:changeGradeResponse"/>
   </message>
   <message name="changeSalary">
     <part name="parameters" element="tns:changeSalary"/>
@@ -25,13 +25,13 @@
     <part name="parameters" element="tns:changeSalaryResponse"/>
   </message>
   <portType name="EmployeeWebService">
-    <operation name="changeGrade">
-      <input wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changeGradeRequest" message="tns:changeGrade"/>
-      <output wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changeGradeResponse" message="tns:changeGradeResponse"/>
-    </operation>
     <operation name="changePosition">
       <input wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changePositionRequest" message="tns:changePosition"/>
       <output wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changePositionResponse" message="tns:changePositionResponse"/>
+    </operation>
+    <operation name="changeGrade">
+      <input wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changeGradeRequest" message="tns:changeGrade"/>
+      <output wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changeGradeResponse" message="tns:changeGradeResponse"/>
     </operation>
     <operation name="changeSalary">
       <input wsam:Action="http://ws.technoserv.ru/EmployeeWebService/changeSalaryRequest" message="tns:changeSalary"/>
@@ -39,8 +39,8 @@
     </operation>
   </portType>
   <binding name="EmployeeWebServiceImplBinding" type="tns:EmployeeWebService">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="changeGrade">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="changePosition">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -49,7 +49,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="changePosition">
+    <operation name="changeGrade">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

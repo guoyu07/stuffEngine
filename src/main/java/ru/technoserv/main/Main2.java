@@ -3,7 +3,7 @@ package ru.technoserv.main;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 
-import ru.technoserv.wss.EmployeeWebService;
+import ru.technoserv.ws.EmployeeWebService;
 
 public class Main2 {
 
@@ -20,7 +20,7 @@ public class Main2 {
         factory.setServiceClass(EmployeeWebService.class);
         factory.setAddress(address);
         EmployeeWebService client = (EmployeeWebService)factory.create();
-        client.changeGradeAsync(1,1);
+        client.changePosition(1,1);
         System.out.println("changed");
         System.exit(0);
     }

@@ -1,5 +1,5 @@
 package ru.technoserv.ws;
-/*
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -14,4 +14,4 @@ public interface EmployeeWebService {
 
     void changeSalary(@WebParam(name = "employeeId") int id, @WebParam(name = "Salary") BigDecimal salary);
 
-}*/
+}

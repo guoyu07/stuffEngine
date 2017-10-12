@@ -1,5 +1,5 @@
 package ru.technoserv.ws;
-/*
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -14,8 +14,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.math.BigDecimal;
 
+
 @WebService(
-        name = "EmployeeService",
         portName = "EmployeeWebServiceImpl",
         serviceName = "EmployeeWebServiceImplService",
         wsdlLocation = "WEB-INF/wsdl/EmployeeWebServiceImplService.wsdl",
@@ -51,4 +51,4 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
         employee.setSalary(salary);
         employeeService.changeEmployee(employee);
     }
-}*/
+}
