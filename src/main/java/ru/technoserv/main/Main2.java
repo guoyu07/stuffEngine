@@ -14,7 +14,6 @@ public class Main2 {
                 + "&jndiConnectionFactoryName=ConnectionFactory"
                 + "&jndiURL=tcp://localhost:61616";
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-
         // And specify the transport ID with SOAP over JMS specification
         factory.setTransportId(JMSSpecConstants.SOAP_JMS_SPECIFICATION_TRANSPORTID);
         factory.setServiceClass(EmployeeWebService.class);
@@ -24,4 +23,5 @@ public class Main2 {
         System.out.println("changed");
         System.exit(0);
     }
+
 }
