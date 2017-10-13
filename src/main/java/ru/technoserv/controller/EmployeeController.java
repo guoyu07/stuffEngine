@@ -29,12 +29,14 @@ public class EmployeeController {
 
     private static final Logger logger = Logger.getLogger(EmployeeController.class);
 
+    private EmployeeService employeeService;
+
     @Autowired
     public  EmployeeController(EmployeeService employeeService){
         this.employeeService = employeeService;
     }
 
-    private EmployeeService employeeService;
+
 
     /**
      * Запрос на получение всех сотрудников по ИД отдела

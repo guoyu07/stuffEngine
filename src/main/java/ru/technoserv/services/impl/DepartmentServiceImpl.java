@@ -23,9 +23,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     private static final Logger logger = Logger.getLogger(DepartmentServiceImpl.class);
 
 
-    DepartmentDao departmentDao;
+    private DepartmentDao departmentDao;
 
-    EmployeeDao employeeDao;
+    private EmployeeDao employeeDao;
 
     @Autowired
     public DepartmentServiceImpl(DepartmentDao departmentDao, EmployeeDao employeeDao){

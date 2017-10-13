@@ -28,12 +28,12 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
+    private SessionFactory sessionFactory;
+
     @Autowired
     public HibernateEmployeeDao(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
-
-    private SessionFactory sessionFactory;
 
     private Session getSession(){
         return sessionFactory.getCurrentSession();

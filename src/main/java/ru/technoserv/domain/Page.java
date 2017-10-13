@@ -28,16 +28,16 @@ public class Page implements Serializable{
             }
     )
     @Column(name = "ID")
-    Integer id;
+    private Integer id;
 
     @Column(name = "CERT_NUMBER")
-    Integer number;
+    private Integer number;
 
     @Column(name = "PAGE")
-    Integer page;
+    private Integer page;
 
     @Column(name = "IMAGE")
-    byte[] image;
+    private byte[] image;
 
     public Integer getNumber() {
         return number;

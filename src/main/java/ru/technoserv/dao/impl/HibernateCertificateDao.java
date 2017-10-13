@@ -23,12 +23,14 @@ public class HibernateCertificateDao implements CertificateDao {
 
     private static final Logger logger = Logger.getLogger(HibernateCertificateDao.class);
 
+    private SessionFactory sessionFactory;
+
     @Autowired
     public HibernateCertificateDao(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
 
-    SessionFactory sessionFactory;
+
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();

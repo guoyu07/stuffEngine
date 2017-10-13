@@ -29,12 +29,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
+    private SessionFactory sessionFactory;
+
     @Autowired
     public HibernateDepartmentDao(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
 
-    private SessionFactory sessionFactory;
+
 
     private Session getSession(){
         return sessionFactory.getCurrentSession();

@@ -26,12 +26,14 @@ public class DepartmentController {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
+    private DepartmentService departmentService;
+
     @Autowired
     public DepartmentController(DepartmentService departmentService){
         this.departmentService = departmentService;
     }
 
-    DepartmentService departmentService;
+
 
     @RequestMapping(name = "6",value = "/{depId}/subdepts", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
