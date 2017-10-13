@@ -15,6 +15,7 @@ import ru.technoserv.domain.Employee;
 import ru.technoserv.services.EmployeeService;
 import ru.technoserv.services.impl.EmployeeServiceImpl;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
@@ -22,10 +23,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
     @Mock
-    EmployeeDao employeeDao;
+    private EmployeeDao employeeDao;
 
     @Mock
-    DepartmentDao departmentDao;
+    private DepartmentDao departmentDao;
 
     @Mock
     private SessionFactory sessionFactory;
@@ -78,7 +79,8 @@ public class EmployeeControllerTest {
         when(employeeDao.read(anyInt())).thenReturn(dbEmployee);
         when(departmentDao.readById(anyInt())).thenReturn(dbDepartment);
         when(employeeDao.updateEmployee(anyObject())).thenReturn(sendEmployee);
-        employeeService.changeEmployee(sendEmployee);
+
+        fail(employeeService.changeEmployee(sendEmployee).toString());
     }
 
 

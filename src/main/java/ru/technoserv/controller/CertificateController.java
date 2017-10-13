@@ -17,12 +17,14 @@ public class CertificateController {
 
     private static final Logger logger = Logger.getLogger(CertificateController.class);
 
+    private CertificateService certificateService;
+
     @Autowired
     public  CertificateController(CertificateService certificateService){
         this.certificateService = certificateService;
     }
 
-    CertificateService certificateService;
+
 
     @RequestMapping(name ="17", value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
     public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate, HttpServletRequest request) {
