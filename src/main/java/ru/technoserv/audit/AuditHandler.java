@@ -32,31 +32,32 @@ public class AuditHandler {
 
     @Pointcut("within(ru.technoserv.controller.DepartmentController)")
     public void deptController(){
+        //pointcut
     }
 
     @Pointcut("within(ru.technoserv.controller.EmployeeController)")
     public void empController() {
-
+        //pointcut
     }
 
     @Pointcut("within(ru.technoserv.controller.CertificateController)")
     public void certController() {
-
+        //pointcut
     }
 
     @Pointcut("execution(* *.*(..))")
     public void anyMethod() {
-
+        //pointcut
     }
 
     @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getDepartmentStuff(..))")
     public void getStuff(){
-
+        //pointcut
     }
 
     @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getPartEmployees(..))")
     public void partEmployees(){
-
+        //pointcut
     }
 
     @AfterReturning(pointcut = "empController() && anyMethod() && args(empId, request)", returning = "result", argNames = "joinPoint,result,empId,request")

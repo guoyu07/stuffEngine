@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Контроллер предназначен для выполнения операций с отделом. Основная задача преобразования JSON
+ * сообщений в объекты и делегирование их EmployeeService
+ */
 @RestController
 @RequestMapping(value = "department", produces={"application/json; charset=UTF-8"})
 public class DepartmentController {

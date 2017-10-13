@@ -9,6 +9,9 @@ import ru.technoserv.services.CertificateService;
 
 import java.util.List;
 
+/**
+ * Управление информацией о сертификатах
+ */
 @Service
 public class CertificateServiceImpl implements CertificateService {
 

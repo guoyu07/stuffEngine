@@ -14,6 +14,9 @@ import ru.technoserv.services.DepartmentService;
 
 import java.util.List;
 
+/**
+ * Управление информацией об отделах
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 

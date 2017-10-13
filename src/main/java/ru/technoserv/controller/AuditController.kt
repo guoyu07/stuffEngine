@@ -5,7 +5,10 @@ import ru.technoserv.domain.AuditInfo
 import ru.technoserv.domain.SearchDate
 import ru.technoserv.services.AuditService
 
-
+/**
+ * Контроллер предназначен для получения аудита за определенный срок с возможностью фильтрации по
+ * отделу и сотруднику
+ */
 @RestController
 @RequestMapping(value="audit", produces = arrayOf("application/json"))
 open class AuditController (private val service : AuditService){
