@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Witerium/stuffEngine.svg?branch=dev)](https://travis-ci.org/Witerium/stuffEngine)
+[![Build Status](https://travis-ci.org/Witerium/stuffEngine.svg?branch=master)](https://travis-ci.org/Witerium/stuffEngine)
 
 # О проекте
 
