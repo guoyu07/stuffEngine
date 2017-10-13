@@ -17,12 +17,14 @@ public class CertificateServiceImpl implements CertificateService {
 
     private static final Logger logger = Logger.getLogger(CertificateServiceImpl.class);
 
+    private CertificateDao certificateDao;
+
     @Autowired
     public CertificateServiceImpl(CertificateDao certificateDao){
         this.certificateDao = certificateDao;
     }
 
-    CertificateDao certificateDao;
+
 
     @Override
     public Certificate create(Certificate certificate) {

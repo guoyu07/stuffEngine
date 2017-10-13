@@ -34,20 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class DepartmentControllerTest {
-    @Configuration
-    static class DepartmentControllerTestConfig {
-
-        @Bean
-        DepartmentService departmentService() {
-            return mock(DepartmentService.class);
-        }
-
-        @Bean
-        DepartmentController departmentController() {
-            return new DepartmentController(departmentService());
-        }
-
-    }
 
     @Autowired
     private DepartmentController departmentController;
@@ -58,6 +44,21 @@ public class DepartmentControllerTest {
     private MockMvc mockMvc;
     private Department department;
     private static final String JSON_UTF8 = MediaType.APPLICATION_JSON_UTF8_VALUE;
+
+    @Configuration
+    static class DepartmentControllerTestConfig {
+
+        @Bean
+        public DepartmentService departmentService() {
+            return mock(DepartmentService.class);
+        }
+
+        @Bean
+        public DepartmentController departmentController() {
+            return new DepartmentController(departmentService());
+        }
+
+    }
 
     @Before
     public void setUp() throws Exception {

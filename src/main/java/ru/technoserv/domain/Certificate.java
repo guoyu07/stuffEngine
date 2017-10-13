@@ -9,10 +9,6 @@ import java.util.Set;
 @Table(name = "CERTIFICATE")
 public class Certificate implements Serializable{
 
-    public Certificate() {
-        //по требованию hibernate требуется пустой конструктор
-    }
-
     @Id
     @Column(name = "CERT_NUMBER")
     private Integer number;
@@ -32,6 +28,10 @@ public class Certificate implements Serializable{
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "CERT_NUMBER")
     private Set<Page> pages;
+
+    public Certificate() {
+        //по требованию hibernate требуется пустой конструктор
+    }
 
     public Integer getNumber() {
         return number;

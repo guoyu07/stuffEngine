@@ -1,6 +1,9 @@
 package ru.technoserv.domain
 
-class SearchDate constructor(){
+/**
+ * Структура для связки двух значений вресмени. Используеться в качестве интервала
+ */
+class SearchDate{
 
     var from: String = ""
 

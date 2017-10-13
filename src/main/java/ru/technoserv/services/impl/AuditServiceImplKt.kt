@@ -8,6 +8,9 @@ import ru.technoserv.services.AuditService
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Сервис для аудита
+ */
 @Service
 class AuditServiceImplKt(private val dao :AuditDao) : AuditService {
 
