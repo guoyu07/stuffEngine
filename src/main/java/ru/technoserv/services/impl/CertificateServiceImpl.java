@@ -15,6 +15,10 @@ public class CertificateServiceImpl implements CertificateService {
     private static final Logger logger = Logger.getLogger(CertificateServiceImpl.class);
 
     @Autowired
+    public CertificateServiceImpl(CertificateDao certificateDao){
+        this.certificateDao = certificateDao;
+    }
+
     CertificateDao certificateDao;
 
     @Override
@@ -27,15 +31,13 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public Certificate readCertByNum(int certNum) {
         logger.info("Чтение сертификата c номером: " + certNum);
-        Certificate certificate = certificateDao.readCertByNum(certNum);
-        return certificate;
+        return certificateDao.readCertByNum(certNum);
     }
 
     @Override
     public List<Certificate> readAllCertsByEmpID(int empID) {
         logger.info("Чтение всех сертификатов сотрудника с ID: " + empID);
-        List<Certificate> allCerts = certificateDao.readAllCertsByEmpID(empID);
-        return allCerts;
+        return certificateDao.readAllCertsByEmpID(empID);
     }
 
     @Override

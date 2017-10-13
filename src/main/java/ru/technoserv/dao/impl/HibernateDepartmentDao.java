@@ -5,8 +5,8 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,11 +14,11 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.DepartmentDao;
-import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.EmployeeHistory;
+import ru.technoserv.exceptions.MyRuntimeException;
 import ru.technoserv.exceptions.StuffExceptions;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,22 +30,16 @@ public class HibernateDepartmentDao implements DepartmentDao {
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
     @Autowired
-    CacheManager cacheManager;
+    public HibernateDepartmentDao(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
 
-    @Autowired
     private SessionFactory sessionFactory;
-
-    @Autowired
-    private EmployeeDao employeeDao;
 
     private Session getSession(){
         return sessionFactory.getCurrentSession();
     }
 
-    private static String sqlQueryForSubDepts1 = "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT START WITH PARENT_DEPT_ID = ";
-
-    private static String sqlQueryForSubDepts2 =
-            "CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
 
     @Override
     @CacheEvict(cacheNames = "subdepts", allEntries = true, beforeInvocation = true)
@@ -56,8 +50,8 @@ public class HibernateDepartmentDao implements DepartmentDao {
         try{
             id = session.save(department);
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
 
         return (Integer) id;
@@ -72,10 +66,10 @@ public class HibernateDepartmentDao implements DepartmentDao {
         try{
             department = (Department) session.get(Department.class, depId);
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
-        if(department==null) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+        if(department==null) throw new MyRuntimeException(StuffExceptions.NOT_FOUND);
 
         return department;
     }
@@ -89,8 +83,8 @@ public class HibernateDepartmentDao implements DepartmentDao {
         try{
             session.update(department);
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         return readById(department.getId());
     }
@@ -105,17 +99,16 @@ public class HibernateDepartmentDao implements DepartmentDao {
         try{
             session.delete(department);
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
     }
 
-    //TODO Cвязать с кэшем "Employee"?
+
     @Override
     public EmployeeHistory getDeptHead(Integer depId) {
         logger.info("Запрос к базе на чтение начальника отдела c ID: " + depId);
-        Department department = readById(depId);
-        return new EmployeeHistory();//employeeDao.read(department.getDeptHeadId());
+        return new EmployeeHistory();
     }
 
     @Override
@@ -129,8 +122,8 @@ public class HibernateDepartmentDao implements DepartmentDao {
                     createCriteria(Department.class);
             dhList = crit.list();
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
 
         return dhList;
@@ -143,10 +136,14 @@ public class HibernateDepartmentDao implements DepartmentDao {
         List<Department> departments;
         Session session = getSession();
         try{
-            departments = session.createSQLQuery(sqlQueryForSubDepts1+depId+sqlQueryForSubDepts2).addEntity(Department.class).list();
+            String sqlQueryForSubDepts1 = "SELECT DEPT_ID, PARENT_DEPT_ID, DEPT_NAME, DEPT_HEAD_ID FROM DEPARTMENT START WITH PARENT_DEPT_ID = :deptId CONNECT BY  PRIOR  DEPT_ID = PARENT_DEPT_ID";
+            departments = session.createSQLQuery(sqlQueryForSubDepts1)
+                    .addEntity(Department.class)
+                    .setParameter("deptId", depId)
+                    .list();
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
 
         return departments;
@@ -154,6 +151,6 @@ public class HibernateDepartmentDao implements DepartmentDao {
 
     @Override
     public List<Department> getLevelBelowSubDepts(Integer depId) {
-        throw new NotImplementedException();
+        throw new NotYetImplementedException();
     }
 }

@@ -9,6 +9,7 @@ import ru.technoserv.dao.*;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
+import ru.technoserv.exceptions.MyRuntimeException;
 import ru.technoserv.exceptions.StuffExceptions;
 import ru.technoserv.services.EmployeeService;
 
@@ -23,27 +24,27 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
-    @Autowired
-    private CertificateDao certificateDao;
+    private final CertificateDao certificateDao;
 
-    @Autowired
     private EmployeeDao employeeDao;
 
     @Autowired
-    private DepartmentDao departmentDao;
+    public EmployeeServiceImpl(CertificateDao certificateDao, EmployeeDao employeeDao) {
+        this.certificateDao = certificateDao;
+        this.employeeDao = employeeDao;
+    }
+
 
     @Override
     public Employee createEmployee(Employee employee) {
         logger.info("Создание сотрудника");
         Integer id = employeeDao.create(employee);
-        Employee createdEmployee = employeeDao.read(id);
-        return createdEmployee;
+        return employeeDao.read(id);
     }
 
     @Override
     public List<EmployeeHistory> getEmployeeStory(int id) {
-        List<EmployeeHistory> employeeHistoryList = employeeDao.getEmployeeStory(id);
-        return employeeHistoryList;
+        return employeeDao.getEmployeeStory(id);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
             int empDeptHeadID = empDept.getDeptHeadId();
             if (empDeptHeadID == id) {
                 logger.info("Удаление сотрудника невозможно: сотрудник является начальником отдела!");
-                throw new RuntimeException(StuffExceptions.EMPLOYEE_THE_HEAD_ERROR.toString());
+                throw new MyRuntimeException(StuffExceptions.EMPLOYEE_THE_HEAD_ERROR);
             }
         }
         employeeDao.delete(id);
@@ -66,22 +67,19 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     public Employee changeEmployee(Employee employee) {
         logger.info("Изменение сотрудника с ID: " + employee.getEmpID());
         Employee dbEmployee = employeeDao.read(employee.getEmpID());
-        if(!(employee.getDepartment().getId().equals(dbEmployee.getDepartment().getId()))){
-            if(dbEmployee.getEmpID()
-                    .equals(dbEmployee.getDepartment()
-                            .getDeptHeadId())) {
+        if(!(employee.getDepartment().getId().equals(dbEmployee.getDepartment().getId()))
+                && dbEmployee.getEmpID()
+                .equals(dbEmployee.getDepartment()
+                        .getDeptHeadId())){
                 logger.info("Изменение сотрудника невозможно: начальник отдела не может быть переведен в другой!");
-                throw new RuntimeException(StuffExceptions.EMPLOYEE_THE_HEAD_ERROR.toString());
-            }
+                throw new MyRuntimeException(StuffExceptions.EMPLOYEE_THE_HEAD_ERROR);
         }
-        Employee updatedEmpH = employeeDao.updateEmployee(employee);
-        return updatedEmpH;
+        return employeeDao.updateEmployee(employee);
     }
 
     public List<Employee> getEmployees(int depID){
         logger.info("Чтение сотрудников отдела с ID: " + depID);
-        List<Employee> allEmps = employeeDao.getAllFromDept(depID);
-        return allEmps;
+        return employeeDao.getAllFromDept(depID);
     }
 
     @Override
@@ -93,14 +91,13 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
     @Transactional
     public Employee getEmployee(int id) {
         logger.info("Чтение сотрудника с ID:" + id);
-        Employee e = employeeDao.read(id);
-        return e;
+        return employeeDao.read(id);
     }
 
     @Override
     public List<Employee> getPartOfEmployeeList(int start, int num) {
         List<Employee> employees = getAllEmployees();
-        if(start>=employees.size()) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+        if(start>=employees.size()) throw new MyRuntimeException(StuffExceptions.NOT_FOUND);
         if(start+num>=employees.size()) {
             employees = employees.subList(start, employees.size());
         }else{

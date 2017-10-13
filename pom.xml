@@ -73,17 +73,6 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-ws-core</artifactId>
-      <version>2.4.0.RELEASE</version>
-    </dependency>
-
-    <dependency>
-      <groupId>wsdl4j</groupId>
-      <artifactId>wsdl4j</artifactId>
-      <version>1.6.3</version>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework.ws</groupId>
@@ -207,17 +196,8 @@
     <version>1.7.22</version>
   </dependency>
 
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>2.10.4</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-ws-core</artifactId>
-            <version>2.4.0.RELEASE</version>
-        </dependency>
+
 
 
         <dependency>
@@ -229,12 +209,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
             <version>1.5.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>wsdl4j</groupId>
-            <artifactId>wsdl4j</artifactId>
-            <version>1.6.3</version>
         </dependency>
 
       <dependency>

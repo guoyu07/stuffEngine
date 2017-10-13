@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "EMPLOYEE2")
-public class EmployeeHistory {
+public class EmployeeHistory implements Serializable {
 
     @Id
     @GeneratedValue(

@@ -44,7 +44,7 @@ public class DepartmentControllerTest {
 
         @Bean
         DepartmentController departmentController() {
-            return new DepartmentController();
+            return new DepartmentController(departmentService());
         }
 
     }

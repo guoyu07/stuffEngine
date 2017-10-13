@@ -4,13 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name="EVENT")
-public class Action {
+public class Action implements Serializable {
 
     public Action(){
-
+        //по требованию hibernate требуется пустой конструктор
     }
 
     public Action(int id){

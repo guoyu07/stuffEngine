@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 @Entity
@@ -17,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "description"
 })
-public class Grade {
+public class Grade implements Serializable{
 
     private int id;
     @XmlElement(required = true)

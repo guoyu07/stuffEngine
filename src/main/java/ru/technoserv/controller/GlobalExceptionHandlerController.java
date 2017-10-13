@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.technoserv.exceptions.CommonError;
+import ru.technoserv.exceptions.MyRuntimeException;
+import ru.technoserv.exceptions.StuffExceptions;
 
 
 import java.util.ArrayList;
@@ -32,17 +34,16 @@ public class GlobalExceptionHandlerController {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> validationProblem(RuntimeException e){
-        logger.error(e.getMessage());
-        CommonError error = new CommonError(e.getMessage());
-        try{
-            String[] errorMessage = e.getMessage().split("!@#");
-            String id = errorMessage[0].trim();
-            error.setId(new Integer(id));
-            error.setMessage(errorMessage[1]);
-        }catch (Exception ex){
-            logger.info(ex);
-        }
+    public ResponseEntity<?> runtimeProblem(RuntimeException e){
+        logger.error(e.getStackTrace());
+        CommonError error = new CommonError(StuffExceptions.SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MyRuntimeException.class)
+    public ResponseEntity<?> myRuntimeProblem(MyRuntimeException e){
+        logger.error(e.getStackTrace());
+        CommonError error = new CommonError(e.getException());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

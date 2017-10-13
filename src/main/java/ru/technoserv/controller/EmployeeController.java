@@ -16,7 +16,6 @@ import ru.technoserv.services.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 
@@ -31,6 +30,10 @@ public class EmployeeController {
     private static final Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
+    public  EmployeeController(EmployeeService employeeService){
+        this.employeeService = employeeService;
+    }
+
     private EmployeeService employeeService;
 
     /**
@@ -52,7 +55,7 @@ public class EmployeeController {
      * @return Объект сотрудника и код ОК
      */
     @RequestMapping(name = "2", value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request)throws IOException{
+    public @ResponseBody ResponseEntity<?> getEmployee(@PathVariable int id, HttpServletRequest request){
         logger.info("Запрос на получение сотрудника по ид"+ id);
         Employee employee = employeeService.getEmployee(id);
         logger.info("Json ответ на получение сотрудника по ид"+ employee);
@@ -73,7 +76,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(name = "3", method = RequestMethod.PUT, consumes = {"application/json"} )
-    public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request)throws IOException{
+    public ResponseEntity<?> editEmployee(@Valid @RequestBody Employee employee, HttpServletRequest request){
         logger.info("Запрос на изменение сотрудника"+employee);
         Employee emp = employeeService.changeEmployee(employee);
         logger.info("Json твет на изменение сотрудника"+emp);

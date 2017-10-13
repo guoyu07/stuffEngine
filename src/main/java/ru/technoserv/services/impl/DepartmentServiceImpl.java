@@ -8,6 +8,7 @@ import ru.technoserv.domain.Department;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Employee;
+import ru.technoserv.exceptions.MyRuntimeException;
 import ru.technoserv.exceptions.StuffExceptions;
 import ru.technoserv.services.DepartmentService;
 
@@ -18,10 +19,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private static final Logger logger = Logger.getLogger(DepartmentServiceImpl.class);
 
-    @Autowired
+
     DepartmentDao departmentDao;
-    @Autowired
+
     EmployeeDao employeeDao;
+
+    @Autowired
+    public DepartmentServiceImpl(DepartmentDao departmentDao, EmployeeDao employeeDao){
+        this.departmentDao = departmentDao;
+        this.employeeDao = employeeDao;
+    }
 
 
     @Override
@@ -34,22 +41,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department getDepartment(int deptID) {
         logger.info("Чтение отдела с ID" + deptID);
-        Department dep = departmentDao.readById(deptID);
-        return dep;
+        return departmentDao.readById(deptID);
     }
 
     @Override
     public List<Department> getAllDepartments() {
         logger.info("Чтение всех отделов");
-        List<Department> allDeps = departmentDao.getDepartmentsList();
-        return allDeps;
+        return departmentDao.getDepartmentsList();
     }
 
     @Override
     public List<Department> getSubDepts(int deptId) {
         logger.info("Чтение подотделов отдела с ID: " + deptId);
-        List<Department> subDepts = departmentDao.getAllSubDepts(deptId);
-        return subDepts;
+        return departmentDao.getAllSubDepts(deptId);
     }
 
     @Transactional
@@ -72,12 +76,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         logger.info("Удаление отдела с ID: " + deptID);
         if (!departmentDao.getAllSubDepts(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: у отдела есть дочерние отделы!");
-            throw new RuntimeException(StuffExceptions.SUBDEPTS_ERROR.toString());
+            throw new MyRuntimeException(StuffExceptions.SUBDEPTS_ERROR);
         }
 
         if(!employeeDao.getAllFromDept(deptID).isEmpty()) {
             logger.info("Удаление отдела невозможно: в отделе есть сотрудники!");
-            throw new RuntimeException(StuffExceptions.EMPLOYEES_IN_DEPARTMENT.toString());
+            throw new MyRuntimeException(StuffExceptions.EMPLOYEES_IN_DEPARTMENT);
         }
 
         Department deletedDept = departmentDao.readById(deptID);

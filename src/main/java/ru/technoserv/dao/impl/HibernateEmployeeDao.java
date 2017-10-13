@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.EmployeeDao;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.EmployeeHistory;
+import ru.technoserv.exceptions.MyRuntimeException;
 import ru.technoserv.exceptions.StuffExceptions;
 
 
@@ -27,6 +28,10 @@ public class HibernateEmployeeDao implements EmployeeDao {
     private static final Logger logger = Logger.getLogger(HibernateEmployeeDao.class);
 
     @Autowired
+    public HibernateEmployeeDao(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+
     private SessionFactory sessionFactory;
 
     private Session getSession(){
@@ -43,8 +48,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
         try{
             empID = session.save(employeeHistory);
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         return (Integer) empID;
     }
@@ -57,14 +62,15 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = getSession();
         try {
 
-            employee = (Employee) session.createSQLQuery("SELECT ID, CHRON_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, PATR_NAME, GENDER, BIRTHDAY, SALARY FROM EMPLOYEE2 WHERE CHRON_ID = " + empID+" AND IS_ACTIVE=1").addEntity(Employee.class).uniqueResult();
-                    //.setBoolean("state", true).uniqueResult();
+            employee = (Employee) session.createSQLQuery("SELECT ID, CHRON_ID, POSITION_ID, GRADE_ID, DEPARTMENT_ID, LAST_NAME, FIRST_NAME, PATR_NAME, GENDER, BIRTHDAY, SALARY FROM EMPLOYEE2 WHERE CHRON_ID = :empId AND IS_ACTIVE=1")
+                    .addEntity(Employee.class)
+                    .setParameter("empId", empID)
+                    .uniqueResult();
         } catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
-        if(employee==null) throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
-
+        if(employee==null) throw new MyRuntimeException(StuffExceptions.NOT_FOUND);
         return employee;
     }
 
@@ -85,8 +91,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setBoolean("state", true)
                     .executeUpdate();
         }catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
     }
 
@@ -101,8 +107,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
         try {
             empList = (List<Employee>) session.createSQLQuery(sql).addEntity(Employee.class).list();
         } catch (HibernateException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
 
         return empList;
@@ -119,8 +125,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
         try {
             empList = (List<Employee>) session.createSQLQuery(sql).addEntity(Employee.class).list();
         } catch (HibernateException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
 
         return empList;
@@ -138,8 +144,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     .setInteger("empId", empID)
                     .list();
         } catch (HibernateException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         return employeeHistoryList;
     }
@@ -162,8 +168,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
             employeeHistory.setStartDate(currentTime);
             session.save(employeeHistory);
         } catch (HibernateException e){
-            logger.error(e.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),e);
+            logger.error(e.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         return read(employee.getEmpID());
     }

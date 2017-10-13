@@ -13,7 +13,7 @@ public enum StuffExceptions {
 
     private String message;
 
-    private StuffExceptions(int code, String message){
+    StuffExceptions(int code, String message){
         this.code = code;
         this.message = message;
 

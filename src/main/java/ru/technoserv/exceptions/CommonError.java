@@ -6,21 +6,27 @@ public class CommonError {
 
     private String message;
 
-    private String help = "http://docs.stuffengine.apiary.io/#introduction";
+    private static final String help = "http://docs.stuffengine.apiary.io/#introduction";
 
-    public CommonError(String message){
-        this.message = message;
+    public CommonError(StuffExceptions exception){
+        message = exception.getMessage();
+        id = exception.getErrorId();
+    }
+
+    public CommonError(String validationError){
+        message = validationError;
+        id = 7;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public static String getHelpMessage() {
+        return help;
     }
 }

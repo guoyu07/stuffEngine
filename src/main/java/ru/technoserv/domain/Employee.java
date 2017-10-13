@@ -5,16 +5,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
 @Table(name ="EMPLOYEE2")
-public class Employee {
+public class Employee implements Serializable{
 
-//    @Id
-//    @Column(name = "ID")
-//    private Integer id;
     @Id
     @Column(name = "CHRON_ID")
     private Integer empID;
@@ -54,14 +52,6 @@ public class Employee {
     @Min(value = 0, message = "Работники не платят за работу")
     @Column(name = "SALARY")
     private BigDecimal salary;
-
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
 
     public Integer getEmpID() {
         return empID;
@@ -144,7 +134,7 @@ public class Employee {
     }
 
     public Employee(){
-
+        //по требованию hibernate требуется пустой конструктор
     }
 
     @Override

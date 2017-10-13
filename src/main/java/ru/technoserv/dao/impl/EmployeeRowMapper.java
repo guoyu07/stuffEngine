@@ -1,5 +1,5 @@
 package ru.technoserv.dao.impl;
-
+/*
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,4 +22,4 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         employee.setSalary((BigDecimal) resultSet.getObject("SALARY") );
         return employee;
     }
-}
+}*/

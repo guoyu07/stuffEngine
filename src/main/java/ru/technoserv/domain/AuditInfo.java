@@ -44,7 +44,7 @@ public class AuditInfo implements Serializable {
     private String exceptionMessage;
 
     public AuditInfo(){
-
+        //по требованию hibernate требуется пустой конструктор
     }
 
     public AuditInfo(Integer deptId, Integer empId, String ipAddr, String requestObject, int actionId) {

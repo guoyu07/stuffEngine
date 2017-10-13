@@ -3,13 +3,14 @@ package ru.technoserv.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "CERT_PAGES")
-public class Page {
+public class Page implements Serializable{
 
     public Page() {
-
+        //по требованию hibernate требуется пустой конструктор
     }
 
     @Id

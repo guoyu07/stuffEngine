@@ -1,6 +1,7 @@
 package controller;
 
 
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -8,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.technoserv.dao.DepartmentDao;
 import ru.technoserv.dao.EmployeeDao;
+import ru.technoserv.dao.impl.HibernateCertificateDao;
 import ru.technoserv.domain.Department;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.services.EmployeeService;
@@ -25,8 +27,11 @@ public class EmployeeControllerTest {
     @Mock
     DepartmentDao departmentDao;
 
+    @Mock
+    private SessionFactory sessionFactory;
+
     @InjectMocks
-    private EmployeeService employeeService = new EmployeeServiceImpl();
+    private EmployeeService employeeService = new EmployeeServiceImpl(new HibernateCertificateDao(sessionFactory), employeeDao);
 
     @Test
     public void changeEmployee(){

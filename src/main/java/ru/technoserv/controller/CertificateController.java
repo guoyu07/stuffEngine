@@ -18,6 +18,10 @@ public class CertificateController {
     private static final Logger logger = Logger.getLogger(CertificateController.class);
 
     @Autowired
+    public  CertificateController(CertificateService certificateService){
+        this.certificateService = certificateService;
+    }
+
     CertificateService certificateService;
 
     @RequestMapping(name ="17", value = "", method = RequestMethod.POST, consumes = {"application/json; charset=UTF-8"} )
@@ -25,7 +29,7 @@ public class CertificateController {
         logger.info("Получен request на создание сертификата");
         logger.info("Cоздаваемый сертификат: " + certificate.toString());
         Certificate certificate1 = certificateService.create(certificate);
-        return new ResponseEntity<Object>(certificate1, HttpStatus.CREATED);
+        return new ResponseEntity<>(certificate1, HttpStatus.CREATED);
     }
 
     @RequestMapping(name ="18",value = "/certnum/{certNum}", method = RequestMethod.GET)

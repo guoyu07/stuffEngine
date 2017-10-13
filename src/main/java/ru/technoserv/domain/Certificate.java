@@ -1,14 +1,16 @@
 package ru.technoserv.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "CERTIFICATE")
-public class Certificate {
+public class Certificate implements Serializable{
 
     public Certificate() {
+        //по требованию hibernate требуется пустой конструктор
     }
 
     @Id

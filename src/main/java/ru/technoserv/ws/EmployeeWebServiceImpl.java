@@ -1,19 +1,12 @@
 package ru.technoserv.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import ru.technoserv.domain.Employee;
 import ru.technoserv.domain.Grade;
 import ru.technoserv.domain.Position;
 import ru.technoserv.services.EmployeeService;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.math.BigDecimal;
-
 
 @WebService(
         portName = "EmployeeWebServiceImpl",
@@ -26,6 +19,7 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
 
     @Autowired
     private EmployeeService employeeService;
+
 
     @Override
     public void changePosition(int id,  int positionId) {

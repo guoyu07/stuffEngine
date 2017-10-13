@@ -24,12 +24,16 @@ public class DepartmentController {
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
     @Autowired
+    public DepartmentController(DepartmentService departmentService){
+        this.departmentService = departmentService;
+    }
+
     DepartmentService departmentService;
 
     @RequestMapping(name = "6",value = "/{depId}/subdepts", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getSubDepts(@PathVariable Integer depId, HttpServletRequest request) throws IOException {
-        System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
+        logger.info(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
         logger.info("Получен request на чтение подразделений отдела с ID: " + depId);
         List<Department> subDepts = departmentService.getSubDepts(depId);
         logger.info("Возвращаемые подразделения: "+ subDepts);

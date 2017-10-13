@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 @Entity
 @Table(name="POSITION")
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "title"
 })
-public class Position {
+public class Position implements Serializable {
 
     private int id;
     @XmlElement(required = true)

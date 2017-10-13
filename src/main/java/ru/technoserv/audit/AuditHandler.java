@@ -18,15 +18,20 @@ import ru.technoserv.services.AuditService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@SuppressWarnings("ArgNamesWarningsInspection")
 @Aspect
 @Component
 public class AuditHandler {
 
-    @Autowired
     private AuditService auditService;
 
+    @Autowired
+    public AuditHandler(AuditService service){
+        auditService = service;
+    }
+
     @Pointcut("within(ru.technoserv.controller.DepartmentController)")
-    public void deptController() {
+    public void deptController(){
     }
 
     @Pointcut("within(ru.technoserv.controller.EmployeeController)")
@@ -41,15 +46,20 @@ public class AuditHandler {
 
     @Pointcut("execution(* *.*(..))")
     public void anyMethod() {
+
     }
 
     @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getDepartmentStuff(..))")
-    public void getStuff(){}
+    public void getStuff(){
+
+    }
 
     @Pointcut("execution(* ru.technoserv.controller.EmployeeController.getPartEmployees(..))")
-    public void partEmployees(){}
+    public void partEmployees(){
 
-    @AfterReturning(pointcut = "empController() && anyMethod() && args(empId, request)", returning = "result")
+    }
+
+    @AfterReturning(pointcut = "empController() && anyMethod() && args(empId, request)", returning = "result", argNames = "joinPoint,result,empId,request")
     public void handleAfterMethodWithEmpIdRequestParams(JoinPoint joinPoint, Object result, Integer empId, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
@@ -58,7 +68,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(empId, request)", throwing = "e")
-    public void handleAfterMethodWithEmpIdThrow(JoinPoint joinPoint, Integer empId, HttpServletRequest request, Exception e) {
+    public void handleAfterMethodWithEmpIdThrow(JoinPoint joinPoint, Integer empId, HttpServletRequest request, Throwable e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(null, empId, request.getRemoteAddr(), "Id: "+empId, action, e.getMessage());
@@ -75,7 +85,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(emp, request)", throwing= "e")
-    public void handleAfterMethodWithEmpThrows(JoinPoint joinPoint, Employee emp, HttpServletRequest request, Exception e) {
+    public void handleAfterMethodWithEmpThrows(JoinPoint joinPoint, Employee emp, HttpServletRequest request, Throwable e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(null, emp.getEmpID()==0?null:emp.getEmpID(), request.getRemoteAddr(), emp.toString(), action, e.getMessage());
@@ -96,7 +106,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() &&  args(request)", throwing = "e")
-    public void handleAfterMethodAllEmpThrow(JoinPoint joinPoint, Exception e, HttpServletRequest request) {
+    public void handleAfterMethodAllEmpThrow(JoinPoint joinPoint, Throwable e, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
 
@@ -118,7 +128,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(start, num, request) )", throwing = "e")
-    public void handleAfterMethodPartEmpThrow(JoinPoint joinPoint, Exception e, int start, int num, HttpServletRequest request) {
+    public void handleAfterMethodPartEmpThrow(JoinPoint joinPoint, Throwable e, int start, int num, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
 
@@ -136,7 +146,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(.., request) )", throwing = "e")
-    public void handleAfterMethodIntCertThrow(JoinPoint joinPoint, Exception e, HttpServletRequest request) {
+    public void handleAfterMethodIntCertThrow(JoinPoint joinPoint, Throwable e, HttpServletRequest request) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "", action, e.getMessage());
@@ -154,7 +164,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "getStuff() && args(depId,.., request)", throwing = "e")
-    public void handleAfterMethodWithDepIdRequestParams( JoinPoint joinPoint, RuntimeException e,HttpServletRequest request,   Integer depId) {
+    public void handleAfterMethodWithDepIdRequestParams( JoinPoint joinPoint, Throwable e,HttpServletRequest request,   Integer depId) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getMessage()  );
@@ -181,7 +191,7 @@ public class AuditHandler {
     }
 
     @AfterThrowing(pointcut = "deptController() && anyMethod() && args(depId,..,request)", throwing = "e")
-    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint,  Integer depId, HttpServletRequest request, RuntimeException e) {
+    public void handleAfterMethodWithDepIdRequestParams(JoinPoint joinPoint,  Integer depId, HttpServletRequest request, Throwable e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(depId, null, request.getRemoteAddr(), "Id: "+depId, action, e.getMessage()  );
@@ -191,7 +201,7 @@ public class AuditHandler {
     @AfterThrowing(pointcut = "deptController() && anyMethod() " +
             "&& args(department, request)", throwing = "e")
     public void handleAfterCreateDepartment(JoinPoint joinPoint,
-                                            Department department, HttpServletRequest request, RuntimeException e) {
+                                            Department department, HttpServletRequest request, Throwable e) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
         AuditInfo auditRecord = new AuditInfo(department.getId(), null, request.getRemoteAddr(), department.toString(), action, e.getMessage());
@@ -202,7 +212,6 @@ public class AuditHandler {
     public void handleAfterGetAllDeps(JoinPoint joinPoint, HttpServletRequest request, Object result) {
         int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
                 .getMethod()).getAnnotation(RequestMapping.class).name());
-        ResponseEntity<List<Department>> re = (ResponseEntity<List<Department>>)result;
         AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), null, action);
         auditService.createRecord(auditRecord);
     }

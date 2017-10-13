@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 @Entity
 @Table(name="DEPARTMENT")
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
         "deptName",
         "deptHeadId"
 })
-public class Department {
+public class Department implements Serializable {
 
     @Id
     @GeneratedValue(
@@ -50,6 +51,7 @@ public class Department {
     private Integer deptHeadId;
 
     public Department() {
+        //по требованию hibernate требуется пустой конструктор
     }
 
     public Integer getId() {

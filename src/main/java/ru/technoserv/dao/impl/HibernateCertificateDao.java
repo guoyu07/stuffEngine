@@ -7,17 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.CertificateDao;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.exceptions.MyRuntimeException;
 import ru.technoserv.exceptions.StuffExceptions;
 
 
 import java.util.List;
-
-//TODO Исключения
 
 @Repository
 @Transactional
@@ -26,9 +24,10 @@ public class HibernateCertificateDao implements CertificateDao {
     private static final Logger logger = Logger.getLogger(HibernateCertificateDao.class);
 
     @Autowired
-    EhCacheCacheManager cacheManager;
+    public HibernateCertificateDao(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
 
-    @Autowired
     SessionFactory sessionFactory;
 
     private Session getSession() {
@@ -44,8 +43,8 @@ public class HibernateCertificateDao implements CertificateDao {
         try {
             session.save(certificate);
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),ex);
+            logger.error(ex.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
     }
 
@@ -57,11 +56,11 @@ public class HibernateCertificateDao implements CertificateDao {
         try {
             certificate = (Certificate) session.get(Certificate.class, certNum);
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(),ex);
+            logger.error(ex.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         if (certificate == null) {
-            throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+            throw new MyRuntimeException(StuffExceptions.NOT_FOUND);
         }
         return certificate;
     }
@@ -73,13 +72,13 @@ public class HibernateCertificateDao implements CertificateDao {
         Session session = getSession();
         List<Certificate> allCerts;
         try {
-            allCerts = session.createQuery("from Certificate C where C.ownerId = " + empID).list();
+            allCerts = session.createQuery("from Certificate C where C.ownerId = :empID").setParameter("empID", empID).list();
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            throw new RuntimeException("1 - неудачный запрос данных из базы",ex);
+            logger.error(ex.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
         if (allCerts.isEmpty()) {
-            throw new RuntimeException(StuffExceptions.NOT_FOUND.toString());
+            throw new MyRuntimeException(StuffExceptions.NOT_FOUND);
         }
         return allCerts;
     }
@@ -90,11 +89,11 @@ public class HibernateCertificateDao implements CertificateDao {
         logger.info("Запрос к базе на удаление сертификата с номером: " + certNum);
         Session session = getSession();
         try {
-            session.createQuery("DELETE Certificate C where C.number = "
-                    + certNum).executeUpdate();
+            session.createQuery("DELETE Certificate C where C.number = :certNum")
+                    .setParameter("certNum", certNum).executeUpdate();
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(), ex);
+            logger.error(ex.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
     }
 
@@ -104,11 +103,12 @@ public class HibernateCertificateDao implements CertificateDao {
         logger.info("Запрос к базе на удаление всех сертификатов сотрудника с ID: " + empID);
         Session session = getSession();
         try {
-            session.createQuery("DELETE Certificate C where C.ownerId = "
-                    + empID).executeUpdate();
+            session.createQuery("DELETE Certificate C where C.ownerId = :ownerId")
+                    .setParameter("ownerId", empID)
+                    .executeUpdate();
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            throw new RuntimeException(StuffExceptions.DATABASE_ERROR.toString(), ex);
+            logger.error(ex.getStackTrace());
+            throw new MyRuntimeException(StuffExceptions.DATABASE_ERROR);
         }
     }
 }
