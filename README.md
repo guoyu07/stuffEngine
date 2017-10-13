@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Witerium/stuffEngine.svg?branch=master)](https://travis-ci.org/Witerium/stuffEngine)
+
 # О проекте
 
 Данный проект создан в учебных целях для освоения стэка технологий Java EE. Проект позволяет производить простые манипуляции над структурой компании. API проекта находиться по [ссылке](http://docs.stuffengine.apiary.io/#). Предполагается что все данные передаются в кодировке UTF-8.
