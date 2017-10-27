@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Witerium/stuffEngine.svg?branch=master)](https://travis-ci.org/Witerium/stuffEngine)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/31365b9c3d6c49c89633f90fd20a6951)](https://www.codacy.com/app/Witerium/stuffEngine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Witerium/stuffEngine&amp;utm_campaign=Badge_Grade)
-[![Known Vulnerabilities](https://snyk.io/test/github/snyk/goof/badge.svg)](https://snyk.io/test/github/Witerium/stuffEngine)
+[![Known Vulnerabilities](https://snyk.io/test/github/Witerium/stuffEngine/badge.svg)](https://snyk.io/test/github/Witerium/stuffEngine)
 
 # О проекте
 
