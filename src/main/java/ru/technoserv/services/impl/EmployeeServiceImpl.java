@@ -20,7 +20,7 @@ import java.util.List;
  * Управление информацией о сотрудниках
  */
 @Service
-public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
@@ -29,9 +29,6 @@ public class EmployeeServiceImpl extends SpringBeanAutowiringSupport implements 
 
     @Autowired
     private EmployeeDao employeeDao;
-
-    @Autowired
-    private DepartmentDao departmentDao;
 
     @Override
     public Employee createEmployee(Employee employee) {
