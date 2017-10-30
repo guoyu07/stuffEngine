@@ -150,8 +150,7 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + //id +
-                ", empID=" + empID +
+                "empID=" + empID +
                 ", position=" + position +
                 ", grade=" + grade +
                 ", department=" + department +
@@ -162,6 +161,107 @@ public class Employee {
                 ", birthday=" + birthday +
                 ", salary=" + salary +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+
+        Employee employee = (Employee) o;
+
+        if (getEmpID() != null ? !getEmpID().equals(employee.getEmpID()) : employee.getEmpID() != null) return false;
+        if (!getPosition().equals(employee.getPosition())) return false;
+        if (!getGrade().equals(employee.getGrade())) return false;
+        if (!getDepartment().equals(employee.getDepartment())) return false;
+        if (!getLastName().equals(employee.getLastName())) return false;
+        if (!getFirstName().equals(employee.getFirstName())) return false;
+        if (getPatrName() != null ? !getPatrName().equals(employee.getPatrName()) : employee.getPatrName() != null)
+            return false;
+        if (!getGender().equals(employee.getGender())) return false;
+        if (getBirthday() != null ? !getBirthday().equals(employee.getBirthday()) : employee.getBirthday() != null)
+            return false;
+        return getSalary().equals(employee.getSalary());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getEmpID() != null ? getEmpID().hashCode() : 0;
+        result = 31 * result + getPosition().hashCode();
+        result = 31 * result + getGrade().hashCode();
+        result = 31 * result + getDepartment().hashCode();
+        result = 31 * result + getLastName().hashCode();
+        result = 31 * result + getFirstName().hashCode();
+        result = 31 * result + (getPatrName() != null ? getPatrName().hashCode() : 0);
+        result = 31 * result + getGender().hashCode();
+        result = 31 * result + (getBirthday() != null ? getBirthday().hashCode() : 0);
+        result = 31 * result + getSalary().hashCode();
+        return result;
+    }
+
+    public static Builder newBuilder() {
+        return new Employee().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder empId(Integer id) {
+            Employee.this.setEmpID(id);
+            return this;
+        }
+
+        public Builder position(Position position) {
+            Employee.this.setPosition(position);
+            return this;
+        }
+
+        public Builder grade(Grade grade) {
+            Employee.this.setGrade(grade);
+            return this;
+        }
+
+        public Builder department(Department department) {
+            Employee.this.setDepartment(department);
+            return this;
+        }
+
+        public Builder birthday(Date birthday) {
+            Employee.this.setBirthday(birthday);
+            return this;
+        }
+
+        public Builder gender(String gender) {
+            Employee.this.setGender(gender);
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            Employee.this.setLastName(lastName);
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            Employee.this.setFirstName(firstName);
+            return this;
+        }
+
+        public Builder patrName(String patrName) {
+            Employee.this.setPatrName(patrName);
+            return this;
+        }
+
+        public Builder salary(BigDecimal salary) {
+            Employee.this.setSalary(salary);
+            return this;
+        }
+
+        public Employee build() {
+            return Employee.this;
+        }
+
     }
 }
 
