@@ -41,11 +41,41 @@ public class Grade {
         this.description = description;
     }
 
+    public Grade() {
+    }
+
+    public Grade(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
+
+    public Grade(int id) {
+        this(id, null);
+    }
+
     @Override
     public String toString() {
         return "Grade{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Grade)) return false;
+
+        Grade grade = (Grade) o;
+
+        if (getId() != grade.getId()) return false;
+        return getDescription().equals(grade.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getDescription().hashCode();
+        return result;
     }
 }
