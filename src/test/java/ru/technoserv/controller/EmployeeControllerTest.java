@@ -1,4 +1,4 @@
-package controller;
+package ru.technoserv.controller;
 
 
 import org.junit.Test;
