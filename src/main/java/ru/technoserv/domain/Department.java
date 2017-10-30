@@ -104,7 +104,28 @@ public class Department {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Department)) return false;
 
+        Department that = (Department) o;
+
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (getParentDeptId() != null ? !getParentDeptId().equals(that.getParentDeptId()) : that.getParentDeptId() != null)
+            return false;
+        if (!getDeptName().equals(that.getDeptName())) return false;
+        return getDeptHeadId() != null ? getDeptHeadId().equals(that.getDeptHeadId()) : that.getDeptHeadId() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getParentDeptId() != null ? getParentDeptId().hashCode() : 0);
+        result = 31 * result + getDeptName().hashCode();
+        result = 31 * result + (getDeptHeadId() != null ? getDeptHeadId().hashCode() : 0);
+        return result;
+    }
 }
 
 
