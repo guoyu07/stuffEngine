@@ -14,6 +14,7 @@ import ru.technoserv.services.impl.DocumentService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 @RestController
 @RequestMapping(value = "/certificate", produces = {"application/json; charset=UTF-8"})
 public class CertificateController {
@@ -87,13 +88,16 @@ public class CertificateController {
     public ResponseEntity<?> getClientHeaders(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
         logger.info("Получен request на чтение header'ов клиента с id = " + clientId);
         List<HeaderEntity> clientHeaders = documentService.getClientHeaders(clientId);
+        System.out.println("Before responsing");
         return new ResponseEntity<Object>(clientHeaders, HttpStatus.OK);
     }
 
-//    @RequestMapping(name = "24", value = "documents/{clientId}", method = RequestMethod.GET)
-//    public ResponseEntity<?> getClientDocuments(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
-//        logger.info("Получен request на чтение документов сотрудника с id = " + clientId);
-//        List<DocumentEntity> clientDocuments = documentService.getClientDocuments(clientId);
-//        return new ResponseEntity<Object>(clientDocuments, HttpStatus.OK);
-//    }
+    @RequestMapping(name = "24", value = "documents/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getClientDocuments(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
+        logger.info("Получен request на чтение документов клиента с id = " + clientId);
+        List<HeaderEntity> clientHeaders = documentService.getClientDocuments(clientId);
+        return new ResponseEntity<Object>(clientHeaders, HttpStatus.OK);
+    }
+
+
 }

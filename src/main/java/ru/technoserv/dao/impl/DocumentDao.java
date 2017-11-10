@@ -6,6 +6,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -50,29 +51,26 @@ public class DocumentDao {
         Criteria criteria = session.createCriteria(HeaderEntity.class);
         List<HeaderEntity> headers = null;
         try {
-            headers = criteria.add(Expression.eq("clientId", clientId)).list();
+            headers = criteria.add(Restrictions.eq("clientId", clientId)).list();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
 
-        //Если закомментировать logger info то произойдет ошибка
-        logger.info("Результат запроса = " + headers);
-
         return headers;
     }
 
-//    public List<DocumentEntity> getClientDocuments(int clientId) {
-//        logger.info("Запрос к базе на чтение документов клиента с client_id = " + clientId);
-//        Session session = getSession();
-//        Criteria criteria = session.createCriteria(DocumentEntity.class);
-//        List<DocumentEntity> documents = null;
-//        try {
-//            documents = criteria.add(Expression.eq("clientId", clientId)).list();
-//        } catch (Exception ex) {
-//            logger.error(ex.getMessage());
-//        }
-//        logger.info("Результат запроса = " + documents);
-//
-//        return documents;
-//    }
+    public List<HeaderEntity> getClientDocuments(int clientId) {
+        logger.info("Запрос к базе на чтение документовов клиента с client_id = " + clientId);
+        Session session = getSession();
+        Criteria criteria = session.createCriteria(HeaderEntity.class);
+        List<HeaderEntity> documents = null;
+        try {
+            documents = criteria.add(Restrictions.eq("clientId", clientId)).setFetchMode("data", FetchMode.JOIN).list();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+
+        return documents;
+    }
+
 }
