@@ -3,15 +3,12 @@ package ru.technoserv.services.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.impl.DocumentDao;
-import ru.technoserv.domain.DocumentEntity;
 import ru.technoserv.domain.HeaderEntity;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class DocumentService {
 
     private static final Logger logger = Logger.getLogger(DocumentService.class);

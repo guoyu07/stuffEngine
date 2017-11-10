@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
-import ru.technoserv.domain.DocumentEntity;
 import ru.technoserv.domain.HeaderEntity;
 import ru.technoserv.services.CertificateService;
 import ru.technoserv.services.impl.DocumentService;

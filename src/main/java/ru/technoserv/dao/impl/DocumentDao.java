@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
-import ru.technoserv.domain.DocumentEntity;
+import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.domain.HeaderEntity;
 
 import java.util.List;
 
 
 @Repository
+@Transactional
 public class DocumentDao {
 
     @Autowired
@@ -49,10 +50,12 @@ public class DocumentDao {
         Criteria criteria = session.createCriteria(HeaderEntity.class);
         List<HeaderEntity> headers = null;
         try {
-            headers = criteria.add(Expression.eq("clientId", clientId)).setFetchMode("data", FetchMode.LAZY).list();
+            headers = criteria.add(Expression.eq("clientId", clientId)).list();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
+
+        //Если закомментировать logger info то произойдет ошибка
         logger.info("Результат запроса = " + headers);
 
         return headers;
