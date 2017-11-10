@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.technoserv.dao.impl.DocumentDao;
+import ru.technoserv.domain.DocumentEntity;
 import ru.technoserv.domain.HeaderEntity;
 
 import java.util.List;
@@ -26,5 +27,10 @@ public class DocumentService {
     public List<HeaderEntity> getClientHeaders(int clientId) {
         logger.info("Запрос к DAO на чтение header'ов клиента с id = " + clientId);
         return documentDao.getClientHeaders(clientId);
+    }
+
+    public List<DocumentEntity> getClientDocuments(int clientId) {
+        logger.info("Запрос к DAO на чтение документов клиента с id = " + clientId);
+        return documentDao.getClientDocuments(clientId);
     }
 }

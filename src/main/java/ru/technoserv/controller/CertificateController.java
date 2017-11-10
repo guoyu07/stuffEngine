@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.domain.DocumentEntity;
 import ru.technoserv.domain.HeaderEntity;
 import ru.technoserv.services.CertificateService;
 import ru.technoserv.services.impl.DocumentService;
@@ -75,6 +76,7 @@ public class CertificateController {
         return "deleted";
     }
 
+
     @RequestMapping(name = "22", value = "header/{headerId}", method = RequestMethod.GET)
     public ResponseEntity<?> getHeaderById(@PathVariable(name = "headerId") int headerId, HttpServletRequest request) {
         logger.info("Получен request на чтение header'а с id = " + headerId);
@@ -87,5 +89,12 @@ public class CertificateController {
         logger.info("Получен request на чтение header'ов клиента с id = " + clientId);
         List<HeaderEntity> clientHeaders = documentService.getClientHeaders(clientId);
         return new ResponseEntity<Object>(clientHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(name = "24", value = "documents/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getClientDocuments(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
+        logger.info("Получен request на чтение документов сотрудника с id = " + clientId);
+        List<DocumentEntity> clientDocuments = documentService.getClientDocuments(clientId);
+        return new ResponseEntity<Object>(clientDocuments, HttpStatus.OK);
     }
 }
