@@ -29,8 +29,8 @@ public class DocumentService {
         return documentDao.getClientHeaders(clientId);
     }
 
-    public List<DocumentEntity> getClientDocuments(int clientId) {
-        logger.info("Запрос к DAO на чтение документов клиента с id = " + clientId);
-        return documentDao.getClientDocuments(clientId);
-    }
+//    public List<DocumentEntity> getClientDocuments(int clientId) {
+//        logger.info("Запрос к DAO на чтение документов клиента с id = " + clientId);
+//        return documentDao.getClientDocuments(clientId);
+//    }
 }

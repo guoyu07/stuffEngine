@@ -17,6 +17,9 @@ public class DocumentDataEntity implements Serializable {
     @Column(name = "VALUE")
     private int value;
 
+    @Column(name = "DOC_HEADER_ID")
+    private int docHeaderId;
+
     public DocumentDataEntity(){}
 
     public int getId() {
@@ -41,5 +44,13 @@ public class DocumentDataEntity implements Serializable {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getDocHeaderId() {
+        return docHeaderId;
+    }
+
+    public void setDocHeaderId(int docHeaderId) {
+        this.docHeaderId = docHeaderId;
     }
 }

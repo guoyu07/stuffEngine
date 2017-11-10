@@ -2,6 +2,7 @@ package ru.technoserv.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
@@ -48,7 +49,7 @@ public class DocumentDao {
         Criteria criteria = session.createCriteria(HeaderEntity.class);
         List<HeaderEntity> headers = null;
         try {
-            headers = criteria.add(Expression.eq("clientId", clientId)).list();
+            headers = criteria.add(Expression.eq("clientId", clientId)).setFetchMode("data", FetchMode.LAZY).list();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
@@ -57,18 +58,18 @@ public class DocumentDao {
         return headers;
     }
 
-    public List<DocumentEntity> getClientDocuments(int clientId) {
-        logger.info("Запрос к базе на чтение документов клиента с client_id = " + clientId);
-        Session session = getSession();
-        Criteria criteria = session.createCriteria(DocumentEntity.class);
-        List<DocumentEntity> documents = null;
-        try {
-            documents = criteria.add(Expression.eq("clientId", clientId)).list();
-        } catch (Exception ex) {
-            logger.error(ex.getMessage());
-        }
-        logger.info("Результат запроса = " + documents);
-
-        return documents;
-    }
+//    public List<DocumentEntity> getClientDocuments(int clientId) {
+//        logger.info("Запрос к базе на чтение документов клиента с client_id = " + clientId);
+//        Session session = getSession();
+//        Criteria criteria = session.createCriteria(DocumentEntity.class);
+//        List<DocumentEntity> documents = null;
+//        try {
+//            documents = criteria.add(Expression.eq("clientId", clientId)).list();
+//        } catch (Exception ex) {
+//            logger.error(ex.getMessage());
+//        }
+//        logger.info("Результат запроса = " + documents);
+//
+//        return documents;
+//    }
 }

@@ -91,10 +91,10 @@ public class CertificateController {
         return new ResponseEntity<Object>(clientHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(name = "24", value = "documents/{clientId}", method = RequestMethod.GET)
-    public ResponseEntity<?> getClientDocuments(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
-        logger.info("Получен request на чтение документов сотрудника с id = " + clientId);
-        List<DocumentEntity> clientDocuments = documentService.getClientDocuments(clientId);
-        return new ResponseEntity<Object>(clientDocuments, HttpStatus.OK);
-    }
+//    @RequestMapping(name = "24", value = "documents/{clientId}", method = RequestMethod.GET)
+//    public ResponseEntity<?> getClientDocuments(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
+//        logger.info("Получен request на чтение документов сотрудника с id = " + clientId);
+//        List<DocumentEntity> clientDocuments = documentService.getClientDocuments(clientId);
+//        return new ResponseEntity<Object>(clientDocuments, HttpStatus.OK);
+//    }
 }

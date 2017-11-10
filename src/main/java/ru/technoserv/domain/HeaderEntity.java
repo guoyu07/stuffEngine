@@ -2,6 +2,7 @@ package ru.technoserv.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 
 @Entity
@@ -21,17 +22,19 @@ public class HeaderEntity implements Serializable {
     @Column(name = "CURRENCY")
     private String currency;
 
-    @Column(name = "DOC_ID")
-    private int docId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DOC_HEADER_ID")
+    private Set<DocumentDataEntity> data;
 
     public HeaderEntity(){}
 
-    public int getDocId() {
-        return docId;
+    public Set<DocumentDataEntity> getData() {
+        return data;
     }
 
-    public void setDocId(int docId) {
-        this.docId = docId;
+    public void setData(Set<DocumentDataEntity> data) {
+        this.data = data;
     }
 
     public int getId() {
@@ -73,7 +76,7 @@ public class HeaderEntity implements Serializable {
                 ", clientId=" + clientId +
                 ", version=" + version +
                 ", currency='" + currency + '\'' +
-                ", docId=" + docId +
+                ", data=" + data +
                 '}';
     }
 }
