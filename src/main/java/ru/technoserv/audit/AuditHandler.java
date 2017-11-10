@@ -40,10 +40,10 @@ public class AuditHandler {
         //pointcut
     }
 
-    @Pointcut("within(ru.technoserv.controller.CertificateController)")
-    public void certController() {
-        //pointcut
-    }
+//    @Pointcut("within(ru.technoserv.controller.CertificateController)")
+//    public void certController() {
+//        //pointcut
+//    }
 
     @Pointcut("execution(* *.*(..))")
     public void anyMethod() {
@@ -137,14 +137,14 @@ public class AuditHandler {
         auditService.createRecord(auditRecord);
     }
 
-    @AfterReturning(pointcut = "certController() && anyMethod() && args(.., request) )", returning = "result")
-    public void handleAfterMethodintCert(JoinPoint joinPoint, Object result, HttpServletRequest request) {
-        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
-                .getMethod()).getAnnotation(RequestMapping.class).name());
-            AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "" , action);
-            auditService.createRecord(auditRecord);
-
-    }
+//    @AfterReturning(pointcut = "certController() && anyMethod() && args(.., request) )", returning = "result")
+//    public void handleAfterMethodintCert(JoinPoint joinPoint, Object result, HttpServletRequest request) {
+//        int action = Integer.parseInt((((MethodSignature)joinPoint.getSignature())
+//                .getMethod()).getAnnotation(RequestMapping.class).name());
+//            AuditInfo auditRecord = new AuditInfo(null, null, request.getRemoteAddr(), "" , action);
+//            auditService.createRecord(auditRecord);
+//
+//    }
 
     @AfterThrowing(pointcut = "empController() && anyMethod() && args(.., request) )", throwing = "e")
     public void handleAfterMethodIntCertThrow(JoinPoint joinPoint, Throwable e, HttpServletRequest request) {

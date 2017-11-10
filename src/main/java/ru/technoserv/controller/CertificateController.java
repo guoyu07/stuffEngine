@@ -2,11 +2,14 @@ package ru.technoserv.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.technoserv.domain.Certificate;
+import ru.technoserv.domain.HeaderEntity;
 import ru.technoserv.services.CertificateService;
+import ru.technoserv.services.impl.DocumentService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,10 +22,15 @@ public class CertificateController {
 
     private CertificateService certificateService;
 
+
+
     @Autowired
     public  CertificateController(CertificateService certificateService){
         this.certificateService = certificateService;
     }
+
+    @Autowired
+    private DocumentService documentService;
 
 
 
@@ -65,5 +73,19 @@ public class CertificateController {
         certificateService.deleteAllCertsByEmpID(empID);
         logger.info("Сертификаты успешно удалены");
         return "deleted";
+    }
+
+    @RequestMapping(name = "22", value = "header/{headerId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getHeaderById(@PathVariable(name = "headerId") int headerId, HttpServletRequest request) {
+        logger.info("Получен request на чтение header'а с id = " + headerId);
+        HeaderEntity header = documentService.getHeaderById(headerId);
+        return new ResponseEntity<Object>(header, HttpStatus.OK);
+    }
+
+    @RequestMapping(name = "23", value = "headers/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getClientHeaders(@PathVariable(name = "clientId") int clientId, HttpServletRequest request) {
+        logger.info("Получен request на чтение header'ов клиента с id = " + clientId);
+        List<HeaderEntity> clientHeaders = documentService.getClientHeaders(clientId);
+        return new ResponseEntity<Object>(clientHeaders, HttpStatus.OK);
     }
 }
